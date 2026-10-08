@@ -3,6 +3,8 @@
 
 pub mod axicode;
 pub mod consumables;
+pub mod fsutil;
+pub mod gamedb;
 pub mod gw2api;
 pub mod http;
 pub mod link;

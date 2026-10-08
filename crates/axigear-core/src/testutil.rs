@@ -17,7 +17,6 @@ pub fn comp() -> Comp {
     decode_comp_code(&fixture("comp-tuesday.txt")).unwrap()
 }
 
-#[allow(dead_code)]
 pub fn firebrand() -> Build {
     comp().builds[0].clone()
 }
