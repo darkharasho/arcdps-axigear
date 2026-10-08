@@ -6,6 +6,7 @@
 static GLOBAL_ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 pub mod http;
+pub mod ui;
 pub mod worker;
 
 #[cfg(windows)]

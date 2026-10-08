@@ -1,34 +1,40 @@
 #![cfg(windows)]
-//! arcdps callbacks. Every body runs inside `guard` (catch_unwind); locks are
-//! `try_lock`; all real work happens on the worker thread.
+//! arcdps callbacks. Every body runs inside `guard` (catch_unwind); the
+//! per-frame callbacks take locks with `try_lock` only (SENDER is an RwLock
+//! read with `try_read`); all real work happens on the worker thread.
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::Sender;
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::Duration;
 
-use arcdps::imgui::{Ui, WindowFlags};
+use arcdps::imgui::Ui;
 use arcdps::{Agent, Event};
 use axigear_core::driver::{Command, UiSnapshot};
-use axigear_core::report::Badge;
 
 use crate::http::UreqHttp;
 use crate::mumble::Reader;
+use crate::ui::state::UiState;
 use crate::worker::Worker;
 
 static WORKER: Mutex<Option<Worker>> = Mutex::new(None);
 static SENDER: RwLock<Option<Sender<Command>>> = RwLock::new(None);
 static LAST: Mutex<Option<Arc<UiSnapshot>>> = Mutex::new(None);
+pub(crate) static UI_STATE: Mutex<Option<UiState>> = Mutex::new(None);
 static DISABLED: AtomicBool = AtomicBool::new(false);
 pub static DEBUG_SIGNALS: AtomicBool = AtomicBool::new(false);
 
 /// Queue a command for the worker. Never blocks. Readers share the lock, so
 /// overlapping callbacks don't drop events; only init/release write.
 pub fn send(cmd: Command) {
-    if let Ok(g) = SENDER.try_read() {
-        if let Some(tx) = g.as_ref() {
-            let _ = tx.send(cmd);
-        }
+    use std::sync::TryLockError;
+    let g = match SENDER.try_read() {
+        Ok(g) => g,
+        Err(TryLockError::Poisoned(p)) => p.into_inner(),
+        Err(TryLockError::WouldBlock) => return,
+    };
+    if let Some(tx) = g.as_ref() {
+        let _ = tx.send(cmd);
     }
 }
 
@@ -81,6 +87,7 @@ pub fn init() -> Result<(), Option<String>> {
         .map_err(|e| Some(format!("axigear: couldn't start worker thread: {e}")))?;
     *SENDER.write().unwrap_or_else(|p| p.into_inner()) = Some(worker.sender());
     *WORKER.lock().unwrap_or_else(|p| p.into_inner()) = Some(worker);
+    *UI_STATE.lock().unwrap_or_else(|p| p.into_inner()) = Some(UiState::default());
     Ok(())
 }
 
@@ -106,8 +113,12 @@ fn pin_module() {
     };
     let mut hmod = HMODULE::default();
     let anchor = pin_module as *const () as *const u16;
-    unsafe {
-        let _ = GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_PIN | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, PCWSTR(anchor), &mut hmod);
+    let res = unsafe {
+        GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_PIN | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, PCWSTR(anchor), &mut hmod)
+    };
+    match res {
+        Ok(()) => log::info!("axigear: module pinned"),
+        Err(e) => log::error!("axigear: failed to pin module: {e}"),
     }
 }
 
@@ -127,21 +138,16 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
         return;
     }
     if disabled() {
-        // Minimal, still panic-safe draw so the user sees the plugin died.
-        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            ui.window("##axigear-badge")
-                .flags(WindowFlags::NO_TITLE_BAR | WindowFlags::ALWAYS_AUTO_RESIZE | WindowFlags::NO_FOCUS_ON_APPEARING)
-                .build(|| ui.text(Badge::Error.text()));
-        }));
+        // No locks, no snapshot: still panic-safe so the user sees the plugin died.
+        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| crate::ui::badge::render_error(ui)));
         return;
     }
     guard("imgui", (), || {
         let Some(snap) = latest() else { return };
+        let Ok(mut guard) = UI_STATE.try_lock() else { return };
+        let Some(state) = guard.as_mut() else { return };
         DEBUG_SIGNALS.store(snap.settings.debug_logging, Ordering::Relaxed);
-        // Plain-text badge; Task 21 replaces this with the axi-design badge.
-        let text = if disabled() { Badge::Error.text() } else { snap.badge.text() };
-        ui.window("##axigear-badge")
-            .flags(WindowFlags::NO_TITLE_BAR | WindowFlags::ALWAYS_AUTO_RESIZE | WindowFlags::NO_FOCUS_ON_APPEARING)
-            .build(|| ui.text(text));
+        state.sync(&snap);
+        crate::ui::badge::render(ui, &snap, state);
     })
 }

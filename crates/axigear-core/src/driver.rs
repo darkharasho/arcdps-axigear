@@ -88,6 +88,17 @@ pub struct UiSnapshot {
     pub save_error: Option<String>,
 }
 
+impl UiSnapshot {
+    /// Hidden in combat (unless configured otherwise) and, optionally, outside the comp's game mode.
+    pub fn badge_visible(&self) -> bool {
+        let b = &self.settings.badge;
+        if b.hide_in_combat && self.in_combat {
+            return false;
+        }
+        !(b.matching_mode_only && matches!((self.map_mode, self.comp_mode), (Some(m), Some(c)) if m != c))
+    }
+}
+
 pub struct Paths {
     pub config: PathBuf,
     pub itemdb: PathBuf,
@@ -735,5 +746,25 @@ mod tests {
         d.handle(Command::Settings(SettingsPatch::Hotkey("Ctrl+F9".into())), t0);
         assert!(!d.handle(Command::Shutdown, t0));
         assert_eq!(Settings::load(&dir.path().join("config.json")).hotkey, "Ctrl+F9");
+    }
+
+    #[test]
+    fn badge_visibility_rules() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0); // comp game mode: wvw
+        d.handle(Command::Mumble(MumbleSample {
+            ui_tick: 1,
+            identity: r#"{"name":"Tester","profession":1,"spec":62,"map_id":1}"#.into(),
+            context: { let mut c = vec![0u8; 52]; c[32..36].copy_from_slice(&5u32.to_le_bytes()); c }, // PvE map
+        }), t0);
+        assert!(d.snapshot(t0).badge_visible());
+        d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings { matching_mode_only: true, ..Default::default() })), t0);
+        assert!(!d.snapshot(t0).badge_visible(), "PvE map, WvW comp");
+        d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings::default())), t0);
+        d.handle(Command::Live(LiveEvent::Combat { active: true }), t0);
+        assert!(!d.snapshot(t0).badge_visible(), "hidden in combat by default");
+        d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings { hide_in_combat: false, ..Default::default() })), t0);
+        assert!(d.snapshot(t0).badge_visible());
     }
 }
