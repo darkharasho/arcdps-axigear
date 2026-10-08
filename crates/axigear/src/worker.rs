@@ -62,7 +62,8 @@ impl Worker {
 
     /// Ask the worker to save and stop; wait up to `wait` (an HTTP call in
     /// flight can take up to the ureq timeout).
-    pub fn shutdown(mut self, wait: Duration) {
+    /// Returns true if the thread joined, false if it timed out (still running).
+    pub fn shutdown(mut self, wait: Duration) -> bool {
         let _ = self.tx.send(Command::Shutdown);
         if let Some(h) = self.handle.take() {
             let deadline = Instant::now() + wait;
@@ -71,8 +72,11 @@ impl Worker {
             }
             if h.is_finished() {
                 let _ = h.join();
+                return true;
             }
+            return false;
         }
+        true
     }
 }
 
@@ -94,7 +98,9 @@ fn run(http: Arc<dyn Http>, dir: PathBuf, rx: Receiver<Command>, out: Shared, mu
         if last_mumble.map_or(true, |t| now.duration_since(t) >= MUMBLE_EVERY) {
             last_mumble = Some(now);
             if let Some(sample) = mumble() {
-                driver.handle(Command::Mumble(sample), now);
+                if !driver.handle(Command::Mumble(sample), now) {
+                    return;
+                }
             }
         }
         driver.tick(now);

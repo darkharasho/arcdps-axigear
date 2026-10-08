@@ -10,7 +10,7 @@ pub fn dll_dir() -> Option<PathBuf> {
     DLL_DIR.clone()
 }
 
-/// `addons/axigear/` next to the DLL; the GW2 folder if the DLL can't be located.
+/// `<exe dir>/addons/axigear`, i.e. next to the DLL; the GW2 folder if the DLL can't be located.
 pub fn data_dir() -> PathBuf {
     dll_dir()
         .or_else(|| std::env::current_exe().ok().and_then(|p| p.parent().map(|d| d.join("addons"))))

@@ -22,7 +22,7 @@ pub fn translate(ev: Option<&Event>, src: Option<&Agent>, dst: Option<&Agent>) -
             _ => None,
         },
         EventCategory::BuffApply if is_self(dst) => Some(LiveEvent::BuffApply { id: ev.skill_id, initial: false }),
-        EventCategory::BuffRemove if is_self(src) && matches!(ev.get_buffremove(), BuffRemove::All | BuffRemove::Manual) => {
+        EventCategory::BuffRemove if is_self(src) && matches!(ev.get_buffremove(), BuffRemove::All) => {
             Some(LiveEvent::BuffRemove { id: ev.skill_id })
         }
         EventCategory::Activation if is_self(src) && matches!(ev.get_activation(), Activation::Start | Activation::QuicknessUnused) => {

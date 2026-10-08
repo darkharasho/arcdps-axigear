@@ -47,6 +47,8 @@ fn worker_loads_a_code_matches_the_slot_and_saves_on_shutdown() {
     assert_eq!(snap.header.slot_label.as_deref(), Some("Party 1 · Firebrand"));
     assert!(!w.failed());
 
-    w.shutdown(Duration::from_secs(2));
+    // Remove the file so only a save at shutdown can bring it back.
+    let _ = std::fs::remove_file(dir.path().join("config.json"));
+    assert!(w.shutdown(Duration::from_secs(2)), "worker did not join");
     assert!(dir.path().join("config.json").exists());
 }

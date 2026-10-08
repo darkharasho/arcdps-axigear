@@ -4,7 +4,7 @@
 
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::Sender;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, RwLock};
 use std::time::Duration;
 
 use arcdps::imgui::{Ui, WindowFlags};
@@ -17,14 +17,15 @@ use crate::mumble::Reader;
 use crate::worker::Worker;
 
 static WORKER: Mutex<Option<Worker>> = Mutex::new(None);
-static SENDER: Mutex<Option<Sender<Command>>> = Mutex::new(None);
+static SENDER: RwLock<Option<Sender<Command>>> = RwLock::new(None);
 static LAST: Mutex<Option<Arc<UiSnapshot>>> = Mutex::new(None);
 static DISABLED: AtomicBool = AtomicBool::new(false);
 pub static DEBUG_SIGNALS: AtomicBool = AtomicBool::new(false);
 
-/// Queue a command for the worker. Never blocks; a contended send is dropped.
+/// Queue a command for the worker. Never blocks. Readers share the lock, so
+/// overlapping callbacks don't drop events; only init/release write.
 pub fn send(cmd: Command) {
-    if let Ok(g) = SENDER.try_lock() {
+    if let Ok(g) = SENDER.try_read() {
         if let Some(tx) = g.as_ref() {
             let _ = tx.send(cmd);
         }
@@ -78,25 +79,43 @@ pub fn init() -> Result<(), Option<String>> {
     let mut reader = Reader::new();
     let worker = Worker::spawn(Arc::new(UreqHttp::new()), dir, move || reader.sample())
         .map_err(|e| Some(format!("axigear: couldn't start worker thread: {e}")))?;
-    *SENDER.lock().unwrap_or_else(|p| p.into_inner()) = Some(worker.sender());
+    *SENDER.write().unwrap_or_else(|p| p.into_inner()) = Some(worker.sender());
     *WORKER.lock().unwrap_or_else(|p| p.into_inner()) = Some(worker);
     Ok(())
 }
 
 pub fn release() {
     let _ = std::panic::catch_unwind(|| {
-        SENDER.lock().unwrap_or_else(|p| p.into_inner()).take();
+        SENDER.write().unwrap_or_else(|p| p.into_inner()).take();
         if let Some(w) = WORKER.lock().unwrap_or_else(|p| p.into_inner()).take() {
-            w.shutdown(Duration::from_secs(2));
+            if !w.shutdown(Duration::from_secs(2)) {
+                pin_module();
+                log::warn!("axigear: worker did not stop in time; module pinned so its code stays mapped");
+            }
         }
     });
+}
+
+/// Keep this DLL mapped for the process lifetime so a still-running worker
+/// thread never executes unmapped code.
+fn pin_module() {
+    use windows::core::PCWSTR;
+    use windows::Win32::Foundation::HMODULE;
+    use windows::Win32::System::LibraryLoader::{
+        GetModuleHandleExW, GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, GET_MODULE_HANDLE_EX_FLAG_PIN,
+    };
+    let mut hmod = HMODULE::default();
+    let anchor = pin_module as *const () as *const u16;
+    unsafe {
+        let _ = GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_PIN | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, PCWSTR(anchor), &mut hmod);
+    }
 }
 
 pub fn combat(ev: Option<&Event>, src: Option<&Agent>, dst: Option<&Agent>, skill_name: Option<&str>, _id: u64, _revision: u64) {
     guard("combat", (), || {
         if let Some(live) = crate::signals::translate(ev, src, dst) {
             if DEBUG_SIGNALS.load(Ordering::Relaxed) {
-                log::warn!("axigear: {live:?} ({})", skill_name.unwrap_or("?"));
+                log::debug!("axigear: {live:?} ({})", skill_name.unwrap_or("?"));
             }
             send(Command::Live(live));
         }
@@ -105,6 +124,15 @@ pub fn combat(ev: Option<&Event>, src: Option<&Agent>, dst: Option<&Agent>, skil
 
 pub fn imgui(ui: &Ui, not_loading: bool) {
     if !not_loading {
+        return;
+    }
+    if disabled() {
+        // Minimal, still panic-safe draw so the user sees the plugin died.
+        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            ui.window("##axigear-badge")
+                .flags(WindowFlags::NO_TITLE_BAR | WindowFlags::ALWAYS_AUTO_RESIZE | WindowFlags::NO_FOCUS_ON_APPEARING)
+                .build(|| ui.text(Badge::Error.text()));
+        }));
         return;
     }
     guard("imgui", (), || {
