@@ -47,6 +47,7 @@ pub enum SettingsPatch {
     Hotkey(String),
     AutoUpdate(bool),
     DebugLogging(bool),
+    LoadoutTab(crate::report::Tab),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -88,6 +89,8 @@ pub struct UiSnapshot {
     pub save_error: Option<String>,
     /// Badge hover: how old the API data is, e.g. "gear as of 2m ago".
     pub badge_tooltip: String,
+    /// Icon view of the assigned build; present whenever a slot is assigned.
+    pub loadout: Option<crate::loadout::Loadout>,
 }
 
 impl UiSnapshot {
@@ -269,6 +272,7 @@ impl Driver {
                     SettingsPatch::Hotkey(h) => self.settings.hotkey = h,
                     SettingsPatch::AutoUpdate(v) => self.settings.auto_update_check = v,
                     SettingsPatch::DebugLogging(v) => self.settings.debug_logging = v,
+                    SettingsPatch::LoadoutTab(t) => self.settings.loadout_tab = t,
                 }
                 self.save_settings();
             }
@@ -348,6 +352,7 @@ impl Driver {
             flash: self.flash_until.is_some_and(|t| now < t),
             save_error: self.save_error.clone(),
             badge_tooltip: self.badge_tooltip(now),
+            loadout: self.session.loadout(specs),
         }
     }
 
@@ -835,6 +840,28 @@ mod tests {
         assert_eq!(d.snapshot(t0).badge, Badge::NoComp);
         assert!(!dir.path().join("comp_cache.json").exists());
         assert!(driver(&http, &dir, t0).session().comp.is_none());
+    }
+
+    #[test]
+    fn loadout_tab_is_a_saved_setting() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        assert_eq!(d.snapshot(t0).settings.loadout_tab, crate::report::Tab::Build);
+        d.handle(Command::Settings(SettingsPatch::LoadoutTab(crate::report::Tab::Equipment)), t0);
+        assert_eq!(d.snapshot(t0).settings.loadout_tab, crate::report::Tab::Equipment);
+    }
+
+    #[test]
+    fn snapshot_carries_the_assigned_builds_loadout() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        assert!(d.snapshot(t0).loadout.is_none());
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(firebrand_in(1), t0);
+        let snap = d.snapshot(t0);
+        assert!(snap.report.is_some());
+        let l = snap.loadout.expect("loadout with a report");
+        assert_eq!(l.skills.len(), 5);
     }
 
     #[test]

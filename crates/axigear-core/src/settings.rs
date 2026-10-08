@@ -41,6 +41,8 @@ pub struct Settings {
     pub debug_logging: bool,
     /// Manual slot picks keyed by `session::pick_key(comp, character)`.
     pub picks: BTreeMap<String, SlotRef>,
+    /// Which tab the loadout window shows.
+    pub loadout_tab: crate::report::Tab,
 }
 
 impl Default for Settings {
@@ -54,6 +56,7 @@ impl Default for Settings {
             auto_update_check: true,
             debug_logging: false,
             picks: BTreeMap::new(),
+            loadout_tab: crate::report::Tab::Build,
         }
     }
 }
@@ -81,6 +84,12 @@ mod tests {
         assert_eq!(s.hotkey, "Ctrl+Shift+G");
         assert!(s.auto_update_check);
         assert_eq!(s.severities.get(Category::Infusions), SeveritySetting::Advisory);
+    }
+
+    #[test]
+    fn loadout_tab_defaults_to_build() {
+        let s: Settings = serde_json::from_str("{}").unwrap();
+        assert_eq!(s.loadout_tab, crate::report::Tab::Build);
     }
 
     #[test]

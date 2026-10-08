@@ -135,6 +135,12 @@ impl Session {
         Some(&lc.comp.builds[self.assignment.slot()?.build])
     }
 
+    pub fn loadout(&self, specs: &SpecDb) -> Option<crate::loadout::Loadout> {
+        let lc = self.comp.as_ref()?;
+        let slot = self.assignment.slot()?;
+        Some(crate::loadout::Loadout::of(&lc.comp.builds[slot.build], &self.db, specs))
+    }
+
     pub fn report(&self, specs: &SpecDb, consumables: &Consumables, severities: &Severities, now: Instant) -> Option<CheckReport> {
         let lc = self.comp.as_ref()?;
         let slot = self.assignment.slot()?;
