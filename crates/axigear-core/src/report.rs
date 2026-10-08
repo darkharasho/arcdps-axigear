@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
-use crate::model::SlotRef;
+use crate::model::{GearSlot, SlotRef};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
 pub enum Category {
@@ -41,6 +41,34 @@ pub enum Status {
     Pass,
     Fail,
     Unknown,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum SlotKey {
+    Gear(GearSlot),
+    Rune(GearSlot),
+    Sigil(GearSlot, u8),
+    Infusions,
+    Skill(u8),               // 0 heal, 1..=3 utilities, 4 elite
+    Trait { line: u8, tier: u8 }, // line = index into Build.specs (0..3); tier 0..3
+    Spec(u8),                // line 0..3
+    Relic,
+    Food,
+    Utility,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum Tab {
+    #[default]
+    Build,
+    Equipment,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SlotMark {
+    pub key: SlotKey,
+    pub status: Status,
+    pub detail: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -136,6 +164,9 @@ pub struct CheckResult {
     /// Shown as ⚠ whatever the category's severity (wrong food/utility).
     #[serde(skip)]
     pub forced_advisory: bool,
+    /// Per-slot marks for this result.
+    #[serde(default)]
+    pub marks: Vec<SlotMark>,
 }
 
 impl CheckResult {
@@ -152,6 +183,7 @@ impl CheckResult {
             source: category.source(),
             age_secs: None,
             forced_advisory: false,
+            marks: vec![],
         }
     }
 
@@ -172,6 +204,20 @@ impl CheckResult {
 
     pub fn tone(&self) -> Tone {
         match (self.status, self.severity) {
+            (Status::Pass, _) => Tone::Ok,
+            (Status::Fail, Severity::Required) => Tone::Danger,
+            (Status::Fail, Severity::Advisory) => Tone::Warn,
+            (Status::Unknown, _) => Tone::Neutral,
+        }
+    }
+
+    pub fn mark(mut self, key: SlotKey, status: Status, detail: Option<String>) -> Self {
+        self.marks.push(SlotMark { key, status, detail });
+        self
+    }
+
+    pub fn mark_tone(&self, m: &SlotMark) -> Tone {
+        match (m.status, self.severity) {
             (Status::Pass, _) => Tone::Ok,
             (Status::Fail, Severity::Required) => Tone::Danger,
             (Status::Fail, Severity::Advisory) => Tone::Warn,
@@ -224,6 +270,14 @@ pub struct CheckReport {
 impl CheckReport {
     pub fn summary(&self) -> Summary {
         Summary::of(&self.results)
+    }
+
+    pub fn marks_for(&self, key: SlotKey) -> Vec<(&CheckResult, &SlotMark)> {
+        self.results.iter().flat_map(|r| r.marks.iter().filter(move |m| m.key == key).map(move |m| (r, m))).collect()
+    }
+
+    pub fn worst(&self, key: SlotKey, skip: &[Category]) -> Option<Tone> {
+        self.marks_for(key).into_iter().filter(|(r, _)| !skip.contains(&r.category)).map(|(r, m)| r.mark_tone(m)).min_by_key(|t| t.rank())
     }
 }
 
@@ -285,6 +339,15 @@ impl Severities {
 
     pub fn set(&mut self, c: Category, s: SeveritySetting) {
         self.0.insert(c, s);
+    }
+}
+
+impl SlotKey {
+    pub fn tab(self) -> Tab {
+        match self {
+            SlotKey::Skill(_) | SlotKey::Trait { .. } | SlotKey::Spec(_) => Tab::Build,
+            _ => Tab::Equipment,
+        }
     }
 }
 
@@ -433,5 +496,41 @@ mod tests {
         assert_eq!(unknown.detail(), "Relic of the Flock · the API doesn't report the relic");
         let gated = CheckResult::new(Category::Stats, "api.Stats", "Stats", Status::Unknown, "").with_reason("needs API key (characters, builds)");
         assert_eq!(gated.detail(), "needs API key (characters, builds)");
+    }
+
+    fn report_with(results: Vec<CheckResult>) -> CheckReport {
+        CheckReport { comp_key: "k".into(), comp_name: "c".into(), slot: SlotRef { line: 0, slot: 0, build: 0 }, slot_label: "s".into(), results }
+    }
+
+    #[test]
+    fn marks_follow_status_and_severity() {
+        let mut r = CheckResult::new(Category::Runes, "runes", "Runes", Status::Fail, "x")
+            .mark(SlotKey::Rune(GearSlot::Head), Status::Pass, None)
+            .mark(SlotKey::Rune(GearSlot::Feet), Status::Fail, Some("Scholar".into()));
+        assert_eq!(r.mark_tone(&r.marks[1]), Tone::Danger);
+        r.severity = Severity::Advisory;
+        assert_eq!(r.mark_tone(&r.marks[1]), Tone::Warn);
+        assert_eq!(r.mark_tone(&r.marks[0]), Tone::Ok);
+    }
+
+    #[test]
+    fn worst_mark_wins_and_skip_filters_categories() {
+        let k = SlotKey::Gear(GearSlot::WeaponA1);
+        let a = CheckResult::new(Category::Weapons, "weapons.A", "Weapons A", Status::Pass, "x").mark(k, Status::Pass, None);
+        let b = CheckResult::new(Category::Stats, "stats", "Stats", Status::Fail, "x").mark(k, Status::Fail, Some("Rampager's".into()));
+        let rep = report_with(vec![a, b]);
+        assert_eq!(rep.worst(k, &[]), Some(Tone::Danger));
+        assert_eq!(rep.worst(k, &[Category::Stats]), Some(Tone::Ok));
+        assert_eq!(rep.marks_for(k).len(), 2);
+        assert_eq!(rep.worst(SlotKey::Relic, &[]), None);
+    }
+
+    #[test]
+    fn keys_know_their_tab() {
+        assert_eq!(SlotKey::Skill(0).tab(), Tab::Build);
+        assert_eq!(SlotKey::Trait { line: 1, tier: 2 }.tab(), Tab::Build);
+        assert_eq!(SlotKey::Spec(2).tab(), Tab::Build);
+        assert_eq!(SlotKey::Rune(GearSlot::Head).tab(), Tab::Equipment);
+        assert_eq!(SlotKey::Food.tab(), Tab::Equipment);
     }
 }
