@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       XWIN_ACCEPT_LICENSE: "1"
     steps:
@@ -15,6 +15,9 @@ jobs:
           targets: x86_64-pc-windows-msvc
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace
-      - run: sudo apt-get update && sudo apt-get install -y clang lld llvm
+      # The MSVC STL headers cargo-xwin fetches require clang >= 19.
+      - run: |
+          sudo apt-get update && sudo apt-get install -y clang-19 lld-19 llvm-19
+          echo /usr/lib/llvm-19/bin >> "$GITHUB_PATH"
       - run: cargo install cargo-xwin --locked
       - run: cargo xwin check -p arcdps_axigear --target x86_64-pc-windows-msvc
