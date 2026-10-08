@@ -6,7 +6,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::Sender;
 use std::sync::{Arc, Mutex, RwLock};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use arcdps::imgui::Ui;
 use arcdps::{Agent, Event};
@@ -85,6 +85,7 @@ pub fn init() -> Result<(), Option<String>> {
     if let Some(dll) = crate::paths::dll_dir() {
         crate::updater::cleanup_stale_old(&dll);
     }
+    crate::ui::textures::allow_worker();
     let mut reader = Reader::new();
     let worker = Worker::spawn(Arc::new(UreqHttp::new()), dir, move || reader.sample())
         .map_err(|e| Some(format!("axigear: couldn't start worker thread: {e}")))?;
@@ -96,11 +97,25 @@ pub fn init() -> Result<(), Option<String>> {
 
 pub fn release() {
     let _ = std::panic::catch_unwind(|| {
+        // Signal the icon worker first so it winds down while the main
+        // worker saves; both then share one 2 s budget.
+        let icons = crate::ui::textures::stop_worker();
+        let deadline = Instant::now() + Duration::from_secs(2);
         SENDER.write().unwrap_or_else(|p| p.into_inner()).take();
+        let mut pinned = false;
         if let Some(w) = WORKER.lock().unwrap_or_else(|p| p.into_inner()).take() {
             if !w.shutdown(Duration::from_secs(2)) {
                 pin_module();
+                pinned = true;
                 log::warn!("axigear: worker did not stop in time; module pinned so its code stays mapped");
+            }
+        }
+        // A ureq icon download in flight can run up to 20 s: don't wait it
+        // out, pin instead (same policy as the main worker).
+        if let Some(h) = icons {
+            if !crate::ui::textures::join_by(h, deadline) && !pinned {
+                pin_module();
+                log::warn!("axigear: icon worker did not stop in time; module pinned so its code stays mapped");
             }
         }
     });

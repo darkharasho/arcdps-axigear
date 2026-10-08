@@ -11,9 +11,11 @@
 use std::collections::HashMap;
 use std::ffi::c_void;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, Sender};
-use std::sync::Mutex;
-use std::thread;
+use std::sync::{Arc, Mutex};
+use std::thread::{self, JoinHandle};
+use std::time::Instant;
 
 use arcdps::imgui::TextureId;
 use once_cell::sync::Lazy;
@@ -68,9 +70,25 @@ fn decode(bytes: &[u8]) -> Result<Decoded, String> {
     Ok(Decoded { w, h, aspect, rgba: img.into_raw() })
 }
 
-struct Chan {
-    rx: Mutex<Receiver<DownloadResult>>,
+/// The icon worker. Spawned on first `get`, torn down by `stop_worker`
+/// from `plugin::release` so no thread is left running this DLL's code
+/// at `FreeLibrary`.
+struct IconWorker {
     req_tx: Sender<DownloadRequest>,
+    rx: Receiver<DownloadResult>,
+    stop: Arc<AtomicBool>,
+    handle: JoinHandle<()>,
+}
+
+static WORKER: Mutex<Option<IconWorker>> = Mutex::new(None);
+/// Set by `stop_worker` so a late `get` during teardown can't spawn a
+/// fresh worker; cleared by `allow_worker` from `plugin::init`.
+static STOPPED: AtomicBool = AtomicBool::new(false);
+
+/// Re-arm worker spawning (plugin init; matters only for a pinned module
+/// that is loaded again).
+pub fn allow_worker() {
+    STOPPED.store(false, Ordering::Release);
 }
 
 /// Upper bound on D3D11 uploads per imgui frame (Wine stability).
@@ -101,21 +119,65 @@ fn fetch(url: &str, path: &PathBuf) -> Result<Decoded, String> {
     decode(&bytes)
 }
 
-static CHAN: Lazy<Chan> = Lazy::new(|| {
+fn spawn_worker() -> Option<IconWorker> {
     let (result_tx, rx) = mpsc::channel::<DownloadResult>();
     let (req_tx, req_rx) = mpsc::channel::<DownloadRequest>();
+    let stop = Arc::new(AtomicBool::new(false));
+    let flag = stop.clone();
     // One worker runs all fetches serially (no thread-per-icon fan-out).
-    thread::Builder::new()
+    // It exits when `stop` is set (queued URLs are abandoned) or when the
+    // request sender is dropped and `recv` returns `Err`.
+    let handle = thread::Builder::new()
         .name("axigear-icon-worker".into())
         .spawn(move || {
-            for (url, path) in req_rx {
+            while let Ok((url, path)) = req_rx.recv() {
+                if flag.load(Ordering::Acquire) {
+                    return;
+                }
                 let r = fetch(&url, &path);
-                let _ = result_tx.send((url, r));
+                if flag.load(Ordering::Acquire) || result_tx.send((url, r)).is_err() {
+                    return;
+                }
             }
         })
-        .ok();
-    Chan { rx: Mutex::new(rx), req_tx }
-});
+        .map_err(|e| log::warn!("axigear icon: couldn't start icon worker: {e}"))
+        .ok()?;
+    Some(IconWorker {
+        req_tx,
+        rx,
+        stop,
+        handle,
+    })
+}
+
+/// Signal the icon worker to stop and close its request channel, so a
+/// parked `recv` returns at once. Returns its handle to join; the caller
+/// owns the timeout because a ureq download in flight can take up to
+/// 20 s. `None` if no worker was ever started.
+pub fn stop_worker() -> Option<JoinHandle<()>> {
+    STOPPED.store(true, Ordering::Release);
+    let w = WORKER.lock().unwrap_or_else(|p| p.into_inner()).take()?;
+    w.stop.store(true, Ordering::Release);
+    drop(w.req_tx);
+    // Abandoned requests would stay Pending forever if a pinned module is
+    // loaded again; forget them so the next `get` re-queues them.
+    if let Ok(mut c) = CACHE.lock() {
+        c.by_key.retain(|_, s| !matches!(s, State::Pending));
+    }
+    Some(w.handle)
+}
+
+/// Join `h` if it finishes by `deadline`. False if it is still running.
+pub fn join_by(h: JoinHandle<()>, deadline: Instant) -> bool {
+    while !h.is_finished() && Instant::now() < deadline {
+        thread::sleep(std::time::Duration::from_millis(20));
+    }
+    if h.is_finished() {
+        let _ = h.join();
+        return true;
+    }
+    false
+}
 
 /// Look up an icon by URL. `Some` once uploaded; otherwise (and on first
 /// sight) starts the fetch and returns `None` so callers can use a fallback.
@@ -134,7 +196,15 @@ pub fn get(url: &str) -> Option<IconHandle> {
     c.by_key.insert(url.to_string(), State::Pending);
     drop(c);
     let path = crate::paths::data_dir().join("icons").join(texture_rules::cache_name(url));
-    let _ = CHAN.req_tx.send((url.to_string(), path));
+    let Ok(mut w) = WORKER.lock() else {
+        return None;
+    };
+    if w.is_none() && !STOPPED.load(Ordering::Acquire) {
+        *w = spawn_worker();
+    }
+    if let Some(w) = w.as_ref() {
+        let _ = w.req_tx.send((url.to_string(), path));
+    }
     None
 }
 
@@ -142,7 +212,10 @@ pub fn get(url: &str) -> Option<IconHandle> {
 /// the D3D11 device). No device yet means icons stay on text tiles.
 pub fn drain_pending() {
     let Some(device) = arcdps::d3d11_device() else { return };
-    let Ok(rx) = CHAN.rx.lock() else { return };
+    let Ok(w) = WORKER.lock() else { return };
+    let Some(rx) = w.as_ref().map(|w| &w.rx) else {
+        return;
+    };
     let mut uploaded = 0usize;
     while uploaded < MAX_UPLOADS_PER_FRAME {
         let Ok((url, result)) = rx.try_recv() else { break };
