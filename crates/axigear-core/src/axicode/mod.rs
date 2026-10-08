@@ -3,10 +3,12 @@
 
 pub mod bits;
 pub mod build;
+pub mod comp;
 pub mod tables;
 pub mod z85;
 
 pub use build::decode_build_code;
+pub use comp::{decode_comp_code, is_comp_code};
 
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum DecodeError {
