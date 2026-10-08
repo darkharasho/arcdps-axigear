@@ -116,8 +116,8 @@ fn get_json(http: &dyn Http, url: &str, key: &str) -> Result<Value, ApiError> {
     let auth = format!("Bearer {}", key.trim());
     let resp = http.get(url, &[("Authorization", &auth)]).map_err(ApiError::Network)?;
     match resp.status {
-        200 | 206 => serde_json::from_str(&resp.body).map_err(|e| ApiError::Parse(e.to_string())),
-        401 | 403 => Err(ApiError::Unauthorized(error_text(&resp.body))),
+        200 | 206 => serde_json::from_slice(&resp.body).map_err(|e| ApiError::Parse(e.to_string())),
+        401 | 403 => Err(ApiError::Unauthorized(error_text(&resp.text()))),
         404 => Err(ApiError::CharacterNotFound),
         429 => Err(ApiError::RateLimited),
         s => Err(ApiError::Server(s)),

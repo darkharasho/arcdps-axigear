@@ -1,0 +1,17 @@
+{
+  "berserker": {
+    "fileId": "bbbb0002",
+    "key": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+    "owner": "teammate"
+  },
+  "firebrand": {
+    "fileId": "aaaa0001",
+    "key": "AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI",
+    "owner": "teammate"
+  },
+  "necro": {
+    "fileId": "cccc0003",
+    "key": "AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM",
+    "owner": "teammate"
+  }
+}

@@ -1,11 +1,13 @@
 //! Turns whatever the user pasted into a comp: codes decode offline, links
 //! fetch the published `.enc` (raw host first, Pages second), with ETag.
 
+use std::collections::BTreeMap;
+
 use crate::axicode::{decode_build_code, decode_comp_code, is_comp_code};
 use crate::http::Http;
 use crate::link::{self, AxiLink, LinkKind};
-use crate::model::Comp;
-use crate::publish::{self, PublishError};
+use crate::model::{Build, Comp};
+use crate::publish::{self, Member, PublishError};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Input {
@@ -100,10 +102,52 @@ fn resolve(http: &dyn Http, link: &AxiLink) -> Result<AxiLink, LoadError> {
     let short = link.short_url.as_deref().ok_or_else(|| LoadError::Link(link::LinkError::NoRef.to_string()))?;
     let resp = http.get(short, &[]).map_err(LoadError::Offline)?;
     match resp.status {
-        200 => link::resolve_short(short, &resp.body).map_err(|e| LoadError::Link(e.to_string())),
+        200 => link::resolve_short(short, &resp.text()).map_err(|e| LoadError::Link(e.to_string())),
         404 => Err(LoadError::NotPublished),
         s => Err(LoadError::Offline(format!("HTTP {s}"))),
     }
+}
+
+fn valid_part(s: &str, max: usize) -> bool {
+    (1..=max).contains(&s.len()) && s.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'.' | b'-'))
+}
+
+/// Fetch one linked member build. `Ok(None)` = unusable (404, undecryptable, unparsable);
+/// `Err` = could not reach it (transport error or a status other than 200/404).
+fn fetch_member(http: &dyn Http, m: &Member) -> Result<Option<Build>, String> {
+    let url = format!("https://raw.githubusercontent.com/{}/axibuilds/main/site/builds/{}.enc", m.owner, m.file_id);
+    let resp = http.get(&url, &[])?;
+    match resp.status {
+        200 => Ok(publish::decrypt(&resp.body, &m.key).and_then(|plain| publish::parse_build(&plain)).ok()),
+        404 => Ok(None),
+        s => Err(format!("HTTP {s}")),
+    }
+}
+
+/// v1 comps embed their builds; v2 comps link to member files, fetched here. Members that
+/// are missing or unusable are left out; if every one was unreachable the load is retryable.
+fn parse_comp_loading_members(http: &dyn Http, plain: &[u8]) -> Result<Comp, LoadError> {
+    let members = publish::comp_members(plain)?;
+    let mut builds = BTreeMap::new();
+    let (mut tried, mut unreachable) = (0, 0);
+    let mut last_err = String::new();
+    for m in members.iter().filter(|m| valid_part(&m.owner, 100) && valid_part(&m.file_id, 64)) {
+        tried += 1;
+        match fetch_member(http, m) {
+            Ok(Some(build)) => {
+                builds.insert(m.build_id.clone(), build);
+            }
+            Ok(None) => {}
+            Err(e) => {
+                unreachable += 1;
+                last_err = e;
+            }
+        }
+    }
+    if tried > 0 && unreachable == tried {
+        return Err(LoadError::Offline(last_err));
+    }
+    Ok(publish::parse_comp_with(plain, &builds)?)
 }
 
 pub fn fetch(http: &dyn Http, link: &AxiLink, etag: Option<&str>) -> Result<Fetched, LoadError> {
@@ -119,7 +163,7 @@ pub fn fetch(http: &dyn Http, link: &AxiLink, etag: Option<&str>) -> Result<Fetc
             Ok(r) if r.status == 200 => {
                 let plain = publish::decrypt(&r.body, &key)?;
                 let comp = match link.kind {
-                    LinkKind::Comp => publish::parse_comp(&plain)?,
+                    LinkKind::Comp => parse_comp_loading_members(http, &plain)?,
                     LinkKind::Build => Comp::single(publish::parse_build(&plain)?),
                 };
                 return Ok(Fetched::Fresh { comp, etag: r.etag, link });
@@ -137,7 +181,7 @@ pub fn fetch(http: &dyn Http, link: &AxiLink, etag: Option<&str>) -> Result<Fetc
 mod tests {
     use super::*;
     use crate::http::fake::FakeHttp;
-    use crate::testutil::fixture;
+    use crate::testutil::{fixture, fixture_bytes, seal_v2};
 
     const RAW: &str = "https://raw.githubusercontent.com/someone/axibuilds/main/site/comps/e4369a53.enc";
     const PAGES: &str = "https://someone.github.io/axibuilds/comps/e4369a53.enc";
@@ -245,5 +289,100 @@ mod tests {
             Fetched::Fresh { comp, .. } => assert_eq!(comp.name, "Quickbrand"),
             other => panic!("{other:?}"),
         }
+    }
+
+    const MEMBER_BASE: &str = "https://raw.githubusercontent.com/teammate/axibuilds/main/site/builds/";
+    const MEMBER_FILES: [(&str, &str); 3] =
+        [("aaaa0001", "member-firebrand.enc"), ("bbbb0002", "member-berserker.enc.v2"), ("cccc0003", "member-necro.enc.v2")];
+
+    fn v2_http() -> FakeHttp {
+        v2_http_without("")
+    }
+
+    /// The v2 comp plus its member files, except member `skip` (a 404).
+    fn v2_http_without(skip: &str) -> FakeHttp {
+        let http = FakeHttp::new();
+        http.on_bytes(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"));
+        for (id, file) in MEMBER_FILES.into_iter().filter(|(id, _)| *id != skip) {
+            http.on_bytes(&format!("{MEMBER_BASE}{id}.enc"), 200, &fixture_bytes(file));
+        }
+        http
+    }
+
+    fn fresh_comp(r: Result<Fetched, LoadError>) -> Comp {
+        match r.unwrap() {
+            Fetched::Fresh { comp, .. } => comp,
+            other => panic!("{other:?}"),
+        }
+    }
+
+    #[test]
+    fn v2_comp_loads_its_members_like_the_v1_comp() {
+        let http = v2_http();
+        let comp = fresh_comp(fetch(&http, &comp_link(), None));
+        let v1 = FakeHttp::new();
+        v1.on(RAW, 200, &fixture("comp-tuesday.enc"));
+        assert_eq!(comp, fresh_comp(fetch(&v1, &comp_link(), None)));
+        assert_eq!(http.calls().len(), 4);
+        assert!(http.header(1, "If-None-Match").is_none());
+    }
+
+    #[test]
+    fn v2_build_links_load() {
+        let http = FakeHttp::new();
+        let raw = "https://raw.githubusercontent.com/someone/axibuilds/main/site/builds/f4c38d4f.enc";
+        http.on_bytes(raw, 200, &fixture_bytes("build-firebrand.enc.v2"));
+        let link = link::parse(&format!("https://someone.github.io/axibuilds/?b=f4c38d4f.{}", fixture("fixture.key"))).unwrap();
+        assert_eq!(fresh_comp(fetch(&http, &link, None)).name, "Quickbrand");
+    }
+
+    #[test]
+    fn a_missing_member_is_omitted() {
+        let http = v2_http_without("bbbb0002");
+        let comp = fresh_comp(fetch(&http, &comp_link(), None));
+        let profs: Vec<&str> = comp.builds.iter().map(|b| b.profession.as_str()).collect();
+        assert_eq!(profs, ["Guardian", "Necromancer"]);
+        assert_eq!(comp.name, "Tuesday Zerg");
+    }
+
+    #[test]
+    fn an_undecryptable_member_is_omitted() {
+        let http = v2_http_without("cccc0003");
+        http.on_bytes(&format!("{MEMBER_BASE}cccc0003.enc"), 200, b"garbage");
+        assert_eq!(fresh_comp(fetch(&http, &comp_link(), None)).builds.len(), 2);
+    }
+
+    #[test]
+    fn all_members_failing_to_transport_is_offline() {
+        let http = FakeHttp::new();
+        http.on_bytes(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"));
+        http.fail(&format!("{MEMBER_BASE}aaaa0001.enc"), "dns").on(&format!("{MEMBER_BASE}bbbb0002.enc"), 503, "");
+        http.fail(&format!("{MEMBER_BASE}cccc0003.enc"), "dns");
+        assert!(matches!(fetch(&http, &comp_link(), None), Err(LoadError::Offline(_))));
+    }
+
+    #[test]
+    fn a_404_among_transport_failures_still_loads() {
+        let http = FakeHttp::new();
+        http.on_bytes(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"));
+        http.fail(&format!("{MEMBER_BASE}aaaa0001.enc"), "dns").on(&format!("{MEMBER_BASE}bbbb0002.enc"), 404, "");
+        http.fail(&format!("{MEMBER_BASE}cccc0003.enc"), "dns");
+        let comp = fresh_comp(fetch(&http, &comp_link(), None));
+        assert!(comp.builds.is_empty());
+    }
+
+    #[test]
+    fn invalid_owner_or_file_id_never_reaches_the_network() {
+        let comp = br#"{"v":2,"name":"Bad","partyLines":[{"slots":["a","b","c","d"]}],"members":{
+            "a":{"fileId":"f1","key":"k","owner":"../x"},
+            "b":{"fileId":"../f","key":"k","owner":"ok"},
+            "c":{"fileId":"","key":"k","owner":"ok"},
+            "d":{"fileId":"f4","key":"k","owner":"o/p"}}}"#;
+        let http = FakeHttp::new();
+        http.on_bytes(RAW, 200, &seal_v2(comp, &fixture("fixture.key")));
+        let loaded = fresh_comp(fetch(&http, &comp_link(), None));
+        assert_eq!(loaded.name, "Bad");
+        assert!(loaded.builds.is_empty());
+        assert_eq!(http.calls(), vec![RAW]);
     }
 }

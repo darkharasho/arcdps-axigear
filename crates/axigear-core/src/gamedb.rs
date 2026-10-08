@@ -150,7 +150,7 @@ fn fetch_all(http: &dyn Http, endpoint: &str, ids: &BTreeSet<u32>) -> Result<Vec
         let list = chunk.iter().map(u32::to_string).collect::<Vec<_>>().join(",");
         let resp = http.get(&format!("{API_ROOT}/v2/{endpoint}?ids={list}"), &[])?;
         match resp.status {
-            200 | 206 => out.extend(serde_json::from_str::<Vec<Value>>(&resp.body).map_err(|e| e.to_string())?),
+            200 | 206 => out.extend(serde_json::from_slice::<Vec<Value>>(&resp.body).map_err(|e| e.to_string())?),
             404 => {} // "all ids provided are invalid"
             s => return Err(format!("HTTP {s} from /v2/{endpoint}")),
         }

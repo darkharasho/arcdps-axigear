@@ -11,6 +11,28 @@ pub fn fixture(name: &str) -> String {
         .to_string()
 }
 
+pub fn fixture_bytes(name: &str) -> Vec<u8> {
+    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../fixtures/");
+    std::fs::read(format!("{path}{name}")).unwrap_or_else(|e| panic!("fixture {name}: {e}"))
+}
+
+/// Seal `plain` in a v2 envelope (header | iv | AES-GCM(gzip)) with a fixed IV.
+pub fn seal_v2(plain: &[u8], key: &str) -> Vec<u8> {
+    use std::io::Write;
+
+    use aes_gcm::aead::Aead;
+    use aes_gcm::{Aes256Gcm, KeyInit, Nonce};
+    use base64::Engine;
+
+    let key = base64::engine::general_purpose::URL_SAFE_NO_PAD.decode(key).unwrap();
+    let mut gz = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
+    gz.write_all(plain).unwrap();
+    let packed = gz.finish().unwrap();
+    let iv = [9u8; 12];
+    let sealed = Aes256Gcm::new_from_slice(&key).unwrap().encrypt(Nonce::from_slice(&iv), packed.as_slice()).unwrap();
+    [&[0u8, 0x41, 0x58, 2][..], &iv, &sealed].concat()
+}
+
 /// The Tuesday comp: builds [Firebrand, Berserker, core Necro];
 /// party 1 = [Firebrand, Berserker, DPS tag(Berserker, Necro)], party 2 = [Firebrand, Necro].
 pub fn comp() -> Comp {
