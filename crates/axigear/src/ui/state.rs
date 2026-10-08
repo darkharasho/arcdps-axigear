@@ -33,8 +33,9 @@ impl UiState {
             self.badge_edit = None;
         }
         if self.hotkey_seen.as_deref() != Some(snap.settings.hotkey.as_str()) {
-            crate::keys::set_hotkey(&snap.settings.hotkey);
-            self.hotkey_seen = Some(snap.settings.hotkey.clone());
+            if crate::keys::set_hotkey(&snap.settings.hotkey) {
+                self.hotkey_seen = Some(snap.settings.hotkey.clone());
+            }
         }
         if crate::keys::take_toggle() {
             self.checklist_open = !self.checklist_open;

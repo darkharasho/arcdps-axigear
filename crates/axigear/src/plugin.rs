@@ -140,6 +140,7 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
     if !not_loading {
         return;
     }
+    crate::keys::tick_frame();
     if disabled() {
         // No locks, no snapshot: still panic-safe so the user sees the plugin died.
         let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| crate::ui::badge::render_error(ui)));
@@ -158,6 +159,7 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
 
 pub fn options_end(ui: &Ui) {
     guard("options_end", (), || {
+        crate::keys::mark_options_frame();
         let Some(snap) = latest() else { return };
         let Ok(mut guard) = UI_STATE.try_lock() else { return };
         if let Some(state) = guard.as_mut() {

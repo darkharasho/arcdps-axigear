@@ -102,6 +102,7 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
     }
     ui.same_line();
     if ui.small_button("Clear##hotkey") {
+        crate::keys::cancel_binding();
         send(Command::Settings(SettingsPatch::Hotkey(String::new())));
     }
 
