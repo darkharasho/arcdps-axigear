@@ -7,6 +7,8 @@ pub mod theme;
 #[cfg(windows)]
 pub mod badge;
 #[cfg(windows)]
+pub mod checklist;
+#[cfg(windows)]
 pub mod icons;
 #[cfg(windows)]
 pub mod state;

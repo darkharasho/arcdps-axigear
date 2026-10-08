@@ -288,6 +288,54 @@ impl Severities {
     }
 }
 
+impl Tone {
+    /// Sort key: worst first.
+    pub fn rank(self) -> u8 {
+        match self {
+            Tone::Danger => 0,
+            Tone::Warn => 1,
+            Tone::Neutral => 2,
+            Tone::Ok => 3,
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct Group<'a> {
+    pub category: Category,
+    /// Worst tone in the group.
+    pub tone: Tone,
+    pub results: Vec<&'a CheckResult>,
+}
+
+impl CheckReport {
+    /// Results by category, failures first (fail, then warn, then unknown, then passing).
+    pub fn groups(&self) -> Vec<Group<'_>> {
+        let mut groups: Vec<Group> = Category::ALL
+            .iter()
+            .filter_map(|c| {
+                let results: Vec<&CheckResult> = self.results.iter().filter(|r| r.category == *c).collect();
+                let tone = results.iter().map(|r| r.tone()).min_by_key(|t| t.rank())?;
+                Some(Group { category: *c, tone, results })
+            })
+            .collect();
+        groups.sort_by_key(|g| g.tone.rank()); // stable: catalog order within a tone
+        groups
+    }
+}
+
+impl CheckResult {
+    /// The row text after the label: "expected X · actual Y" or "X · why unknown".
+    pub fn detail(&self) -> String {
+        match (&self.status, &self.reason, &self.actual) {
+            (Status::Unknown, Some(reason), _) if self.expected.is_empty() => reason.clone(),
+            (Status::Unknown, Some(reason), _) => format!("{} · {reason}", self.expected),
+            (_, _, Some(actual)) => format!("expected {} · actual {actual}", self.expected),
+            _ => format!("expected {}", self.expected),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -347,5 +395,43 @@ mod tests {
         };
         let json = serde_json::to_string(&report).unwrap();
         assert_eq!(serde_json::from_str::<CheckReport>(&json).unwrap(), report);
+    }
+
+    #[test]
+    fn groups_put_failures_first() {
+        let mk = |cat, status, severity| CheckResult { severity, ..CheckResult::new(cat, format!("{cat:?}"), "x", status, "e") };
+        let report = CheckReport {
+            comp_key: "k".into(),
+            comp_name: "c".into(),
+            slot: SlotRef { line: 0, slot: 0, build: 0 },
+            slot_label: "s".into(),
+            results: vec![
+                mk(Category::Spec, Status::Pass, Severity::Required),
+                mk(Category::SkillsSeen, Status::Unknown, Severity::Advisory),
+                mk(Category::Infusions, Status::Fail, Severity::Advisory),
+                mk(Category::Runes, Status::Fail, Severity::Required),
+                mk(Category::Runes, Status::Pass, Severity::Required),
+            ],
+        };
+        let order: Vec<(Category, Tone, usize)> = report.groups().iter().map(|g| (g.category, g.tone, g.results.len())).collect();
+        assert_eq!(
+            order,
+            vec![
+                (Category::Runes, Tone::Danger, 2),
+                (Category::Infusions, Tone::Warn, 1),
+                (Category::SkillsSeen, Tone::Neutral, 1),
+                (Category::Spec, Tone::Ok, 1),
+            ]
+        );
+    }
+
+    #[test]
+    fn detail_text() {
+        let pass = CheckResult::new(Category::Runes, "runes", "Runes", Status::Pass, "6× Monk").with_actual("6× Monk");
+        assert_eq!(pass.detail(), "expected 6× Monk · actual 6× Monk");
+        let unknown = CheckResult::new(Category::Relic, "relic", "Relic", Status::Unknown, "Relic of the Flock").with_reason("the API doesn't report the relic");
+        assert_eq!(unknown.detail(), "Relic of the Flock · the API doesn't report the relic");
+        let gated = CheckResult::new(Category::Stats, "api.Stats", "Stats", Status::Unknown, "").with_reason("needs API key (characters, builds)");
+        assert_eq!(gated.detail(), "needs API key (characters, builds)");
     }
 }

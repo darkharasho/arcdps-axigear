@@ -559,6 +559,7 @@ fn the_conversion_is_complete() {
     let guarded: Vec<String> = guarded_files().iter().map(|p| rel(p)).collect();
     for surface in [
         "src/ui/badge.rs",
+        "src/ui/checklist.rs",
         "src/ui/icons.rs",
     ] {
         assert!(
@@ -566,4 +567,88 @@ fn the_conversion_is_complete() {
             "{surface} is not being guarded; guarded set is {guarded:?}"
         );
     }
+}
+
+// --- Latin-1 string literals ------------------------------------------
+//
+// arcdps's ImGui font only carries Latin-1 glyphs; anything above U+00FF
+// in a drawn string renders as `?`. Status icons are drawn, never glyphs.
+
+/// `(line, char)` for each char above U+00FF inside a `"..."` literal.
+/// Skips `//` comments (including doc comments) and `/* */` blocks; handles
+/// escapes and char literals well enough for plain UI sources. Raw strings
+/// are scanned as ordinary strings, which only over-reports.
+fn non_latin1_in_strings(text: &str) -> Vec<(usize, char)> {
+    let chars: Vec<char> = text.chars().collect();
+    let mut out = Vec::new();
+    let (mut i, mut line) = (0usize, 1usize);
+    let mut in_str = false;
+    let mut in_block = false;
+    while i < chars.len() {
+        let c = chars[i];
+        if c == '\n' {
+            line += 1;
+        }
+        if in_block {
+            if c == '*' && chars.get(i + 1) == Some(&'/') {
+                in_block = false;
+                i += 1;
+            }
+        } else if in_str {
+            if c == '\\' {
+                if chars.get(i + 1) == Some(&'\n') {
+                    line += 1;
+                }
+                i += 1;
+            } else if c == '"' {
+                in_str = false;
+            } else if (c as u32) > 0xFF {
+                out.push((line, c));
+            }
+        } else if c == '/' && chars.get(i + 1) == Some(&'/') {
+            while i < chars.len() && chars[i] != '\n' {
+                i += 1;
+            }
+            continue;
+        } else if c == '/' && chars.get(i + 1) == Some(&'*') {
+            in_block = true;
+            i += 1;
+        } else if c == '\'' && chars.get(i + 2) == Some(&'\'') {
+            i += 2; // 'x' char literal, so a '"' inside it cannot open a string
+        } else if c == '\'' && chars.get(i + 1) == Some(&'\\') {
+            while i + 1 < chars.len() && chars[i + 1] != '\'' {
+                i += 1;
+            }
+            i += 1;
+        } else if c == '"' {
+            in_str = true;
+        }
+        i += 1;
+    }
+    out
+}
+
+#[test]
+fn ui_strings_are_latin_1() {
+    let mut violations = Vec::new();
+    for path in guarded_files() {
+        let text = std::fs::read_to_string(&path)
+            .unwrap_or_else(|e| panic!("cannot read {}: {e}", path.display()));
+        for (line, ch) in non_latin1_in_strings(&text) {
+            violations.push(format!("{}:{}: U+{:04X} {ch}", rel(&path), line, ch as u32));
+        }
+    }
+    assert!(
+        violations.is_empty(),
+        "arcdps fonts lack glyphs above U+00FF; draw icons via ui::icons:\n  {}",
+        violations.join("\n  ")
+    );
+}
+
+#[test]
+fn latin_1_scanner_flags_strings_and_ignores_comments() {
+    let bad = "ui.text(\"ok \\\" \u{2713} done\");\nlet x = 1;\nui.text(\"\u{2014}\");\n";
+    assert_eq!(non_latin1_in_strings(bad), vec![(1, '\u{2713}'), (3, '\u{2014}')]);
+    let fine = "// \u{2713} comment\n/// doc \u{2014}\n/* \u{26A0} */\nlet a = \"caf\u{e9} \u{b7} 6\u{d7}\"; let q = '\"'; // \u{2717}\n";
+    assert!(non_latin1_in_strings(fine).is_empty());
 }

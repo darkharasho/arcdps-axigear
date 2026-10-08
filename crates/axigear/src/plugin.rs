@@ -149,5 +149,6 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
         DEBUG_SIGNALS.store(snap.settings.debug_logging, Ordering::Relaxed);
         state.sync(&snap);
         crate::ui::badge::render(ui, &snap, state);
+        crate::ui::checklist::render(ui, &snap, state);
     })
 }
