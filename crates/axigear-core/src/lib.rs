@@ -17,6 +17,8 @@ pub mod mumble;
 pub mod publish;
 pub mod raw;
 pub mod report;
+pub mod schedule;
+pub mod settings;
 pub mod specs;
 pub mod text;
 
