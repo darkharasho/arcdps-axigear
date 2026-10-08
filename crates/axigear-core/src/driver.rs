@@ -84,6 +84,8 @@ pub struct UiSnapshot {
     pub settings: Settings,
     /// Badge border flash after a pass→fail transition.
     pub flash: bool,
+    /// A persistence write failed (settings, comp cache or item db).
+    pub save_error: Option<String>,
 }
 
 pub struct Paths {
@@ -120,6 +122,7 @@ pub struct Driver {
     db_dirty: bool,
     was_failing: bool,
     flash_until: Option<Instant>,
+    save_error: Option<String>,
 }
 
 impl Driver {
@@ -164,6 +167,7 @@ impl Driver {
             db_dirty: true,
             was_failing: false,
             flash_until: None,
+            save_error: None,
         }
     }
 
@@ -212,6 +216,9 @@ impl Driver {
                 self.key_test = None;
                 self.save_settings();
             }
+            Command::TestKey if self.settings.api_key.trim().is_empty() => {
+                self.key_test = Some("no API key set".into());
+            }
             Command::TestKey => {
                 self.key_test = Some(match gw2api::tokeninfo(&*self.http, &self.settings.api_key) {
                     Ok(info) => match gw2api::missing_permissions(&info) {
@@ -248,7 +255,7 @@ impl Driver {
             }
             Command::Shutdown => {
                 self.save_settings();
-                let _ = self.session.db.save(&self.paths.itemdb);
+                self.save_itemdb();
                 return false;
             }
         }
@@ -318,6 +325,7 @@ impl Driver {
             comp_mode: lc.and_then(|c| c.comp.game_mode),
             settings: self.settings.clone(),
             flash: self.flash_until.is_some_and(|t| now < t),
+            save_error: self.save_error.clone(),
         }
     }
 
@@ -325,16 +333,32 @@ impl Driver {
         self.session.report(SpecDb::bundled(), Consumables::bundled(), &self.settings.severities, now)
     }
 
-    fn save_settings(&self) {
-        let _ = self.settings.save(&self.paths.config);
+    fn record_save(&mut self, file: &str, result: std::io::Result<()>) {
+        match result {
+            Ok(()) => {
+                if self.save_error.as_deref().is_some_and(|e| e.starts_with(&format!("couldn't save {file}:"))) {
+                    self.save_error = None;
+                }
+            }
+            Err(e) => self.save_error = Some(format!("couldn't save {file}: {e}")),
+        }
+    }
+
+    fn save_settings(&mut self) {
+        let result = self.settings.save(&self.paths.config);
+        self.record_save("config.json", result);
+    }
+
+    fn save_itemdb(&mut self) {
+        let result = self.session.db.save(&self.paths.itemdb);
+        self.record_save("itemdb.json", result);
     }
 
     fn commit(&mut self, lc: LoadedComp, now: Instant) {
         self.load_error = None;
         self.settings.comp_input = lc.input.clone();
-        if let Ok(json) = serde_json::to_vec(&lc) {
-            let _ = crate::fsutil::write_atomic(&self.paths.comp_cache, &json);
-        }
+        let cached = serde_json::to_vec(&lc).map_err(std::io::Error::other).and_then(|json| crate::fsutil::write_atomic(&self.paths.comp_cache, &json));
+        self.record_save("comp_cache.json", cached);
         self.session.set_comp(Some(lc), &self.settings.picks, SpecDb::bundled(), now);
         self.db_dirty = true;
         self.db_poll.reset();
@@ -435,7 +459,7 @@ impl Driver {
             Ok(()) => {
                 self.db_dirty = false;
                 self.db_poll.success(now);
-                let _ = self.session.db.save(&self.paths.itemdb);
+                self.save_itemdb();
             }
             Err(_) => self.db_poll.failure(now),
         }
@@ -670,6 +694,27 @@ mod tests {
         d.handle(Command::SetApiKey("KEY".into()), t0);
         d.handle(Command::TestKey, t0);
         assert_eq!(d.snapshot(t0).key_test.as_deref(), Some("key is missing permissions: builds"));
+    }
+
+    #[test]
+    fn a_failed_save_is_reported() {
+        let (http, dir, t0) = setup();
+        let blocked = dir.path().join("blocked");
+        std::fs::write(&blocked, "x").unwrap();
+        let mut d = Driver::new(http.clone() as Arc<dyn Http>, &blocked.join("axigear"), t0);
+        assert_eq!(d.snapshot(t0).save_error, None);
+        d.handle(Command::Settings(SettingsPatch::Hotkey("Ctrl+F9".into())), t0);
+        assert!(d.snapshot(t0).save_error.unwrap().contains("config.json"));
+    }
+
+    #[test]
+    fn test_key_without_a_key_makes_no_call() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::SetApiKey("  ".into()), t0);
+        d.handle(Command::TestKey, t0);
+        assert_eq!(d.snapshot(t0).key_test.as_deref(), Some("no API key set"));
+        assert!(http.calls().is_empty());
     }
 
     #[test]
