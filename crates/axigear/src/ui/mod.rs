@@ -5,8 +5,8 @@ pub mod axi;
 pub mod theme;
 
 /// Badge scale bounds. Hand-edited configs can carry 0 or negative values.
-pub const SCALE_MIN: f32 = 0.5;
-pub const SCALE_MAX: f32 = 3.0;
+pub const SCALE_MIN: f32 = 0.75;
+pub const SCALE_MAX: f32 = 2.0;
 
 /// Clamp a badge scale into the sane range; non-finite values fall back to 1.0.
 pub fn clamp_scale(s: f32) -> f32 {
