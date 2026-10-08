@@ -12,7 +12,8 @@ const SKILL: f32 = 48.0;
 const MAJOR: f32 = 32.0;
 const MINOR: f32 = 26.0;
 const EMBLEM: f32 = 56.0;
-const CARD_H: f32 = 110.0;
+const CARD_H: f32 = 140.0;
+const TITLE: f32 = 22.0;
 const GAP: f32 = 10.0;
 
 pub fn render(ui: &Ui, l: &Loadout, report: &CheckReport, focus: Option<SlotKey>) {
@@ -67,9 +68,10 @@ fn spec_card(ui: &Ui, c: &SpecCard, report: &CheckReport, focus: Option<SlotKey>
                 .col(theme::with_alpha(theme::TINT_DIM, 0.35))
                 .build();
         }
-        draw.add_text([o[0] + 8.0, o[1] + 6.0], theme::GOLD, c.name.to_uppercase());
     }
-    let mid = o[1] + 22.0 + (CARD_H - 22.0) / 2.0;
+    ui.set_cursor_screen_pos([o[0] + 8.0, o[1] + 6.0]);
+    tile::clipped_text(ui, &c.name.to_uppercase(), w - 16.0, theme::GOLD);
+    let mid = o[1] + TITLE + (CARD_H - TITLE) / 2.0;
     let mut x = o[0] + 8.0;
     // Emblem
     ui.set_cursor_screen_pos([x, mid - EMBLEM / 2.0]);
@@ -96,8 +98,8 @@ fn spec_card(ui: &Ui, c: &SpecCard, report: &CheckReport, focus: Option<SlotKey>
         if let Some(minor) = c.minors.get(tier) {
             ui.set_cursor_screen_pos([x, mid - MINOR / 2.0]);
             tile::icon(ui, minor, None, TileStyle::new(MINOR));
-            x += MINOR + GAP;
         }
+        x += MINOR + GAP;
         for (j, t) in c.majors[tier].iter().enumerate() {
             ui.set_cursor_screen_pos([x, mid - col_h / 2.0 + j as f32 * (MAJOR + 3.0)]);
             tile::icon(
