@@ -18,6 +18,7 @@ pub mod publish;
 pub mod raw;
 pub mod report;
 pub mod schedule;
+pub mod session;
 pub mod settings;
 pub mod specs;
 pub mod text;
