@@ -11,6 +11,7 @@ pub mod gw2api;
 pub mod http;
 pub mod icons;
 pub mod link;
+pub mod loadout;
 pub mod live;
 pub mod loader;
 pub mod matcher;
