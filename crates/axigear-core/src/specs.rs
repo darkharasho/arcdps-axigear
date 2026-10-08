@@ -9,6 +9,12 @@ use serde::Deserialize;
 
 use crate::model::Build;
 
+#[derive(Debug, Clone, Default, Deserialize)]
+pub struct TraitInfo {
+    pub name: String,
+    pub icon: String,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct SpecInfo {
     pub id: u16,
@@ -16,6 +22,15 @@ pub struct SpecInfo {
     pub profession: String,
     pub elite: bool,
     pub majors: [Vec<u32>; 3],
+    #[serde(default)]
+    pub icon: String,
+    #[serde(default)]
+    pub background: String,
+    #[serde(default)]
+    pub minors: Vec<u32>,
+    /// Minor and major traits of this spec by ID (JSON keys are strings; serde_json parses them as u32).
+    #[serde(default)]
+    pub traits: HashMap<u32, TraitInfo>,
 }
 
 pub struct SpecDb {
@@ -46,6 +61,10 @@ impl SpecDb {
 
     pub fn name(&self, id: u16) -> Option<&str> {
         self.get(id).map(|s| s.name.as_str())
+    }
+
+    pub fn trait_info(&self, spec: u16, trait_id: u32) -> Option<&TraitInfo> {
+        self.get(spec)?.traits.get(&trait_id)
     }
 
     /// Position (1..=3) of `trait_id` in `tier` (1..=3) of `spec`.
@@ -118,5 +137,30 @@ mod tests {
         let mut told = fb.clone();
         told.specs[2].elite = Some(false);
         assert_eq!(told.elite_spec(db), None, "a published flag wins over the lookup");
+    }
+
+    #[test]
+    fn every_spec_has_art_minors_and_trait_icons() {
+        let db = SpecDb::bundled();
+        let mut n = 0;
+        for s in db.by_id.values() {
+            n += 1;
+            assert!(s.icon.starts_with("https://render.guildwars2.com/"), "{} icon", s.name);
+            assert!(s.background.starts_with("https://render.guildwars2.com/"), "{} background", s.name);
+            assert_eq!(s.minors.len(), 3, "{} minors", s.name);
+            for t in s.minors.iter().chain(s.majors.iter().flatten()) {
+                let info = s.traits.get(t).unwrap_or_else(|| panic!("{} trait {t}", s.name));
+                assert!(!info.name.is_empty() && info.icon.starts_with("https://render.guildwars2.com/"), "{} trait {t}", s.name);
+            }
+        }
+        assert!(n > 60);
+    }
+
+    #[test]
+    fn trait_info_lookup() {
+        let db = SpecDb::bundled();
+        let t = db.trait_info(62, 2086).expect("Firebrand adept bottom");
+        assert!(!t.name.is_empty());
+        assert!(db.trait_info(62, 1).is_none());
     }
 }

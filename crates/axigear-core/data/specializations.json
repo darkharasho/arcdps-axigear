@@ -20,7 +20,64 @@
     1950,
     704
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/43C5400906A104C60F30DFE0A145D1E767353573/1012003.png",
+  "background": "https://render.guildwars2.com/file/992D53319C5FCD4AE841C592DC2AE91D5906AECF/1012057.png",
+  "minors": [
+   706,
+   710,
+   707
+  ],
+  "traits": {
+   "706": {
+    "name": "Critical Infusion",
+    "icon": "https://render.guildwars2.com/file/ADBABE00177C2A79CA7725F2217D2165CB086239/1012507.png"
+   },
+   "710": {
+    "name": "Sharper Images",
+    "icon": "https://render.guildwars2.com/file/F71BE0901F0462F0374B297BCB08426194E51A56/1012508.png"
+   },
+   "707": {
+    "name": "Master Fencer",
+    "icon": "https://render.guildwars2.com/file/26D50548E5A73BECA0A794A80645E5399C4D0367/1012509.png"
+   },
+   "701": {
+    "name": "Phantasmal Fury",
+    "icon": "https://render.guildwars2.com/file/705378A42A30BE9912BE7D0910057C00CD1CDDF2/1012498.png"
+   },
+   "705": {
+    "name": "Mental Gymnastics",
+    "icon": "https://render.guildwars2.com/file/AF760803BEBE1399784F02A05B4346F418AC66F3/1012499.png"
+   },
+   "700": {
+    "name": "Duelist's Discipline",
+    "icon": "https://render.guildwars2.com/file/154231A3A76B322079386C6404702A6FB2179192/1012500.png"
+   },
+   "1889": {
+    "name": "Blinding Dissipation",
+    "icon": "https://render.guildwars2.com/file/FE37FD6AB5F9F1AF63B89924E0DEF0904757524C/1012501.png"
+   },
+   "1960": {
+    "name": "Wandering Mind",
+    "icon": "https://render.guildwars2.com/file/34EDDCE436BD4A20F8F2B7674D24A5A53D56A4B9/1012502.png"
+   },
+   "708": {
+    "name": "Fencer's Finesse",
+    "icon": "https://render.guildwars2.com/file/4DEE67F2B54D37C8ACEC0F235C94D0C140A77E0F/1012503.png"
+   },
+   "692": {
+    "name": "Superiority Complex",
+    "icon": "https://render.guildwars2.com/file/AAD25BD0F7753D5B447E9654A4AE6A35057B2932/1012504.png"
+   },
+   "1950": {
+    "name": "Ineptitude",
+    "icon": "https://render.guildwars2.com/file/0214C11C1C217134B2565C5201C70E9A653B2C06/1012516.png"
+   },
+   "704": {
+    "name": "Deceptive Evasion",
+    "icon": "https://render.guildwars2.com/file/FDF3040EFF90CC6313E75292F47E0A652E1303B6/1012506.png"
+   }
+  }
  },
  {
   "id": 2,
@@ -43,7 +100,64 @@
     1940,
     1694
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/16663C1CDF532AB0DCC0CB08951DD2F49351D5D4/1012008.png",
+  "background": "https://render.guildwars2.com/file/B3F92D581B0A036CABB51590E6E560B21708391F/1012067.png",
+  "minors": [
+   856,
+   839,
+   1929
+  ],
+  "traits": {
+   "856": {
+    "name": "Armored Shroud",
+    "icon": "https://render.guildwars2.com/file/DC38F4623BFE773E681E37A0EAE11A364D52AACE/1012567.png"
+   },
+   "839": {
+    "name": "Soul Comprehension",
+    "icon": "https://render.guildwars2.com/file/E5D7FFCF5270F6FACCF6A13324E6A26AE77C7D3C/1012568.png"
+   },
+   "1929": {
+    "name": "Beyond the Veil",
+    "icon": "https://render.guildwars2.com/file/6E57E54B98BD24A7049CFA48337F325C062D2360/1012569.png"
+   },
+   "820": {
+    "name": "Flesh of the Master",
+    "icon": "https://render.guildwars2.com/file/20C969485BD63B36ED0B467EA725D7A7550E5AF6/1012558.png"
+   },
+   "857": {
+    "name": "Putrid Defense",
+    "icon": "https://render.guildwars2.com/file/7FF962AB0917E9C651D00503D0D496067508910A/1012560.png"
+   },
+   "1922": {
+    "name": "Shrouded Removal",
+    "icon": "https://render.guildwars2.com/file/C9C61D671A41B6DEC4D845070215F4FC9832F3D4/1012559.png"
+   },
+   "858": {
+    "name": "Necromantic Corruption",
+    "icon": "https://render.guildwars2.com/file/AE61EAFBE6F1CC7902189CE79FA3FAB103F53F59/1012561.png"
+   },
+   "860": {
+    "name": "Dark Defense",
+    "icon": "https://render.guildwars2.com/file/07E34F107B380DFDEFAF1894C66973BCFC3B3D9D/1012562.png"
+   },
+   "855": {
+    "name": "Deadly Strength",
+    "icon": "https://render.guildwars2.com/file/560C65022F0DCC173CADEBE4DCD72F7CAA32467B/1012563.png"
+   },
+   "842": {
+    "name": "Death Nova",
+    "icon": "https://render.guildwars2.com/file/269AA6E19BAEA0359390FBFF0074BB1353F3C92E/1012564.png"
+   },
+   "1940": {
+    "name": "Corrupter's Fervor",
+    "icon": "https://render.guildwars2.com/file/64FF0B91380345FD2A12A1EE730448A966725E91/1012565.png"
+   },
+   "1694": {
+    "name": "Unholy Sanctuary",
+    "icon": "https://render.guildwars2.com/file/12CF34B0AED1A41319E42D51EEB699B4A21F65D8/1012566.png"
+   }
+  }
  },
  {
   "id": 3,
@@ -66,7 +180,64 @@
     1791,
     1719
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/2C4DCE5C0C255F32B51DCF9E4360106823EAF926/1012018.png",
+  "background": "https://render.guildwars2.com/file/B73FB47165CB20DE21B1FAE91FE22BDE29B6FB76/1012093.png",
+  "minors": [
+   1778,
+   1758,
+   1769
+  ],
+  "traits": {
+   "1778": {
+    "name": "Invoker's Rage",
+    "icon": "https://render.guildwars2.com/file/1C983FECB39112676C09A1F018B9DACC25060C2E/1012689.png"
+   },
+   "1758": {
+    "name": "Ferocious Aggression",
+    "icon": "https://render.guildwars2.com/file/566080076076F09618C36E16C0322F139EC44499/1012688.png"
+   },
+   "1769": {
+    "name": "Contained Temper",
+    "icon": "https://render.guildwars2.com/file/6DD65C66DD0E56A3150AC74D621DE90C260FA5B9/1012687.png"
+   },
+   "1732": {
+    "name": "Cleansing Channel",
+    "icon": "https://render.guildwars2.com/file/E108DF48F2E31ABCBACBF99B1464303A1E32B3F9/1012679.png"
+   },
+   "1761": {
+    "name": "Rising Tide",
+    "icon": "https://render.guildwars2.com/file/9003FBF9A0ED253A97A5DD1599D74F9305135363/1058538.png"
+   },
+   "1784": {
+    "name": "Glaring Resolve",
+    "icon": "https://render.guildwars2.com/file/9B49A55EEF5A2B31C2C0DBE0C10E6FFF3F4E2E5D/1012682.png"
+   },
+   "1774": {
+    "name": "Spirit Boon",
+    "icon": "https://render.guildwars2.com/file/62279406A52F47A00CE7BFFB43D405907A67A60F/1012681.png"
+   },
+   "1760": {
+    "name": "Rapid Flow",
+    "icon": "https://render.guildwars2.com/file/ECF6AFAA0B2966663D21755110900ECCFC071208/1012684.png"
+   },
+   "1781": {
+    "name": "Incensed Response",
+    "icon": "https://render.guildwars2.com/file/06F6A0B293C09DA5225848647EAD0D2CBAE56E09/1012683.png"
+   },
+   "1749": {
+    "name": "Song of the Mists",
+    "icon": "https://render.guildwars2.com/file/B633049F7DD54DEBF9D83C0356E4BFB3360CD1D5/1012686.png"
+   },
+   "1791": {
+    "name": "Charged Mists",
+    "icon": "https://render.guildwars2.com/file/4F1929DF784D227296A96E03B89154232D0B4856/1012678.png"
+   },
+   "1719": {
+    "name": "Roiling Mists",
+    "icon": "https://render.guildwars2.com/file/EAEF09AF62A04394DB04BD555D2FEAAEA9E608E5/1012685.png"
+   }
+  }
  },
  {
   "id": 4,
@@ -89,7 +260,64 @@
     1454,
     1440
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/0D48C40A1C042B0BC6DAA4B91AB272E5E90C934C/1012032.png",
+  "background": "https://render.guildwars2.com/file/09160450B40ED777650F632F2CE82504B90F5644/1012109.png",
+  "minors": [
+   1446,
+   1448,
+   1453
+  ],
+  "traits": {
+   "1446": {
+    "name": "Reckless Dodge",
+    "icon": "https://render.guildwars2.com/file/4D0864C3335DC7A7046713714ED0FD0D57F4021E/1012819.png"
+   },
+   "1448": {
+    "name": "Building Momentum",
+    "icon": "https://render.guildwars2.com/file/7255D994BB1A14AE2B6CB55BA121B0597ABC6415/1012820.png"
+   },
+   "1453": {
+    "name": "Pinnacle of Strength",
+    "icon": "https://render.guildwars2.com/file/73003EC83C79150BAB1578A1F067F37C0F472D60/1012821.png"
+   },
+   "1447": {
+    "name": "Brave Stride",
+    "icon": "https://render.guildwars2.com/file/01FAE5A3B0A851F579FE6BCD2C27E8CD610BB49B/1012810.png"
+   },
+   "1451": {
+    "name": "Restorative Strength",
+    "icon": "https://render.guildwars2.com/file/13610709076E473C03D42303AD2E913A1ED65344/1012811.png"
+   },
+   "1444": {
+    "name": "Peak Performance",
+    "icon": "https://render.guildwars2.com/file/08F60C11F460F3236DE65A445337290B7AAED96F/1012812.png"
+   },
+   "2000": {
+    "name": "Body Blow",
+    "icon": "https://render.guildwars2.com/file/537FCF3A01560702E5C5554E03DEBEA40580A309/1012813.png"
+   },
+   "1338": {
+    "name": "Forceful Greatsword",
+    "icon": "https://render.guildwars2.com/file/CDAE0E5A05570A05917304122E52C71BF5474FC5/1012814.png"
+   },
+   "1449": {
+    "name": "Great Fortitude",
+    "icon": "https://render.guildwars2.com/file/424B39CE4BFF056F3B2ED25F186A7FC5E69538E5/1012815.png"
+   },
+   "1437": {
+    "name": "Berserker's Power",
+    "icon": "https://render.guildwars2.com/file/A795EE78B8DAA836F3C0650CFC037BB71D3517BA/1012816.png"
+   },
+   "1454": {
+    "name": "Might Makes Right",
+    "icon": "https://render.guildwars2.com/file/6BBC5D5AB0B0E72DA33631E1A57B525CC0460D61/1012817.png"
+   },
+   "1440": {
+    "name": "Aggressive Onslaught",
+    "icon": "https://render.guildwars2.com/file/0CE13DF2315967C19B000E4FF407351B32BF0E3E/1012792.png"
+   }
+  }
  },
  {
   "id": 5,
@@ -112,7 +340,64 @@
     2058,
     2055
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/BE10CB10D8446208729934F3F1BD3A54BEED9AD6/1012013.png",
+  "background": "https://render.guildwars2.com/file/306D6ED9D3F09FF5552609EC7DA2046ECD114F90/1012077.png",
+  "minors": [
+   1874,
+   1862,
+   1992
+  ],
+  "traits": {
+   "1874": {
+    "name": "Celestial Being",
+    "icon": "https://render.guildwars2.com/file/51AAAF39FF1D79505AD6BD532A44AAF1C9A75E9B/1128539.png"
+   },
+   "1862": {
+    "name": "Live Vicariously",
+    "icon": "https://render.guildwars2.com/file/F2A3C305087AFA5141FABEF5FB09AD05CCE8A46A/1128540.png"
+   },
+   "1992": {
+    "name": "Natural Mender",
+    "icon": "https://render.guildwars2.com/file/ECB17C0FAE20B0F77EE9043BE449546A6FB41ABE/1128541.png"
+   },
+   "1868": {
+    "name": "Druidic Clarity",
+    "icon": "https://render.guildwars2.com/file/5851BCCB60F70B42FEC1FF4E05F8C90722C2DB90/1128530.png"
+   },
+   "2016": {
+    "name": "Verdant Etching",
+    "icon": "https://render.guildwars2.com/file/0BCB5CC47934D9A526600EC87E1966CEDED13514/1128534.png"
+   },
+   "1935": {
+    "name": "Blood Moon",
+    "icon": "https://render.guildwars2.com/file/65C6E74A0A26786A243867FB79C63DAF0650CEDB/1128532.png"
+   },
+   "2053": {
+    "name": "Celestial Shadow",
+    "icon": "https://render.guildwars2.com/file/93010741F5F7F22A0F20EB4EBA14F9D3B1321059/1128533.png"
+   },
+   "2001": {
+    "name": "Grace of the Land",
+    "icon": "https://render.guildwars2.com/file/D1E507697A2FFD0AC9F6D5CA74C403D69A4E0E4E/1128536.png"
+   },
+   "2056": {
+    "name": "Natural Balance",
+    "icon": "https://render.guildwars2.com/file/5F953BAC2C7EB3340B4EAA9A7D9633320BAB29A6/1128535.png"
+   },
+   "2057": {
+    "name": "Cultivated Synergy",
+    "icon": "https://render.guildwars2.com/file/9DAD4D2E74CDD1C5196848BCBE63BC12CE534B68/1128531.png"
+   },
+   "2058": {
+    "name": "Lingering Light",
+    "icon": "https://render.guildwars2.com/file/01BBD8CADBC6E9BBED46A2D9026976316CA8EAD9/1128537.png"
+   },
+   "2055": {
+    "name": "Eclipse",
+    "icon": "https://render.guildwars2.com/file/4ED26C00F5552D91B246DEE5F23E0C03ABA81820/1128538.png"
+   }
+  }
  },
  {
   "id": 6,
@@ -135,7 +420,64 @@
     505,
     1947
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/7DCC0CC4CE0E550C36F37F65469FF3103E2F2DA5/1011989.png",
+  "background": "https://render.guildwars2.com/file/159455B54672DF9C9BEEC2EB13E05DB07E757E02/1012041.png",
+  "minors": [
+   432,
+   517,
+   429
+  ],
+  "traits": {
+   "432": {
+    "name": "Explosive Entrance",
+    "icon": "https://render.guildwars2.com/file/61510F0752BC696F210F92CA0E13AD290F13AD33/2261507.png"
+   },
+   "517": {
+    "name": "Steel-Packed Powder",
+    "icon": "https://render.guildwars2.com/file/5CE792230BB9F5047F09042D052604E143BBB460/1012352.png"
+   },
+   "429": {
+    "name": "Shaped Charge",
+    "icon": "https://render.guildwars2.com/file/6DA800E25FE446E734FAD0A6E81EB671F596AA79/1012353.png"
+   },
+   "514": {
+    "name": "Grenadier",
+    "icon": "https://render.guildwars2.com/file/EABE037E9D98A7383A10140DCB0B2853604692DB/1012342.png"
+   },
+   "525": {
+    "name": "Short Fuse",
+    "icon": "https://render.guildwars2.com/file/EFF174C315B196D5FE0CA2D6179F92E46695F199/1012347.png"
+   },
+   "1882": {
+    "name": "Glass Cannon",
+    "icon": "https://render.guildwars2.com/file/63B2BD4FCDA047EA740E5DEA0EBF593308320713/1012344.png"
+   },
+   "482": {
+    "name": "Aim-Assisted Rocket",
+    "icon": "https://render.guildwars2.com/file/284CE83D6CC7169E1B0D045054566E0D0A7D052B/1012345.png"
+   },
+   "1892": {
+    "name": "Explosive Temper",
+    "icon": "https://render.guildwars2.com/file/273E26303F072C3EEEF0DA25D5ACC1E59AECACF6/2261504.png"
+   },
+   "1944": {
+    "name": "Blast Shield",
+    "icon": "https://render.guildwars2.com/file/1C2F7B7402980B65D12C60CA52510601ECCCC13C/2261503.png"
+   },
+   "1541": {
+    "name": "Grand Entrance",
+    "icon": "https://render.guildwars2.com/file/7093569DA52A64BE5C42AE0A0D0A700BAA320C0C/2261505.png"
+   },
+   "505": {
+    "name": "Shrapnel",
+    "icon": "https://render.guildwars2.com/file/74C8E6F334CF6905D1E407473701077C60AFE2B6/1012349.png"
+   },
+   "1947": {
+    "name": "Big Boomer",
+    "icon": "https://render.guildwars2.com/file/0122FE72473C12BA0661EABA18F5B83022066EDB/2261506.png"
+   }
+  }
  },
  {
   "id": 7,
@@ -158,7 +500,64 @@
     1964,
     2047
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/F1985D4E1CE043D7145E030C0AC4CFDABED73A59/1012025.png",
+  "background": "https://render.guildwars2.com/file/B969F9B27EE82CBF0E4651FD0F760F702CB5FCED/1012101.png",
+  "minors": [
+   1994,
+   1887,
+   1837
+  ],
+  "traits": {
+   "1994": {
+    "name": "Physical Supremacy",
+    "icon": "https://render.guildwars2.com/file/0CDF226340671D9E0BAA3BBD6904CAD9DB6780C2/1058555.png"
+   },
+   "1887": {
+    "name": "Weakening Strikes",
+    "icon": "https://render.guildwars2.com/file/140F77BB56B93C32BFDAC30CB332FCBAAF0921A5/1058547.png"
+   },
+   "1837": {
+    "name": "Endurance Thief",
+    "icon": "https://render.guildwars2.com/file/FC48D05C3260AB41A0D4A6D7807495C7B60CBE76/1058557.png"
+   },
+   "1933": {
+    "name": "Marauder's Resilience",
+    "icon": "https://render.guildwars2.com/file/6EADF7BD91FA0F02C3CF954A131E4DE7A7174A4D/2128018.png"
+   },
+   "2023": {
+    "name": "Escapist's Fortitude",
+    "icon": "https://render.guildwars2.com/file/997ABE456858707D663FAD58BFA809BAB83455C1/1058556.png"
+   },
+   "1949": {
+    "name": "Brawler's Tenacity",
+    "icon": "https://render.guildwars2.com/file/EBE8476C463D73783639F51D7B7ED451F24107E1/1058548.png"
+   },
+   "1884": {
+    "name": "Staff Master",
+    "icon": "https://render.guildwars2.com/file/5A6DC148221020B0E616EC77507CCAE9E026BDBD/1058549.png"
+   },
+   "1893": {
+    "name": "Havoc Specialist",
+    "icon": "https://render.guildwars2.com/file/B15E2425525CF5A3E4EAD67C4BE6B13A1B931875/1058546.png"
+   },
+   "1975": {
+    "name": "Impacting Disruption",
+    "icon": "https://render.guildwars2.com/file/BED87F28D907FE0CE59346786D0345749A2E6DDC/1058551.png"
+   },
+   "1833": {
+    "name": "Lotus Training",
+    "icon": "https://render.guildwars2.com/file/E5724D46CEE62333E00CE26905C5FDD5439F6667/1058552.png"
+   },
+   "1964": {
+    "name": "Unhindered Combatant",
+    "icon": "https://render.guildwars2.com/file/0D7324A22F580F3DA3F244C466770FB69292C307/1058553.png"
+   },
+   "2047": {
+    "name": "Bounding Dodger",
+    "icon": "https://render.guildwars2.com/file/F3E22D0FDFDB436780BD4ACBA5D135EE40507FFD/1058554.png"
+   }
+  }
  },
  {
   "id": 8,
@@ -181,7 +580,64 @@
     1015,
     1698
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/80FEB75663DAE60BAC59495671261C206C0BAFC3/1012014.png",
+  "background": "https://render.guildwars2.com/file/100CE796CC2318DA62D2189A02BAAD2AE91BCE1F/1012079.png",
+  "minors": [
+   1010,
+   1009,
+   1011
+  ],
+  "traits": {
+   "1010": {
+    "name": "Opening Strike",
+    "icon": "https://render.guildwars2.com/file/A537B362D8AC54BC7907E050B596BA93E4CBE5F2/1012627.png"
+   },
+   "1009": {
+    "name": "Alpha Focus",
+    "icon": "https://render.guildwars2.com/file/D8167EA3C3CC7508DD2126F7A8C7BAC9C7069829/1012628.png"
+   },
+   "1011": {
+    "name": "Precise Strike",
+    "icon": "https://render.guildwars2.com/file/C16AC293515DD1CCD131A6F79206EB5E5FDD7747/1012629.png"
+   },
+   "1021": {
+    "name": "Stoneform",
+    "icon": "https://render.guildwars2.com/file/205F4491B806F7ECF6BE0B9F18C266FDAAE4635A/1769987.png"
+   },
+   "1014": {
+    "name": "Hunter's Gaze",
+    "icon": "https://render.guildwars2.com/file/FE4DDEFE6EF8A7BD7FD638D86C6CD3B409E399F0/1012619.png"
+   },
+   "986": {
+    "name": "Clarion Bond",
+    "icon": "https://render.guildwars2.com/file/38A957BBB30F1F4E346E35C75B911F23AB0E6A37/1012620.png"
+   },
+   "1001": {
+    "name": "Wolfsong",
+    "icon": "https://render.guildwars2.com/file/55D102432B71E1E26280DF6118AE5663650FEAA3/3613094.png"
+   },
+   "1000": {
+    "name": "Farsighted",
+    "icon": "https://render.guildwars2.com/file/6F338058C9CEAC7F35740F1F384E01F4C7D45428/1012622.png"
+   },
+   "1070": {
+    "name": "Moment of Clarity",
+    "icon": "https://render.guildwars2.com/file/9B120D5A176870D4EC9F1BE44E295EAAA6EF0ABC/1012623.png"
+   },
+   "996": {
+    "name": "Predator's Onslaught",
+    "icon": "https://render.guildwars2.com/file/0771B76DEC42B44A579725E0C0C2A07F2058B65A/1012624.png"
+   },
+   "1015": {
+    "name": "Remorseless",
+    "icon": "https://render.guildwars2.com/file/1744A5411A5DED5AF343B4F4B7490A7677FE18EA/1012625.png"
+   },
+   "1698": {
+    "name": "Lead the Wind",
+    "icon": "https://render.guildwars2.com/file/B864CDE9E00147E5A0F9ABFE0793272F92AD09C4/1012626.png"
+   }
+  }
  },
  {
   "id": 9,
@@ -204,7 +660,64 @@
     1770,
     1790
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/70B5F7E02769762D5FEE056D0136093BF3F580FF/1029933.png",
+  "background": "https://render.guildwars2.com/file/E6100E7B7704EEC632AD5B399C3BE8A84D7F7CED/1012095.png",
+  "minors": [
+   1783,
+   1757,
+   1713
+  ],
+  "traits": {
+   "1783": {
+    "name": "Enduring Recovery",
+    "icon": "https://render.guildwars2.com/file/76F4DA7A601A64A30737DC4DBC4A0D2527226857/1012700.png"
+   },
+   "1757": {
+    "name": "Unwavering Avoidance",
+    "icon": "https://render.guildwars2.com/file/F5F15B63330A9A3DC7581F23120472AB5C676839/1012701.png"
+   },
+   "1713": {
+    "name": "Determined Resolution",
+    "icon": "https://render.guildwars2.com/file/F3DB5663A9C9C8630247D463050B05A12C69E542/1012699.png"
+   },
+   "1811": {
+    "name": "Planar Protection",
+    "icon": "https://render.guildwars2.com/file/6FCF4CED0607CA91AD1F2F03FCE118637BDDB5D8/1012694.png"
+   },
+   "1728": {
+    "name": "Close Quarters",
+    "icon": "https://render.guildwars2.com/file/4DD75C0C7D64F2A80F24955E0CAE031530554AF7/1012690.png"
+   },
+   "1810": {
+    "name": "Spiritual Reckoning",
+    "icon": "https://render.guildwars2.com/file/3CF2F8DD1BF2DE9E3B673C7A53F208630D6232E1/1012693.png"
+   },
+   "1766": {
+    "name": "Set in Stone",
+    "icon": "https://render.guildwars2.com/file/CEBB22E824DE1A024A4DC8907C5C3D795E01AEDA/1012692.png"
+   },
+   "1782": {
+    "name": "Resolute Evasion",
+    "icon": "https://render.guildwars2.com/file/CA9478C84998F038B949E4BAD01CEFB70811386E/1012697.png"
+   },
+   "1740": {
+    "name": "Dwarven Battle Training",
+    "icon": "https://render.guildwars2.com/file/35F67F4090491139F8E7CBDF943596A2CB2CB90A/1012695.png"
+   },
+   "1779": {
+    "name": "Vicious Reprisal",
+    "icon": "https://render.guildwars2.com/file/6BAF2CA6D13BABE948BC61BDA3704CD4B045D2C9/1012691.png"
+   },
+   "1770": {
+    "name": "Versed in Stone",
+    "icon": "https://render.guildwars2.com/file/07070DE858DC9D610B0F257F98A347CF2ED1D436/1012696.png"
+   },
+   "1790": {
+    "name": "Steadfast Rejuvenation",
+    "icon": "https://render.guildwars2.com/file/4CB0D2FC4C01EBA3D280FFA86C907AE92055AD9B/1012698.png"
+   }
+  }
  },
  {
   "id": 10,
@@ -227,7 +740,64 @@
     680,
     1688
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/4B61EA5997709A5DC1E46FF50CEDF2A13C1F0C3D/1012002.png",
+  "background": "https://render.guildwars2.com/file/2C436DDDC3244409EEBF470A0AE3ED7CED1F99C0/1012055.png",
+  "minors": [
+   685,
+   694,
+   1941
+  ],
+  "traits": {
+   "685": {
+    "name": "Illusion of Vulnerability",
+    "icon": "https://render.guildwars2.com/file/1762C27D3D729F0EDBD4EAF7F4DBAB7FAD6CC2F1/1012495.png"
+   },
+   "694": {
+    "name": "Dazzling",
+    "icon": "https://render.guildwars2.com/file/B4500EF704977F28CB059D40424B5B031DFC10B7/1012496.png"
+   },
+   "1941": {
+    "name": "Fragility",
+    "icon": "https://render.guildwars2.com/file/DBA1050B30E4FBB4CEAFDF01217E7E07D4EF6459/1012497.png"
+   },
+   "686": {
+    "name": "Bountiful Blades",
+    "icon": "https://render.guildwars2.com/file/A6A23D55F25BF223A75AB62AA5D0E9C17D3BCB3C/1012492.png"
+   },
+   "682": {
+    "name": "Empowered Illusions",
+    "icon": "https://render.guildwars2.com/file/4337F2F9DCC4F7A6022997409400423F7A1BB946/1012487.png"
+   },
+   "687": {
+    "name": "Rending Shatter",
+    "icon": "https://render.guildwars2.com/file/914DB240AB9CB47ADC437F9760B4D86BF838673A/1012488.png"
+   },
+   "693": {
+    "name": "Shattered Concentration",
+    "icon": "https://render.guildwars2.com/file/1F25AB72D072AE0FE9E3221A7D5D10AD7040406D/1012489.png"
+   },
+   "713": {
+    "name": "Egotism",
+    "icon": "https://render.guildwars2.com/file/B07D6EA99FEC210636A00E47B260F80D060DB546/1012530.png"
+   },
+   "712": {
+    "name": "Furious Interruption",
+    "icon": "https://render.guildwars2.com/file/D83AA1E34F35E91D577752E07E1207A5F5713D57/1012491.png"
+   },
+   "681": {
+    "name": "Vicious Expression",
+    "icon": "https://render.guildwars2.com/file/E9CB4990C405C00D34DB07C5C5291FD5E90EF90C/1012486.png"
+   },
+   "680": {
+    "name": "Mental Anguish",
+    "icon": "https://render.guildwars2.com/file/4614953C566CB8F9B7169DA6E8C4060C29E9F65B/1012493.png"
+   },
+   "1688": {
+    "name": "Power Block",
+    "icon": "https://render.guildwars2.com/file/E029766272E10A957B954B12B20FD916474D5A01/1012494.png"
+   }
+  }
  },
  {
   "id": 11,
@@ -250,7 +820,64 @@
     1470,
     1711
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/373162E8DED2793801194E622FEDEF2DBBDA6F10/1012033.png",
+  "background": "https://render.guildwars2.com/file/6FCF0E0E0C0E539290A8245F0DA49D0556D71E62/1012110.png",
+  "minors": [
+   1480,
+   1485,
+   1481
+  ],
+  "traits": {
+   "1480": {
+    "name": "Marching Orders",
+    "icon": "https://render.guildwars2.com/file/67472371DE0301250206D00047F7DDE82C439774/2207781.png"
+   },
+   "1485": {
+    "name": "Empowered",
+    "icon": "https://render.guildwars2.com/file/B4361E2EC6AE0C58977573C7C6F6F6FD12032FA7/2207778.png"
+   },
+   "1481": {
+    "name": "Mending Might",
+    "icon": "https://render.guildwars2.com/file/765438B1A46A5F987B0C6399DBC7723601AE0027/2207780.png"
+   },
+   "1469": {
+    "name": "Leg Specialist",
+    "icon": "https://render.guildwars2.com/file/E99EFC0C36E2B4121A6F02FC99FDA0A4F97BF5BB/1012822.png"
+   },
+   "1474": {
+    "name": "Soldier's Comfort",
+    "icon": "https://render.guildwars2.com/file/2159D86FF705FE12A0F7E8F061535CCC624464B1/2207775.png"
+   },
+   "1471": {
+    "name": "Roaring Reveille",
+    "icon": "https://render.guildwars2.com/file/3FF57AD44D51802994C4222D1016079A6A91BDBC/1012823.png"
+   },
+   "1486": {
+    "name": "Warrior's Cunning",
+    "icon": "https://render.guildwars2.com/file/0848D11E545D0B62601FAD03DE6D4A37E2EC4E9A/2207776.png"
+   },
+   "1479": {
+    "name": "Shrug It Off",
+    "icon": "https://render.guildwars2.com/file/3D09CE385264C492CC3638AD3A7D753FC80A0D34/2207779.png"
+   },
+   "1482": {
+    "name": "Empower Allies",
+    "icon": "https://render.guildwars2.com/file/0CE3310F1A91D2DBF91C21E77BD311FA2DA5123D/1012827.png"
+   },
+   "1667": {
+    "name": "Martial Cadence",
+    "icon": "https://render.guildwars2.com/file/C84C9406450EC91C95F77A0BA66040533AA5C44F/2207777.png"
+   },
+   "1470": {
+    "name": "Vigorous Shouts",
+    "icon": "https://render.guildwars2.com/file/087A225EC4070E5B271B360D583AE4CC4210BFC0/1012829.png"
+   },
+   "1711": {
+    "name": "Phalanx Strength",
+    "icon": "https://render.guildwars2.com/file/4739991FA69FFEACC34458A8043F5D0749060F22/1012830.png"
+   }
+  }
  },
  {
   "id": 12,
@@ -273,7 +900,64 @@
     1825,
     1820
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/0F0144B0E123163E0454B0C3D532282555BE7CE5/1029934.png",
+  "background": "https://render.guildwars2.com/file/1043F6D2CFECB77BC21C70B43F580611E5DAD7CD/1012097.png",
+  "minors": [
+   1816,
+   1821,
+   1814
+  ],
+  "traits": {
+   "1816": {
+    "name": "Healer's Gift",
+    "icon": "https://render.guildwars2.com/file/1CF0A1D20DF765AC21B31A5AB6E7305073A851DB/2128017.png"
+   },
+   "1821": {
+    "name": "Life Attunement",
+    "icon": "https://render.guildwars2.com/file/7529573E19C6A492FC4F490026149F36DE434C59/1012713.png"
+   },
+   "1814": {
+    "name": "Serene Rejuvenation",
+    "icon": "https://render.guildwars2.com/file/C20B7DA3510A10D0CB090D4F67F1D3060D46E061/1012711.png"
+   },
+   "1823": {
+    "name": "Invoking Harmony",
+    "icon": "https://render.guildwars2.com/file/4BA0B6F2AD93F72CA3D5C3C40D30B40B14920825/2128015.png"
+   },
+   "1824": {
+    "name": "Blinding Truths",
+    "icon": "https://render.guildwars2.com/file/7023FCC1626267C90CE77201A990A83D300CA5D2/1012703.png"
+   },
+   "1822": {
+    "name": "Eluding Nullification",
+    "icon": "https://render.guildwars2.com/file/FE0DF793F5C322030AB63A5209F0052798A90B05/1012704.png"
+   },
+   "1819": {
+    "name": "Words of Censure",
+    "icon": "https://render.guildwars2.com/file/3DE4920AF60A437EDD94BBF435FAC19821DA7809/2128016.png"
+   },
+   "1817": {
+    "name": "Resilient Spirit",
+    "icon": "https://render.guildwars2.com/file/181F40F0C0E261E457010DA1D9144D680B0E0415/1012709.png"
+   },
+   "1818": {
+    "name": "Fortified Blessing",
+    "icon": "https://render.guildwars2.com/file/B1585B351A1A77A10FDECC9C07B43BD4083D4DCF/1012702.png"
+   },
+   "1815": {
+    "name": "Generous Abundance",
+    "icon": "https://render.guildwars2.com/file/0F2DC0620428E1235AE6DFA4F0947C5DBE2FB076/2128013.png"
+   },
+   "1825": {
+    "name": "Unyielding Devotion",
+    "icon": "https://render.guildwars2.com/file/11404242F05CA14C5ED90B3A0B74CDE8E3D8154C/2128014.png"
+   },
+   "1820": {
+    "name": "Invigorating Dismissal",
+    "icon": "https://render.guildwars2.com/file/CED766D430CC0E6CE1BAD33452EF9853B7ED6D59/2128012.png"
+   }
+  }
  },
  {
   "id": 13,
@@ -296,7 +980,64 @@
     586,
     589
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/F8A95D6D3904A1F6430CF2D33A02FDF2A6132037/1011997.png",
+  "background": "https://render.guildwars2.com/file/12B4C72ADCE4EF2890606111B400630F3832F83D/1012048.png",
+  "minors": [
+   582,
+   594,
+   583
+  ],
+  "traits": {
+   "582": {
+    "name": "Valorous Defense",
+    "icon": "https://render.guildwars2.com/file/BE72671325E165BAFD4DCFD11C60D70C7371C439/1012435.png"
+   },
+   "594": {
+    "name": "Steadfast Courage",
+    "icon": "https://render.guildwars2.com/file/07D0C4AF0FF1365D1670EFBDA6F8A69DAF16A409/1012436.png"
+   },
+   "583": {
+    "name": "Might of the Protector",
+    "icon": "https://render.guildwars2.com/file/A3CBB96B5D0DFB084E3F4E0C3260FE01923CA7EA/1012437.png"
+   },
+   "588": {
+    "name": "Strength of the Fallen",
+    "icon": "https://render.guildwars2.com/file/4304ABF568F659CABE54751F020A21FE90B7A057/1012426.png"
+   },
+   "581": {
+    "name": "Smiter's Boon",
+    "icon": "https://render.guildwars2.com/file/21B93A5D0C246A42957222350B45C00A14DF0DB7/1012427.png"
+   },
+   "633": {
+    "name": "Focus Mastery",
+    "icon": "https://render.guildwars2.com/file/E6D027337F7B5D6E32BE3DB3224025CC667635D5/1012428.png"
+   },
+   "580": {
+    "name": "Stalwart Defender",
+    "icon": "https://render.guildwars2.com/file/F2079E05EA7F0507DDD60B2603450BC1C902585E/1012429.png"
+   },
+   "584": {
+    "name": "Redemption",
+    "icon": "https://render.guildwars2.com/file/B5C9AAF67FA6305CB414C196EB1503493B5E0D59/1012430.png"
+   },
+   "1684": {
+    "name": "Communal Defenses",
+    "icon": "https://render.guildwars2.com/file/783B0AA64AEDEA0E7AE167692BE42CEDDA519F9F/1012431.png"
+   },
+   "585": {
+    "name": "Altruistic Healing",
+    "icon": "https://render.guildwars2.com/file/3BF9357422DAF204E2CFBA3D49CD679B2CFD2EF8/1012432.png"
+   },
+   "586": {
+    "name": "Monk's Focus",
+    "icon": "https://render.guildwars2.com/file/01FC7AF9B1CDFF61160FE3BDF63D52C50225EA9E/1012433.png"
+   },
+   "589": {
+    "name": "Tenacious Defense",
+    "icon": "https://render.guildwars2.com/file/15504BAE0F1557F00E0403D64DD87D101C3FE006/1012434.png"
+   }
+  }
  },
  {
   "id": 14,
@@ -319,7 +1060,64 @@
     1720,
     1721
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/FF4CBE97A807903DF3495E0ECC380E080291C698/1029931.png",
+  "background": "https://render.guildwars2.com/file/5AB700B8AE15619DDD3CAFD60D0203E5EB23C3BE/1012087.png",
+  "minors": [
+   1799,
+   1801,
+   1744
+  ],
+  "traits": {
+   "1799": {
+    "name": "Invoking Torment",
+    "icon": "https://render.guildwars2.com/file/414A9704F7C62C49DB2604DACDAFABDE7A400499/2261512.png"
+   },
+   "1801": {
+    "name": "Seething Malice",
+    "icon": "https://render.guildwars2.com/file/E9BF4007B51B156ED5D93C580E68E3403E27A6A8/2261513.png"
+   },
+   "1744": {
+    "name": "Yearning Empowerment",
+    "icon": "https://render.guildwars2.com/file/55BD4591B1B25C2151B7C804C56E05EEA24FEA17/1012677.png"
+   },
+   "1793": {
+    "name": "Acolyte of Torment",
+    "icon": "https://render.guildwars2.com/file/67FF4CDD0605750C7E4FEBE9AB51EDF8FEEBFD5E/2261509.png"
+   },
+   "1789": {
+    "name": "Demonic Defiance",
+    "icon": "https://render.guildwars2.com/file/06D0E6CC4CB45F3949B41436B2C3091B1B6C9B7D/1012667.png"
+   },
+   "1741": {
+    "name": "Replenishing Despair",
+    "icon": "https://render.guildwars2.com/file/0B140B2603466018C2016223B00FE74F6BFEBF29/1012672.png"
+   },
+   "1727": {
+    "name": "Abyssal Chill",
+    "icon": "https://render.guildwars2.com/file/93C7A4D5939D23FCCEEAE773E17F256C1FFBC80A/1012669.png"
+   },
+   "1726": {
+    "name": "Demonic Resistance",
+    "icon": "https://render.guildwars2.com/file/ECAAB201A864A10C54A2A0027C335B647F3F49DA/2029283.png"
+   },
+   "1714": {
+    "name": "Pact of Pain",
+    "icon": "https://render.guildwars2.com/file/7CD12917F5E2E6D36E0CBA1002F8F3919535A6FC/2261511.png"
+   },
+   "1795": {
+    "name": "Diabolic Inferno",
+    "icon": "https://render.guildwars2.com/file/54A099299512645C3D4B3D2728C0B43BF7D9F5F0/1012668.png"
+   },
+   "1720": {
+    "name": "Fiendish Tenacity",
+    "icon": "https://render.guildwars2.com/file/75E2EF317AFEF4C5303ACF7EB0D13EE896DD2262/2261510.png"
+   },
+   "1721": {
+    "name": "Permeating Pestilence",
+    "icon": "https://render.guildwars2.com/file/37FE24EB96C3FACE620EE69EA65A9EA820F89DA5/1012671.png"
+   }
+  }
  },
  {
   "id": 15,
@@ -342,7 +1140,64 @@
     1800,
     1754
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/C95CAFC4DC0D2AF5DB0C66CB0E0B0FA699E45D6C/1029932.png",
+  "background": "https://render.guildwars2.com/file/0744C43591FB9C11A7554C9601215CA8022F4216/1012089.png",
+  "minors": [
+   1808,
+   1724,
+   1792
+  ],
+  "traits": {
+   "1808": {
+    "name": "Expose Defenses",
+    "icon": "https://render.guildwars2.com/file/B8463001BF6D75546EBB63E094720AF1EEA12E44/1029964.png"
+   },
+   "1724": {
+    "name": "Destructive Impulses",
+    "icon": "https://render.guildwars2.com/file/8052FD58EAAA340A7B240FB0DAD8EB9BC391A1D0/1029966.png"
+   },
+   "1792": {
+    "name": "Targeted Destruction",
+    "icon": "https://render.guildwars2.com/file/37B8029E4AFECE5A70A3D37DC763F61BCCCC1CA9/1029965.png"
+   },
+   "1776": {
+    "name": "Aggressive Arrival",
+    "icon": "https://render.guildwars2.com/file/CAE712142E0AAF7C9DBA07F60E9A6E42420CDD69/2261514.png"
+   },
+   "1767": {
+    "name": "Unsuspecting Strikes",
+    "icon": "https://render.guildwars2.com/file/5896E49C6509BCADF1484C693ACBE2F82239AF40/1029956.png"
+   },
+   "1755": {
+    "name": "Battle Scarred",
+    "icon": "https://render.guildwars2.com/file/395D7939C8DD48BE35012E319D039F545065F755/2261515.png"
+   },
+   "1786": {
+    "name": "Assassin's Presence",
+    "icon": "https://render.guildwars2.com/file/54C625037513112F94A93C6F1553447504C5AF60/1029955.png"
+   },
+   "1765": {
+    "name": "Notoriety",
+    "icon": "https://render.guildwars2.com/file/1A720EC19CEDF654EDECB4616512F6CDF6A4BF06/1029959.png"
+   },
+   "1802": {
+    "name": "Thrill of Combat",
+    "icon": "https://render.guildwars2.com/file/12FFBBD82F3BB8C057E95AB7E907AD3EACFDF221/2261517.png"
+   },
+   "1715": {
+    "name": "Brutality",
+    "icon": "https://render.guildwars2.com/file/B6A10BFFE10708A20EC6019F7607BF04A071770D/1029962.png"
+   },
+   "1800": {
+    "name": "Swift Termination",
+    "icon": "https://render.guildwars2.com/file/B0A7D5466C0E20764CB5CA305BD21F35BEE96303/1029961.png"
+   },
+   "1754": {
+    "name": "Dance of Death",
+    "icon": "https://render.guildwars2.com/file/153B05725A41E671C07AE0633D93F70F06273B54/2261516.png"
+   }
+  }
  },
  {
   "id": 16,
@@ -365,7 +1220,64 @@
     579,
     1683
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/16A05D047DFC0828D0E496F46FD8B20F97B42EB3/1011996.png",
+  "background": "https://render.guildwars2.com/file/9BE9604B0378D103EB2F551730BF802F2B1F3AA0/1012047.png",
+  "minors": [
+   572,
+   571,
+   568
+  ],
+  "traits": {
+   "572": {
+    "name": "Justice is Blind",
+    "icon": "https://render.guildwars2.com/file/090954DB1B76C01908A6AC9E38A9E4A9F10D131D/1012423.png"
+   },
+   "571": {
+    "name": "Renewed Justice",
+    "icon": "https://render.guildwars2.com/file/0FE11090EDC73ED447F5C5D50F6B9C44679B520F/1012424.png"
+   },
+   "568": {
+    "name": "Radiant Power",
+    "icon": "https://render.guildwars2.com/file/97F407C799FAAA7777E313031EB57CCEED3B47F2/1012425.png"
+   },
+   "577": {
+    "name": "Inner Fire",
+    "icon": "https://render.guildwars2.com/file/56CEF1A4BEDBC4AC5946C5030D33ADE11CC6B965/1012415.png"
+   },
+   "566": {
+    "name": "Right-Hand Strength",
+    "icon": "https://render.guildwars2.com/file/0A3C2448AD693726F62934E660E07B5E04A406AC/1012416.png"
+   },
+   "574": {
+    "name": "Healer's Resolution",
+    "icon": "https://render.guildwars2.com/file/27F73C39699117B22DA74EF60E40C9B67D737C0D/1012414.png"
+   },
+   "578": {
+    "name": "Wrath of Justice",
+    "icon": "https://render.guildwars2.com/file/CD1F3745DD010649D5F53553B695021580221DC0/1012417.png"
+   },
+   "567": {
+    "name": "Radiant Fire",
+    "icon": "https://render.guildwars2.com/file/0E931C4BC7DD210747C130F2376E68DFA2126359/1012419.png"
+   },
+   "565": {
+    "name": "Retribution",
+    "icon": "https://render.guildwars2.com/file/324CD720BC3A5F1B6B154BD909165F0DB03CBC0D/1012418.png"
+   },
+   "1686": {
+    "name": "Amplified Wrath",
+    "icon": "https://render.guildwars2.com/file/4677301004B3DF18A27D3141441AF3919AA10E7C/1012420.png"
+   },
+   "579": {
+    "name": "Perfect Inscriptions",
+    "icon": "https://render.guildwars2.com/file/29AAF6F60D2EAD20D6FA0FB097504D7AF8F6312F/1012421.png"
+   },
+   "1683": {
+    "name": "Righteous Instincts",
+    "icon": "https://render.guildwars2.com/file/AB3391394750222276EFF9FE3AD3DDE29DCE04AF/1012422.png"
+   }
+  }
  },
  {
   "id": 17,
@@ -388,7 +1300,64 @@
     361,
     2028
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A3D60C0EBE0B33907505C7DED0FD4E4DE565250F/1011987.png",
+  "background": "https://render.guildwars2.com/file/F99A435D26057D6865ECBD0794B73D35A69FBB58/1012039.png",
+  "minors": [
+   350,
+   351,
+   1676
+  ],
+  "traits": {
+   "350": {
+    "name": "Soothing Mist",
+    "icon": "https://render.guildwars2.com/file/09D12A6041622A94409F276CEEEB2C17AF35A8ED/1012327.png"
+   },
+   "351": {
+    "name": "Healing Ripple",
+    "icon": "https://render.guildwars2.com/file/0FB92AC29456276B2FC6E25EFB91DECD93C6694B/1012328.png"
+   },
+   "1676": {
+    "name": "Aquamancer's Training",
+    "icon": "https://render.guildwars2.com/file/C9059194A7A8CFE90D5A7E9831C6E7CACF060A42/2175047.png"
+   },
+   "348": {
+    "name": "Soothing Ice",
+    "icon": "https://render.guildwars2.com/file/F41E5118C9A2F2C1CBF1E3F37A050669E195AADD/1012318.png"
+   },
+   "363": {
+    "name": "Piercing Shards",
+    "icon": "https://render.guildwars2.com/file/7C3004BABE373BC125F6A3195D0C343BC0E702D1/1012319.png"
+   },
+   "360": {
+    "name": "Stop, Drop, and Roll",
+    "icon": "https://render.guildwars2.com/file/0965A9C6430DFFFC9B170201B964ABD8BA0337A2/1012320.png"
+   },
+   "364": {
+    "name": "Soothing Disruption",
+    "icon": "https://render.guildwars2.com/file/CB474873D492343395726B0CD2E8E9A453D86F66/1012321.png"
+   },
+   "358": {
+    "name": "Cleansing Wave",
+    "icon": "https://render.guildwars2.com/file/987EFE03A0E7026E5C09CD0E1BA9ED01BDEB7FBF/1012322.png"
+   },
+   "349": {
+    "name": "Flow like Water",
+    "icon": "https://render.guildwars2.com/file/B60C26726A979893D897B3F2B118CF6913AF554F/2175046.png"
+   },
+   "362": {
+    "name": "Cleansing Water",
+    "icon": "https://render.guildwars2.com/file/BABCC72BD965F8437ACB4E0961765D29C5675355/1012324.png"
+   },
+   "361": {
+    "name": "Powerful Aura",
+    "icon": "https://render.guildwars2.com/file/7BA5ADA1A908D2A424FFD64AD6D0AA3908032DE1/1012325.png"
+   },
+   "2028": {
+    "name": "Soothing Power",
+    "icon": "https://render.guildwars2.com/file/6F7761ECC1979C1207C6166DF8EA7BA9B726B609/1012326.png"
+   }
+  }
  },
  {
   "id": 18,
@@ -411,7 +1380,64 @@
     2038,
     2307
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/B706475993F16D0BD7DFDF3BB30AA144051CDC94/1029935.png",
+  "background": "https://render.guildwars2.com/file/665548439B5F7AB8CA63F46906A0630DAAF6069F/1012106.png",
+  "minors": [
+   1831,
+   1993,
+   2046
+  ],
+  "traits": {
+   "1831": {
+    "name": "Primal Rage",
+    "icon": "https://render.guildwars2.com/file/FF5A46180F4096BE3749D038E298F44EE9BEC4F6/1029976.png"
+   },
+   "1993": {
+    "name": "Burst of Aggression",
+    "icon": "https://render.guildwars2.com/file/77C5CC23125C9FD252762F515F9BE8B3AB0153E6/1058563.png"
+   },
+   "2046": {
+    "name": "Fatal Frenzy",
+    "icon": "https://render.guildwars2.com/file/A6EDB2AE070A9F43B60067771C21B251F86A49EE/1029977.png"
+   },
+   "2049": {
+    "name": "Smash Brawler",
+    "icon": "https://render.guildwars2.com/file/780ACDAE6E6AE10E53470AF821FD246E380E65EB/1029973.png"
+   },
+   "2039": {
+    "name": "Last Blaze",
+    "icon": "https://render.guildwars2.com/file/E2EF11B8156E452E4A79B56ACA914E751B1C7E4F/1058561.png"
+   },
+   "1977": {
+    "name": "Savage Instinct",
+    "icon": "https://render.guildwars2.com/file/FDC3330B22C258587B2ED4E65204467B5836D49C/1029969.png"
+   },
+   "2011": {
+    "name": "Blood Reaction",
+    "icon": "https://render.guildwars2.com/file/2FE06152FB14EF659843EC3CB80FCECD72C61F5D/1029970.png"
+   },
+   "2042": {
+    "name": "Heat the Soul",
+    "icon": "https://render.guildwars2.com/file/0F46971324CD9B11C6C17425AC7C083ED7907455/1058560.png"
+   },
+   "2002": {
+    "name": "Dead or Alive",
+    "icon": "https://render.guildwars2.com/file/DAD5B03B013CD75A7EA842DAD244990C9D685BDD/1058559.png"
+   },
+   "1928": {
+    "name": "Bloody Roar",
+    "icon": "https://render.guildwars2.com/file/382002B6265A4D4F5EC305BD09484B0CEC69ACC9/1029971.png"
+   },
+   "2038": {
+    "name": "King of Fires",
+    "icon": "https://render.guildwars2.com/file/4ED712F8B5383CE8EF69682C0C587801A9F7674A/1058558.png"
+   },
+   "2307": {
+    "name": "Eternal Champion",
+    "icon": "https://render.guildwars2.com/file/F375089AC9F1DB43B9FA783B133DECDF2935690D/1029975.png"
+   }
+  }
  },
  {
   "id": 19,
@@ -434,7 +1460,64 @@
     1692,
     778
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D1D9C63AD9CC05FC1B19970556B0C1E0ADD77905/1012006.png",
+  "background": "https://render.guildwars2.com/file/47F5CA90475E566650EF540BA82CA69C1C0332B1/1012063.png",
+  "minors": [
+   792,
+   783,
+   1931
+  ],
+  "traits": {
+   "792": {
+    "name": "Mark of Evasion",
+    "icon": "https://render.guildwars2.com/file/34F665FF0ADC0CAED190126A0E40DEF99BFCABCB/1012543.png"
+   },
+   "783": {
+    "name": "Vampiric",
+    "icon": "https://render.guildwars2.com/file/0DF523B154B8FD9F2E2B95F72A534E7C80352D2A/1012544.png"
+   },
+   "1931": {
+    "name": "Last Rites",
+    "icon": "https://render.guildwars2.com/file/FCCF489066E7F22BFECB5F165060E2A5C96B5AC9/1012545.png"
+   },
+   "780": {
+    "name": "Ritual of Life",
+    "icon": "https://render.guildwars2.com/file/9348E1E1E5F166C69149984029A15FE2F2D9F40D/1012534.png"
+   },
+   "788": {
+    "name": "Overflowing Thirst",
+    "icon": "https://render.guildwars2.com/file/09266890E7D1517B2D634E026A67696ABDBCDBC3/1012535.png"
+   },
+   "1876": {
+    "name": "Blood Renewal",
+    "icon": "https://render.guildwars2.com/file/E44619EFE79BCAE2030E0A3A1CDBAE411A062403/1012536.png"
+   },
+   "789": {
+    "name": "Life from Death",
+    "icon": "https://render.guildwars2.com/file/B8310A13D0A908D9BBFC2607010AF79E399394AE/1012537.png"
+   },
+   "799": {
+    "name": "Banshee's Wail",
+    "icon": "https://render.guildwars2.com/file/BF29CCF73E0706164344A239B165671BF0357294/1012538.png"
+   },
+   "1844": {
+    "name": "Vampiric Presence",
+    "icon": "https://render.guildwars2.com/file/22B370D754AC1D69A8FE66DCCB36BE940455E5EA/1012539.png"
+   },
+   "782": {
+    "name": "Blood Bank",
+    "icon": "https://render.guildwars2.com/file/06E563AE1E34AC1D24CCECF301AC70B4B07A330C/2310020.png"
+   },
+   "1692": {
+    "name": "Unholy Martyr",
+    "icon": "https://render.guildwars2.com/file/0F286EE6A91BB2E628DD2703EE5E3E35070AFD0E/1012541.png"
+   },
+   "778": {
+    "name": "Transfusion",
+    "icon": "https://render.guildwars2.com/file/7732E03BF4E6CD02BAFF0DDC04780A6F177549CE/1012542.png"
+   }
+  }
  },
  {
   "id": 20,
@@ -457,7 +1540,64 @@
     1135,
     1162
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/B62E5512754BEB1D0116B1DB3B6FA0ECA4DD630C/1012027.png",
+  "background": "https://render.guildwars2.com/file/6943976957615E2337BE6B38292BAEB23C2BAAB9/1012103.png",
+  "minors": [
+   1294,
+   1136,
+   1705
+  ],
+  "traits": {
+   "1294": {
+    "name": "Merciful Ambush",
+    "icon": "https://render.guildwars2.com/file/475E47AC729BC71FB80E503311CBA503B7A033D8/2175054.png"
+   },
+   "1136": {
+    "name": "Meld with Shadows",
+    "icon": "https://render.guildwars2.com/file/75543C6D39236CF562B56A95A6B3A8066CB53360/1012760.png"
+   },
+   "1705": {
+    "name": "Shadow Siphoning",
+    "icon": "https://render.guildwars2.com/file/C5D70A53661C1250D24A12977D5A10C9057F632C/2175056.png"
+   },
+   "1160": {
+    "name": "Shielding Restoration",
+    "icon": "https://render.guildwars2.com/file/3B7C573FBF124EC43F4102D530DE5E333F31014F/1012750.png"
+   },
+   "1293": {
+    "name": "Shadow's Embrace",
+    "icon": "https://render.guildwars2.com/file/96B9AE530DE47F930813E12EB224606B1BEAF303/1012752.png"
+   },
+   "1284": {
+    "name": "Hidden Thief",
+    "icon": "https://render.guildwars2.com/file/7DFEDA0FEFF2CBCF0F7A6F71B333A758B2B0F90F/1012754.png"
+   },
+   "1297": {
+    "name": "Shadow Savior",
+    "icon": "https://render.guildwars2.com/file/D3070EE4956FF44628AD3ED06FD60C7D94F20296/2175055.png"
+   },
+   "1130": {
+    "name": "Leeching Venoms",
+    "icon": "https://render.guildwars2.com/file/09B09DBDA3B81470A27514925DAD37DE0D6121FB/1012755.png"
+   },
+   "1300": {
+    "name": "Cloaked in Shadow",
+    "icon": "https://render.guildwars2.com/file/9D72C40FF99627FDF9FD0C46F4C3B33527BA4814/1012753.png"
+   },
+   "1134": {
+    "name": "Cover of Shadow",
+    "icon": "https://render.guildwars2.com/file/5DD2D1EEAD47B80C375190F9183D0C010FF714EA/1012756.png"
+   },
+   "1135": {
+    "name": "Shadow's Rejuvenation",
+    "icon": "https://render.guildwars2.com/file/E4742848370F4876CFEFFB63BD7D3FF9495EA43A/1012757.png"
+   },
+   "1162": {
+    "name": "Rending Shade",
+    "icon": "https://render.guildwars2.com/file/672F123A490A0505DCC29DEEDD4C609FD9C32F40/1012758.png"
+   }
+  }
  },
  {
   "id": 21,
@@ -480,7 +1620,64 @@
     523,
     1679
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/2CBB5AE626A47DF79C9294ECA61D77922A123600/1011993.png",
+  "background": "https://render.guildwars2.com/file/4E906A6B625209A213085FD65DB9A4457726759D/1012044.png",
+  "minors": [
+   1979,
+   1872,
+   1936
+  ],
+  "traits": {
+   "1979": {
+    "name": "Optimized Activation",
+    "icon": "https://render.guildwars2.com/file/7351CD5F33E20447E8CC237A1802D801B9AF16DC/1012387.png"
+   },
+   "1872": {
+    "name": "Mechanized Deployment",
+    "icon": "https://render.guildwars2.com/file/E4FE930E060A58065801CD1073F234CB5913B632/1012388.png"
+   },
+   "1936": {
+    "name": "Excessive Energy",
+    "icon": "https://render.guildwars2.com/file/B9CAA4643E9B7BD8CF7D61F67CB7C2C8F3FCEE07/1012389.png"
+   },
+   "532": {
+    "name": "Static Discharge",
+    "icon": "https://render.guildwars2.com/file/0A376A98B571BCD3DAB7CD0C51343C3921AB0C34/1012378.png"
+   },
+   "1997": {
+    "name": "Reactive Lenses",
+    "icon": "https://render.guildwars2.com/file/9DFA2D5E0C5E0EBBC0CD011E1FC6181F6D9ED5CC/1012379.png"
+   },
+   "531": {
+    "name": "Power Wrench",
+    "icon": "https://render.guildwars2.com/file/061229B53180B6E8E7B83EFEA665DF4B6256C392/1012380.png"
+   },
+   "512": {
+    "name": "Streamlined Kits",
+    "icon": "https://render.guildwars2.com/file/EC0C31050CE77F71097109B9BFE466016F9CFBEF/1012381.png"
+   },
+   "1946": {
+    "name": "Lock On",
+    "icon": "https://render.guildwars2.com/file/CA19315C752AED07407344A15FA3DCDE47064473/1012382.png"
+   },
+   "1832": {
+    "name": "Takedown Round",
+    "icon": "https://render.guildwars2.com/file/C24DFF8043B5D202E97C059BCBACD5B1F055C950/1012383.png"
+   },
+   "1856": {
+    "name": "Kinetic Battery",
+    "icon": "https://render.guildwars2.com/file/1BE44A22FD664209636ED7E30ACF241B782E6C01/1012384.png"
+   },
+   "523": {
+    "name": "Adrenal Implant",
+    "icon": "https://render.guildwars2.com/file/DCCFFD80BF91F61BFAD58019AFF733010D07057D/1012385.png"
+   },
+   "1679": {
+    "name": "Gadgeteer",
+    "icon": "https://render.guildwars2.com/file/09AF0498D757B191E229C862F4AA360DA65C4FE1/1012386.png"
+   }
+  }
  },
  {
   "id": 22,
@@ -503,7 +1700,64 @@
     1649,
     1708
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/5F0B793A5479007078067CD71D0E01B30602189B/1012030.png",
+  "background": "https://render.guildwars2.com/file/E0190E3B3745AA61D32CFF92C1FEFFFB56A90D4C/1012107.png",
+  "minors": [
+   1350,
+   1348,
+   1380
+  ],
+  "traits": {
+   "1350": {
+    "name": "Thick Skin",
+    "icon": "https://render.guildwars2.com/file/59197BA1552B93AD7C71A5014A0F130FBA936B01/1012795.png"
+   },
+   "1348": {
+    "name": "Adrenal Health",
+    "icon": "https://render.guildwars2.com/file/32A8CA56381F242642D7193B24284F922D23A2E3/1012796.png"
+   },
+   "1380": {
+    "name": "Hardened Armor",
+    "icon": "https://render.guildwars2.com/file/10055830259435E5B2B1B2EC1E63FCDC9648CC4D/1012797.png"
+   },
+   "1376": {
+    "name": "Shield Master",
+    "icon": "https://render.guildwars2.com/file/6B4F13BB430F77C130FFD8E827E3D7337CCC52B1/1012786.png"
+   },
+   "1488": {
+    "name": "Dogged March",
+    "icon": "https://render.guildwars2.com/file/1208F72B415BE25E1D98194418A591AAC7D476E2/1012787.png"
+   },
+   "1372": {
+    "name": "Cull the Weak",
+    "icon": "https://render.guildwars2.com/file/30A2CFB00C436ACEC5C513360916B5AE030AFCDC/1012788.png"
+   },
+   "1368": {
+    "name": "Defy Pain",
+    "icon": "https://render.guildwars2.com/file/3225C41AA337BF4B2FCA310D9F5AD70D94ACC074/1012793.png"
+   },
+   "1379": {
+    "name": "Resilient Roll",
+    "icon": "https://render.guildwars2.com/file/2BA7BE3562A3A9DDE14DE6D9A40C650379A71918/1012790.png"
+   },
+   "1367": {
+    "name": "Merciless Hammer",
+    "icon": "https://render.guildwars2.com/file/203E0DEC94900B5305F309A1337D03D70FF9426E/1012804.png"
+   },
+   "1375": {
+    "name": "Last Stand",
+    "icon": "https://render.guildwars2.com/file/E8BE056A0835F61B5672F4229D6022CA6E213857/1012789.png"
+   },
+   "1649": {
+    "name": "Cleansing Ire",
+    "icon": "https://render.guildwars2.com/file/C8CA1665D0ECE10CF8DC66030C22A20957595B32/1012791.png"
+   },
+   "1708": {
+    "name": "Stalwart Strength",
+    "icon": "https://render.guildwars2.com/file/630279C914D8BF414C2358281F1A37EDF86B203B/1012794.png"
+   }
+  }
  },
  {
   "id": 23,
@@ -526,7 +1780,64 @@
     1866,
     752
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/BCC2C316C4FC2823679E0FD062C5A87E96E460CC/1012004.png",
+  "background": "https://render.guildwars2.com/file/DC30B4FF5377E80F21F4E912E8D548B004C95042/1012059.png",
+  "minors": [
+   757,
+   1852,
+   1915
+  ],
+  "traits": {
+   "757": {
+    "name": "Mender's Purity",
+    "icon": "https://render.guildwars2.com/file/05AB640373CFD462B305061165617C0D0FE0A878/1012531.png"
+   },
+   "1852": {
+    "name": "Inspiring Distortion",
+    "icon": "https://render.guildwars2.com/file/7BA394DC345278D4912EEAE94F072A06B9C932F2/1012532.png"
+   },
+   "1915": {
+    "name": "Illusionary Inspiration",
+    "icon": "https://render.guildwars2.com/file/090D289158520416A4402EBE9C92257E1309020D/1012533.png"
+   },
+   "756": {
+    "name": "Medic's Feedback",
+    "icon": "https://render.guildwars2.com/file/4A1C386EE156DAACE137FB07060CC507EEE1E0B4/1012522.png"
+   },
+   "738": {
+    "name": "Restorative Mantras",
+    "icon": "https://render.guildwars2.com/file/2636BEBF0E35923BC4407739D0DC7DC223932F0C/1012523.png"
+   },
+   "744": {
+    "name": "Sympathetic Visage",
+    "icon": "https://render.guildwars2.com/file/FA0AE3A437419F325D682180687C5C7FF014602D/1012524.png"
+   },
+   "751": {
+    "name": "Warden's Feedback",
+    "icon": "https://render.guildwars2.com/file/D4A345BC1A72A50B7C7449B7759BAB15664064F7/1012525.png"
+   },
+   "740": {
+    "name": "Ego Restoration",
+    "icon": "https://render.guildwars2.com/file/A2B419927562110402010EEF084BF953905D54E5/1012529.png"
+   },
+   "1980": {
+    "name": "Temporal Enchanter",
+    "icon": "https://render.guildwars2.com/file/1503DDC5B62526D71901E3A7F891A6F4445D80C8/1012527.png"
+   },
+   "2005": {
+    "name": "Mental Defense",
+    "icon": "https://render.guildwars2.com/file/EC7602C0FABB72AFB01379563ED7FB76079BB9CA/1012528.png"
+   },
+   "1866": {
+    "name": "Restorative Illusions",
+    "icon": "https://render.guildwars2.com/file/99A30379D5040427FD0FBC5DEDB6950376AB5B1C/1012526.png"
+   },
+   "752": {
+    "name": "Blurred Inscriptions",
+    "icon": "https://render.guildwars2.com/file/B6C6AAC9506E3904F7CEEDC82629D2BEE54A7EF3/1012490.png"
+   }
+  }
  },
  {
   "id": 24,
@@ -549,7 +1860,64 @@
     2035,
     753
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A6D57C63D9EFB3FE75C9DAF8CBE603D8F45A635F/1012005.png",
+  "background": "https://render.guildwars2.com/file/B00D98B31B13416811B8484FC146C49B1E055BAC/1012061.png",
+  "minors": [
+   734,
+   723,
+   731
+  ],
+  "traits": {
+   "734": {
+    "name": "Cry of Pain",
+    "icon": "https://render.guildwars2.com/file/3AA5FD383BE64BEFDCD1F011E2F526297DAA4868/1012519.png"
+   },
+   "723": {
+    "name": "Compounding Power",
+    "icon": "https://render.guildwars2.com/file/E9BA251055B444E693144A9AF5FD1CF8266BEFA6/1012520.png"
+   },
+   "731": {
+    "name": "Master of Misdirection",
+    "icon": "https://render.guildwars2.com/file/A03500F90501130C214507C2A9B4B5CAF7C5219C/1012521.png"
+   },
+   "721": {
+    "name": "Shatter Storm",
+    "icon": "https://render.guildwars2.com/file/D5969DA633174AC5F52AB700F937A524E6E95DDE/1012513.png"
+   },
+   "1869": {
+    "name": "Persistence of Memory",
+    "icon": "https://render.guildwars2.com/file/F225A021EB41754E4E0C9FCB46F40F7212DA41CE/1012511.png"
+   },
+   "691": {
+    "name": "The Pledge",
+    "icon": "https://render.guildwars2.com/file/20D83E25D6A9D930AA01EB0D3ABAEAD6577B0762/1012512.png"
+   },
+   "722": {
+    "name": "Escape Artist",
+    "icon": "https://render.guildwars2.com/file/2C1BCA6C6F6763E90D0226BC2FD8DFA8403E9E47/1012510.png"
+   },
+   "729": {
+    "name": "Phantasmal Haste",
+    "icon": "https://render.guildwars2.com/file/EE4D54D0D53E4B57C00F179BD97ED990230736DE/1012514.png"
+   },
+   "1690": {
+    "name": "Maim the Disillusioned",
+    "icon": "https://render.guildwars2.com/file/DBC6799E4A18BA9B9ABE280DAE35362DA9DAE00E/1012515.png"
+   },
+   "733": {
+    "name": "Phantasmal Force",
+    "icon": "https://render.guildwars2.com/file/E002FB5DEC3A010F03F2E8A7D5000DF778215F6C/1012505.png"
+   },
+   "2035": {
+    "name": "Master of Fragmentation",
+    "icon": "https://render.guildwars2.com/file/E625ADB94CF699763B23A7A82E255B55A44C1B16/1012517.png"
+   },
+   "753": {
+    "name": "Malicious Sorcery",
+    "icon": "https://render.guildwars2.com/file/E1EFE39620B9A00D140A5C493ABB3180E2B2B511/1012518.png"
+   }
+  }
  },
  {
   "id": 25,
@@ -572,7 +1940,64 @@
     1988,
     1697
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/DC7A387D9AB3EACCDA35AEA872E4EA1007139612/1012015.png",
+  "background": "https://render.guildwars2.com/file/01B5C3050EAFB0C47065C333C8AA2B4255374DA7/1012081.png",
+  "minors": [
+   1055,
+   1056,
+   1059
+  ],
+  "traits": {
+   "1055": {
+    "name": "Rejuvenation",
+    "icon": "https://render.guildwars2.com/file/04744A052966FD205B5909E7BE037F22115C0250/1012639.png"
+   },
+   "1056": {
+    "name": "Fortifying Bond",
+    "icon": "https://render.guildwars2.com/file/2541965232254704A07C295AF9D81EEC05B620AE/1012640.png"
+   },
+   "1059": {
+    "name": "Lingering Magic",
+    "icon": "https://render.guildwars2.com/file/FD403AD8DE225A21440C77F7DC9433080B910AB8/1012641.png"
+   },
+   "1062": {
+    "name": "Bountiful Hunter",
+    "icon": "https://render.guildwars2.com/file/03559445FF973DE04DAB39FB64DE0D96063409E2/1012630.png"
+   },
+   "978": {
+    "name": "Wellspring",
+    "icon": "https://render.guildwars2.com/file/E9A2CD7164FA3BFBB549B9B9DA2238007EA1720B/1012631.png"
+   },
+   "1060": {
+    "name": "Allies' Aid",
+    "icon": "https://render.guildwars2.com/file/6F2F55CAEDEC8046D5EBE8A84FCB6A734F0835B9/1012632.png"
+   },
+   "1054": {
+    "name": "Evasive Purity",
+    "icon": "https://render.guildwars2.com/file/C374B3F2C1BCFCB0B164FF0567FB6CC1B31B9651/1012633.png"
+   },
+   "965": {
+    "name": "Spirited Arrival",
+    "icon": "https://render.guildwars2.com/file/5599287FC8FCB4ECB31B73625605072B7234269A/1012634.png"
+   },
+   "964": {
+    "name": "Windborne Notes",
+    "icon": "https://render.guildwars2.com/file/E4A570C5B180415A581007A004037FEBFC99CE4B/1012635.png"
+   },
+   "1038": {
+    "name": "Nature's Vengeance",
+    "icon": "https://render.guildwars2.com/file/FE6272D67567A04F0D2013927551306DE4940FE4/1012636.png"
+   },
+   "1988": {
+    "name": "Protective Ward",
+    "icon": "https://render.guildwars2.com/file/9B7002D2715C18EF2E0E3AD6409B93F223EFDD02/1012637.png"
+   },
+   "1697": {
+    "name": "Invigorating Bond",
+    "icon": "https://render.guildwars2.com/file/625D22F52902A007CA6A037D0149251A2943C56E/1012638.png"
+   }
+  }
  },
  {
   "id": 26,
@@ -595,7 +2020,64 @@
     287,
     1674
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/BA6BC962A7ABA1330B3AC4141299397C0036559F/1011985.png",
+  "background": "https://render.guildwars2.com/file/B9C5BE9716010E3F7F170A52B5B272327CDA49A1/1012037.png",
+  "minors": [
+   278,
+   279,
+   280
+  ],
+  "traits": {
+   "278": {
+    "name": "Stone Flesh",
+    "icon": "https://render.guildwars2.com/file/9FACD0F31DF1DF1957C59DA67ED9F76ACB55BEB8/1012303.png"
+   },
+   "279": {
+    "name": "Earthen Blast",
+    "icon": "https://render.guildwars2.com/file/2531DCAFAEAB452C90C4572E1ADCE8236DCF5636/1012304.png"
+   },
+   "280": {
+    "name": "Geomancer's Training",
+    "icon": "https://render.guildwars2.com/file/3659F1C53B0CF50106ADBC4E6351011A24F59CBA/2175043.png"
+   },
+   "282": {
+    "name": "Earth's Embrace",
+    "icon": "https://render.guildwars2.com/file/94B6E0582A0CC93604F12220F703C5D22C59097A/1012294.png"
+   },
+   "1507": {
+    "name": "Serrated Stones",
+    "icon": "https://render.guildwars2.com/file/0A2B6F1BC25AC118B67DC31F9A0BA6427ABB6A6A/1012295.png"
+   },
+   "289": {
+    "name": "Elemental Shielding",
+    "icon": "https://render.guildwars2.com/file/9EA9E5B50D71ACE02E1413073901CD2B152E559C/1012296.png"
+   },
+   "275": {
+    "name": "Strength of Stone",
+    "icon": "https://render.guildwars2.com/file/567BA00AEB795B5021E5924CC3511DE3AAC26438/1012297.png"
+   },
+   "281": {
+    "name": "Rock Solid",
+    "icon": "https://render.guildwars2.com/file/4D23C1FE504D402ABF3E80F30FE396A9FA55A63E/1012298.png"
+   },
+   "277": {
+    "name": "Earthen Blessing",
+    "icon": "https://render.guildwars2.com/file/9A2144F4A44AFF9AA3B9099405F0EA36F226CD27/2175042.png"
+   },
+   "1508": {
+    "name": "Diamond Skin",
+    "icon": "https://render.guildwars2.com/file/D1014421F0E06325664204C905200002987E38C5/1012300.png"
+   },
+   "287": {
+    "name": "Written in Stone",
+    "icon": "https://render.guildwars2.com/file/5160CCF906702A4478C533EF5DA6BD02956E9378/1012301.png"
+   },
+   "1674": {
+    "name": "Stone Heart",
+    "icon": "https://render.guildwars2.com/file/22F1BDACFBEBC8FF2BF77B22B3E535D2BA03D140/1012302.png"
+   }
+  }
  },
  {
   "id": 27,
@@ -618,7 +2100,64 @@
     1963,
     1955
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/736DB02E6DA2ACFAD3B9B0F4655113AD214FFA40/1011994.png",
+  "background": "https://render.guildwars2.com/file/6BD5F59A7A0EF4F20C1B1D216AFE2B084CC19FF4/1012045.png",
+  "minors": [
+   1848,
+   1896,
+   1926
+  ],
+  "traits": {
+   "1848": {
+    "name": "Virtuous Action",
+    "icon": "https://render.guildwars2.com/file/E7C99D17DDC62D7E07E0D12B2DB27F1903D0D7C5/1012399.png"
+   },
+   "1896": {
+    "name": "Defender's Dogma",
+    "icon": "https://render.guildwars2.com/file/4955C7B6C72EA4E49DB67A1106022E7F063AF1E3/1012401.png"
+   },
+   "1926": {
+    "name": "Pure of Sight",
+    "icon": "https://render.guildwars2.com/file/0F1A24AA6542E9ECAF1DE84D96A84ED0A5ED9759/1012400.png"
+   },
+   "1898": {
+    "name": "Hunter's Premonition",
+    "icon": "https://render.guildwars2.com/file/43E37B57D967722DE15C6033DDF10BE663D10201/1012390.png"
+   },
+   "1983": {
+    "name": "Dulled Senses",
+    "icon": "https://render.guildwars2.com/file/7BFEAC083B4402807D310CCFF1147B2325CF364A/1012395.png"
+   },
+   "1911": {
+    "name": "Soaring Devastation",
+    "icon": "https://render.guildwars2.com/file/5BB39BC2BF306D32C16BD1D657A6191604C03ECB/1012392.png"
+   },
+   "2037": {
+    "name": "Hunter's Determination",
+    "icon": "https://render.guildwars2.com/file/2F6996644F9FF470FE49B4FB1C04B4E0C4A07FF2/1012393.png"
+   },
+   "1835": {
+    "name": "Zealot's Aggression",
+    "icon": "https://render.guildwars2.com/file/31A6960A7357773373CA55D61FC1A62C532EE621/1012391.png"
+   },
+   "1943": {
+    "name": "Bulwark",
+    "icon": "https://render.guildwars2.com/file/2EA7776741C1A4213757DC139FED6B340C50E7AB/1012394.png"
+   },
+   "1908": {
+    "name": "Hunter's Fortification",
+    "icon": "https://render.guildwars2.com/file/2F147CBEA990E470AF0F0D20F652040E67962AB9/1012396.png"
+   },
+   "1963": {
+    "name": "Heavy Light",
+    "icon": "https://render.guildwars2.com/file/725424411D6131431FF9427BA77DCF3F2C5F7C2F/1012397.png"
+   },
+   "1955": {
+    "name": "Big Game Hunter",
+    "icon": "https://render.guildwars2.com/file/1F0205AD3EB24521C9E8FF69340AC8091B0E556F/1012398.png"
+   }
+  }
  },
  {
   "id": 28,
@@ -641,7 +2180,64 @@
     1167,
     1269
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/38F6FA9A5D04CEC605AF6E5D994119281A38A9FA/1012026.png",
+  "background": "https://render.guildwars2.com/file/2AA7FB65630AD540E204982978DA9601023B540E/1012102.png",
+  "minors": [
+   1279,
+   1280,
+   1257
+  ],
+  "traits": {
+   "1279": {
+    "name": "Serpent's Touch",
+    "icon": "https://render.guildwars2.com/file/0FEE00DFE899386F321C0F719EC70FED03AB03E7/1012747.png"
+   },
+   "1280": {
+    "name": "Lotus Poison",
+    "icon": "https://render.guildwars2.com/file/F1441E7BBAA8502E50B6105C246B0ED9AF110154/1012748.png"
+   },
+   "1257": {
+    "name": "Exposed Weakness",
+    "icon": "https://render.guildwars2.com/file/B6765208D0266538000932E40ED202D95701276B/1012749.png"
+   },
+   "1245": {
+    "name": "Dagger Training",
+    "icon": "https://render.guildwars2.com/file/16A01B18FBA9F8AE4878CD00DC422827A5344F75/1012738.png"
+   },
+   "1276": {
+    "name": "Mug",
+    "icon": "https://render.guildwars2.com/file/CF71C3B0EF58A1A4D7E5EC11B6EB10FB990F3C16/1012739.png"
+   },
+   "1164": {
+    "name": "Deadly Ambition",
+    "icon": "https://render.guildwars2.com/file/27C24EB60E92A72709149FBB42F6FBC8185D3B45/2175052.png"
+   },
+   "1169": {
+    "name": "Even the Odds",
+    "icon": "https://render.guildwars2.com/file/3413B9D6B5E63209751F98319C09F81413D8CF0C/2175053.png"
+   },
+   "1292": {
+    "name": "Panic Strike",
+    "icon": "https://render.guildwars2.com/file/B3C6616D917A63B55B140E1835B709CE95631593/1012742.png"
+   },
+   "1704": {
+    "name": "Revealed Training",
+    "icon": "https://render.guildwars2.com/file/774712F5EDE9F5D4105E7D75241CB15505269304/1012743.png"
+   },
+   "1291": {
+    "name": "Potent Poison",
+    "icon": "https://render.guildwars2.com/file/2678F1C70CB07E090FC7F4ACCCDCA9750AA0040F/1012744.png"
+   },
+   "1167": {
+    "name": "Improvisation",
+    "icon": "https://render.guildwars2.com/file/B5A5D6B7FEA7CE96C56675D0FE1C40AD15E5B013/1012745.png"
+   },
+   "1269": {
+    "name": "Executioner",
+    "icon": "https://render.guildwars2.com/file/C44E0FC7EC5B1870214E24AD4144C55E110AD9C2/1012746.png"
+   }
+  }
  },
  {
   "id": 29,
@@ -664,7 +2260,64 @@
     1871,
     1854
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/2AD4CD9B66F349A6CBC006A14848CF531E97396D/1011988.png",
+  "background": "https://render.guildwars2.com/file/A89F18BA0F9A53E662BAE3F39C705559A97B407F/1012040.png",
+  "minors": [
+   468,
+   487,
+   413
+  ],
+  "traits": {
+   "468": {
+    "name": "Hidden Flask",
+    "icon": "https://render.guildwars2.com/file/BB282B54755A3F4FE44C233E9FABEEF63E399E65/1012339.png"
+   },
+   "487": {
+    "name": "Transmute",
+    "icon": "https://render.guildwars2.com/file/64CA679CD71A9C790E41091135A80B74A6E0D852/1012340.png"
+   },
+   "413": {
+    "name": "Compounding Chemicals",
+    "icon": "https://render.guildwars2.com/file/D40DB82F69C6750822C6750A9705ECFA4051B64B/1012341.png"
+   },
+   "396": {
+    "name": "Invigorating Speed",
+    "icon": "https://render.guildwars2.com/file/75974EF47C793B5EFA60E0BFF20BC12F807F02D0/1012330.png"
+   },
+   "509": {
+    "name": "Protection Injection",
+    "icon": "https://render.guildwars2.com/file/B6B62423EB4608C40DA2E54E32129163062BEAF1/1012331.png"
+   },
+   "521": {
+    "name": "Health Insurance",
+    "icon": "https://render.guildwars2.com/file/2816FDC0BB196C164646425734AB9205A2750A95/1012332.png"
+   },
+   "520": {
+    "name": "Comeback Cure",
+    "icon": "https://render.guildwars2.com/file/4DD098F8B129450B9822DCDA9295B771EA4B930A/1938784.png"
+   },
+   "469": {
+    "name": "Boiling Point",
+    "icon": "https://render.guildwars2.com/file/579677B8DEFE6F30C2B81E7A6E9968E866917CBA/1012334.png"
+   },
+   "470": {
+    "name": "Blast Zone",
+    "icon": "https://render.guildwars2.com/file/C971920D6D5A5A66BECBD361B0B118E20AB1FCC4/1012335.png"
+   },
+   "473": {
+    "name": "HGH",
+    "icon": "https://render.guildwars2.com/file/C033BD736665A3C2514027E13F750896F594BC42/1012336.png"
+   },
+   "1871": {
+    "name": "Equal and Opposite Reaction",
+    "icon": "https://render.guildwars2.com/file/7A10C8FD41FC925B49BD4EAB5FD93C9AF816C123/1938785.png"
+   },
+   "1854": {
+    "name": "Chain Reactivity",
+    "icon": "https://render.guildwars2.com/file/09CAECBD623B9DD4BB97E24795B99B27EC0240EC/1012338.png"
+   }
+  }
  },
  {
   "id": 30,
@@ -687,7 +2340,64 @@
     1912,
     1888
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A026F49FF905C0F8AFAC6EDFDE281AABE1912459/1012016.png",
+  "background": "https://render.guildwars2.com/file/08D1BEEC43F45C02DE59AE9010B9391F1FCA2966/1012083.png",
+  "minors": [
+   1080,
+   1083,
+   1068
+  ],
+  "traits": {
+   "1080": {
+    "name": "Tail Wind",
+    "icon": "https://render.guildwars2.com/file/F4CAD97EC4550743646C042C566EEDC6E100A2F8/1012651.png"
+   },
+   "1083": {
+    "name": "Furious Grip",
+    "icon": "https://render.guildwars2.com/file/F3EC5297B63F684BAA255FE261A85C152E534367/1012652.png"
+   },
+   "1068": {
+    "name": "Hunter's Tactics",
+    "icon": "https://render.guildwars2.com/file/44D4631FB427F09BE5B300BE0F537E6F2126BA0B/1012653.png"
+   },
+   "1069": {
+    "name": "Sharpened Edges",
+    "icon": "https://render.guildwars2.com/file/C83DA0F5287448140599AC20E02756149234D05B/1012642.png"
+   },
+   "1067": {
+    "name": "Primal Reflexes",
+    "icon": "https://render.guildwars2.com/file/D644F0905F7DA21C5FBA0110AD9BF4D290A70405/1012643.png"
+   },
+   "1075": {
+    "name": "Trapper's Expertise",
+    "icon": "https://render.guildwars2.com/file/B4A65A33111547EC4A3E3DD40E6ACBC1E3215ADD/1012644.png"
+   },
+   "1016": {
+    "name": "Fang and Claw",
+    "icon": "https://render.guildwars2.com/file/F56EB274FA516609317A6540ABC20B6116C8051D/3613096.png"
+   },
+   "1700": {
+    "name": "Strider's Strength",
+    "icon": "https://render.guildwars2.com/file/E0FC234BC4FF7C9AEB39DF2C9B9E57CA01D81C25/1012646.png"
+   },
+   "1846": {
+    "name": "Hidden Barbs",
+    "icon": "https://render.guildwars2.com/file/42C214653B5A57D0020F3293322EF30E121E7541/1012647.png"
+   },
+   "1064": {
+    "name": "Quick Draw",
+    "icon": "https://render.guildwars2.com/file/CBCB2EC86BC85CC02DA7AAB25CBFB226B8956D1E/1012648.png"
+   },
+   "1912": {
+    "name": "Light on your Feet",
+    "icon": "https://render.guildwars2.com/file/4D37A694088038DA9266F6107C9604AD9CBC2752/1012649.png"
+   },
+   "1888": {
+    "name": "Vicious Quarry",
+    "icon": "https://render.guildwars2.com/file/CC4B0609160EC9B92A96CAF81023AD0C5E18B65A/1012650.png"
+   }
+  }
  },
  {
   "id": 31,
@@ -710,7 +2420,64 @@
     294,
     1675
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/B4BDAB2452DEF1A34615DDC4F30A157DADC743C5/1011986.png",
+  "background": "https://render.guildwars2.com/file/6BB3E8FDEA6E679050D59E411A4AA956D347B045/1012038.png",
+  "minors": [
+   320,
+   318,
+   319
+  ],
+  "traits": {
+   "320": {
+    "name": "Empowering Flame",
+    "icon": "https://render.guildwars2.com/file/7F0BD23838FA4E0CD2336B04C7E5AB0ED03358EB/1012315.png"
+   },
+   "318": {
+    "name": "Sunspot",
+    "icon": "https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+   },
+   "319": {
+    "name": "Pyromancer's Training",
+    "icon": "https://render.guildwars2.com/file/7C751D2FA513070209F24809D5232757000B1546/2175044.png"
+   },
+   "296": {
+    "name": "Burning Precision",
+    "icon": "https://render.guildwars2.com/file/774471FA3841BB90EB6F935A76D8017A0C4B005E/1012306.png"
+   },
+   "328": {
+    "name": "Conjurer",
+    "icon": "https://render.guildwars2.com/file/6BE466F790D5410D2E10512B1F0A523EEEB776B0/1012307.png"
+   },
+   "335": {
+    "name": "Burning Fire",
+    "icon": "https://render.guildwars2.com/file/0850B1BC61637D04045533CCDACFB5796F47B4CF/1012308.png"
+   },
+   "325": {
+    "name": "Burning Rage",
+    "icon": "https://render.guildwars2.com/file/AB4E6CB3066DFF2D3C179B026C9BC371799E5D67/2175045.png"
+   },
+   "340": {
+    "name": "Smothering Auras",
+    "icon": "https://render.guildwars2.com/file/32EB577B3EC6D2AC0AC4EDB4A799EE5E4F2B1341/1012310.png"
+   },
+   "334": {
+    "name": "Power Overwhelming",
+    "icon": "https://render.guildwars2.com/file/5D0937674DCD7AAAE80B4D243AFBDC753DFF220B/1012311.png"
+   },
+   "1510": {
+    "name": "Persisting Flames",
+    "icon": "https://render.guildwars2.com/file/38496307B7C27BCB08D6800F2A699B4998DD1935/1012312.png"
+   },
+   "294": {
+    "name": "Pyromancer's Puissance",
+    "icon": "https://render.guildwars2.com/file/998095CB1FD2CF0164B8A36BABFDB911DF08DB02/1012313.png"
+   },
+   "1675": {
+    "name": "Inferno",
+    "icon": "https://render.guildwars2.com/file/150B4E2CB4039B33152D496FF04E9B1644E22E0A/1012314.png"
+   }
+  }
  },
  {
   "id": 32,
@@ -733,7 +2500,64 @@
     968,
     1066
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/02D851E1D7186112786D0F67910B58FACB5CCCF6/1012012.png",
+  "background": "https://render.guildwars2.com/file/4727784BBF467241CA9F29E4FEDE487FD33E2809/1012075.png",
+  "minors": [
+   1900,
+   974,
+   1065
+  ],
+  "traits": {
+   "1900": {
+    "name": "Pack Alpha",
+    "icon": "https://render.guildwars2.com/file/2D7C48769DB9EC5A024E3427E797577F4ACF0576/1012615.png"
+   },
+   "974": {
+    "name": "Loud Whistle",
+    "icon": "https://render.guildwars2.com/file/9434BE3CBBD1A8CB3C1AA1004C7AB0267AF83F4F/1012616.png"
+   },
+   "1065": {
+    "name": "Pet's Prowess",
+    "icon": "https://render.guildwars2.com/file/7D3EA005DDE41D017CACFFACA12DA9F160685228/1012617.png"
+   },
+   "1861": {
+    "name": "Go for the Eyes",
+    "icon": "https://render.guildwars2.com/file/437F14AB08659C986724464E7550699A735D49A9/1012607.png"
+   },
+   "1072": {
+    "name": "Natural Healing",
+    "icon": "https://render.guildwars2.com/file/E10A27535DAC0BBFFCB205BFBBC9D30F68BE0C07/1012611.png"
+   },
+   "1606": {
+    "name": "Resounding Timbre",
+    "icon": "https://render.guildwars2.com/file/BE4759B39AD22947535D1F1E3B090D180F200BA0/1012608.png"
+   },
+   "975": {
+    "name": "Wilting Strike",
+    "icon": "https://render.guildwars2.com/file/32230CE64A4007F6301E9C93B393CF5328101C15/1012609.png"
+   },
+   "1047": {
+    "name": "Bestial Rage",
+    "icon": "https://render.guildwars2.com/file/D10A0BFF47D14345DD6C41DD0FF6F256659DF7C2/1012610.png"
+   },
+   "970": {
+    "name": "Honed Axes",
+    "icon": "https://render.guildwars2.com/file/08106C6618C43B927DD90C97BB643843E2DCBA14/1012614.png"
+   },
+   "1945": {
+    "name": "Beastly Warden",
+    "icon": "https://render.guildwars2.com/file/EF61D1061135B1EC57FDFD94795ED125D43962E1/1012612.png"
+   },
+   "968": {
+    "name": "Zephyr's Speed",
+    "icon": "https://render.guildwars2.com/file/DFCFB305E50B1A1824B4D81108BAD072C5BA010C/1012613.png"
+   },
+   "1066": {
+    "name": "Go for the Throat",
+    "icon": "https://render.guildwars2.com/file/B90D71093775FE4C2263B5C42F175FEA6C7925FE/1012606.png"
+   }
+  }
  },
  {
   "id": 33,
@@ -756,7 +2580,64 @@
     1699,
     1701
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/BEDA4B0CCD2E6F5F5C64509D67D3454E47D019F3/1012017.png",
+  "background": "https://render.guildwars2.com/file/417DC1B29EF0EADBD9CBE15B462B2D5B6AF328DA/1012085.png",
+  "minors": [
+   1096,
+   1090,
+   1089
+  ],
+  "traits": {
+   "1096": {
+    "name": "Natural Vigor",
+    "icon": "https://render.guildwars2.com/file/AA7BB9DF7468CCAB959A0EC229E5BD442F5365B5/1012663.png"
+   },
+   "1090": {
+    "name": "Companion's Defense",
+    "icon": "https://render.guildwars2.com/file/B2A6A9A6E5C8920B7B7C0BC4FB4D8036D2D80EE6/1012664.png"
+   },
+   "1089": {
+    "name": "Rugged Growth",
+    "icon": "https://render.guildwars2.com/file/C13D29745FB34B9B2C803ABAB92E011EEC1E4204/1012665.png"
+   },
+   "1098": {
+    "name": "Child of Earth",
+    "icon": "https://render.guildwars2.com/file/23742E1977C947E4692564FD7E443359A16AEBBC/2229317.png"
+   },
+   "1086": {
+    "name": "Oakheart Salve",
+    "icon": "https://render.guildwars2.com/file/4ED02272F05D430FECBB55DBAEBE2B3F776F3E1C/1012657.png"
+   },
+   "1099": {
+    "name": "Arachnophobia",
+    "icon": "https://render.guildwars2.com/file/18482C07E5742659E6BF25FEB5B207DE790B7942/3613097.png"
+   },
+   "1101": {
+    "name": "Ambidexterity",
+    "icon": "https://render.guildwars2.com/file/7E58CD0B0F4E4FB14B960A0829B843CF0CFEC231/1012654.png"
+   },
+   "2032": {
+    "name": "Survival Instincts",
+    "icon": "https://render.guildwars2.com/file/A5F5CE0A29969CC7074F0DF1EE6F74FEE4FBD676/1012658.png"
+   },
+   "1100": {
+    "name": "Empathic Bond",
+    "icon": "https://render.guildwars2.com/file/17C9282906D60361FA7B2639CE240A975FD12A1C/1012660.png"
+   },
+   "1094": {
+    "name": "Carnivore",
+    "icon": "https://render.guildwars2.com/file/C59B052F29BB21A6471F5080CB5A416F3A6CE7A8/1012659.png"
+   },
+   "1699": {
+    "name": "Wilderness Knowledge",
+    "icon": "https://render.guildwars2.com/file/F4E005DE1578983CDFD25E6F3D1CF517C64AD0B7/1012661.png"
+   },
+   "1701": {
+    "name": "Poison Master",
+    "icon": "https://render.guildwars2.com/file/31F8DA3B6BEE52B1AC76FEE0C10E4A075F5524DA/1012662.png"
+   }
+  }
  },
  {
   "id": 34,
@@ -779,7 +2660,64 @@
     1919,
     2021
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/530A582BD864B73AF5CC6C44F9C61954322D9A15/1012009.png",
+  "background": "https://render.guildwars2.com/file/3717FBED4FDCD060925205DD09B15C0598E062F4/1012069.png",
+  "minors": [
+   1905,
+   1879,
+   2018
+  ],
+  "traits": {
+   "1905": {
+    "name": "Shroud Knight",
+    "icon": "https://render.guildwars2.com/file/ECDE960B19500BC40843C89041CD0C1A3A06B05A/1012579.png"
+   },
+   "1879": {
+    "name": "Shivers of Dread",
+    "icon": "https://render.guildwars2.com/file/3BAA64BE683E69F89860E875170B45300060F1CA/1012580.png"
+   },
+   "2018": {
+    "name": "Cold Shoulder",
+    "icon": "https://render.guildwars2.com/file/9959EB3A12044FF0C708413A0CCA479D0515F17D/1012581.png"
+   },
+   "1974": {
+    "name": "Augury of Death",
+    "icon": "https://render.guildwars2.com/file/CBBA2FA5F20755523E5424D0704B5B6C5F2B7C67/1012570.png"
+   },
+   "2020": {
+    "name": "Chilling Nova",
+    "icon": "https://render.guildwars2.com/file/BC1757B4EF53B20D64E83AC495B6B2E4505B04F3/1012571.png"
+   },
+   "2026": {
+    "name": "Relentless Pursuit",
+    "icon": "https://render.guildwars2.com/file/03263B08082BDC390C0C38019CFF1F73B8CE077E/1012572.png"
+   },
+   "1969": {
+    "name": "Soul Eater",
+    "icon": "https://render.guildwars2.com/file/6237B918FA7042581BF3D8AFB234B93644C8756C/1012573.png"
+   },
+   "2008": {
+    "name": "Chilling Victory",
+    "icon": "https://render.guildwars2.com/file/68624FE2917028DBBC0370BBDDC8DB2C0EDD7CB8/1012574.png"
+   },
+   "2031": {
+    "name": "Decimate Defenses",
+    "icon": "https://render.guildwars2.com/file/7DED6E45A3F8CEAF782FF0443D5CF90CAC73C5EF/1012575.png"
+   },
+   "1932": {
+    "name": "Blighter's Boon",
+    "icon": "https://render.guildwars2.com/file/14D43D5970C25B59DA6E750DB6DA057EF40B25F6/1012576.png"
+   },
+   "1919": {
+    "name": "Deathly Chill",
+    "icon": "https://render.guildwars2.com/file/D13FB8FB29539EFD5E1FE81FF991E2222E38CA0F/1012577.png"
+   },
+   "2021": {
+    "name": "Reaper's Onslaught",
+    "icon": "https://render.guildwars2.com/file/4676081D0C9BDFE3F25E0BD0C7EFAE0139D89A0B/1012578.png"
+   }
+  }
  },
  {
   "id": 35,
@@ -802,7 +2740,64 @@
     1215,
     1702
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/1CDB2736E6CAF79A1B549B06CDED717B3418F7B1/1012024.png",
+  "background": "https://render.guildwars2.com/file/29C9C0E8F16ADC18F745CA93CB58BA0C164B5CE1/1012100.png",
+  "minors": [
+   1281,
+   1210,
+   1282
+  ],
+  "traits": {
+   "1281": {
+    "name": "Keen Observer",
+    "icon": "https://render.guildwars2.com/file/B809D24257F305F97259FE7C141D7CAF04431F0D/1012735.png"
+   },
+   "1210": {
+    "name": "Unrelenting Strikes",
+    "icon": "https://render.guildwars2.com/file/B0D09233CBA4CD0835194B6422C30901ADC65EA6/1012736.png"
+   },
+   "1282": {
+    "name": "Ferocious Strikes",
+    "icon": "https://render.guildwars2.com/file/519532119E92CFFF9375E2E3CFC4326B46659F63/1012737.png"
+   },
+   "1209": {
+    "name": "Assassin's Fury",
+    "icon": "https://render.guildwars2.com/file/0BD04FC849006C57DA6C42C00F03C00D5DD70C72/1012726.png"
+   },
+   "1267": {
+    "name": "Signets of Power",
+    "icon": "https://render.guildwars2.com/file/5F00410B6CFCF73BEB725DECCFE77A040AF1C5FA/1012727.png"
+   },
+   "1268": {
+    "name": "Twin Fangs",
+    "icon": "https://render.guildwars2.com/file/02B7C80EE8BECD4CA7935FD980D9D555BF776001/1012728.png"
+   },
+   "1170": {
+    "name": "Sundering Shade",
+    "icon": "https://render.guildwars2.com/file/1AD6FE275DC1B2AAA51A010D7907BF91B5DFBC55/1012729.png"
+   },
+   "1272": {
+    "name": "Practiced Tolerance",
+    "icon": "https://render.guildwars2.com/file/1B7D0D46BBD9CEB13AE1DD294BDE30E417A432E4/1012730.png"
+   },
+   "1299": {
+    "name": "Deadly Aim",
+    "icon": "https://render.guildwars2.com/file/C401C322D2F5174B37E646C2380692F467FD5012/1012731.png"
+   },
+   "1904": {
+    "name": "No Quarter",
+    "icon": "https://render.guildwars2.com/file/B25D2C7A39F5E8EEEA384ABD41C017DA1CED72A8/1012732.png"
+   },
+   "1215": {
+    "name": "Hidden Killer",
+    "icon": "https://render.guildwars2.com/file/03E22FDC6642C0F4BFD197DA5470A97910EB1877/1012733.png"
+   },
+   "1702": {
+    "name": "Invigorating Precision",
+    "icon": "https://render.guildwars2.com/file/B858D55DB13298D4AD42ECD808B2D94FE80BF9AD/1012734.png"
+   }
+  }
  },
  {
   "id": 36,
@@ -825,7 +2820,64 @@
     1346,
     1707
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/03754E10970D0C68D76A1955245D7CB39AA21E59/1012029.png",
+  "background": "https://render.guildwars2.com/file/0A08B2DC35C8D22CC07B9F4C9023F7E9734C1B27/1012105.png",
+  "minors": [
+   1342,
+   1343,
+   1337
+  ],
+  "traits": {
+   "1342": {
+    "name": "Furious Burst",
+    "icon": "https://render.guildwars2.com/file/F55BA3110EE6C86A32D2F1630CD150DB56D43C4B/1012783.png"
+   },
+   "1343": {
+    "name": "Deep Strikes",
+    "icon": "https://render.guildwars2.com/file/CB90382E6F963E4F769616310A9916144CEEF950/1012777.png"
+   },
+   "1337": {
+    "name": "Bloodlust",
+    "icon": "https://render.guildwars2.com/file/CF9E0EB2A903025041A74E91222FF62C0BD4FC7F/1012785.png"
+   },
+   "1455": {
+    "name": "Wounding Precision",
+    "icon": "https://render.guildwars2.com/file/73056F60060BCF6BAE08555DAA0E04E2500367CF/1012774.png"
+   },
+   "1344": {
+    "name": "Signet Mastery",
+    "icon": "https://render.guildwars2.com/file/3D117C0158CD7A55BE740D6B072807A3121C90A1/1012775.png"
+   },
+   "1334": {
+    "name": "Opportunist",
+    "icon": "https://render.guildwars2.com/file/B40701BC75C658E24A57F12A6037F65CCB62A5D1/1012778.png"
+   },
+   "1315": {
+    "name": "Unsuspecting Foe",
+    "icon": "https://render.guildwars2.com/file/04C5EA49603A3BBF09040FD2129848AD163E5523/1012784.png"
+   },
+   "1316": {
+    "name": "Sundering Burst",
+    "icon": "https://render.guildwars2.com/file/933C9720EAD45955076748A3C6C224EA3D69C62D/1012776.png"
+   },
+   "1333": {
+    "name": "Blademaster",
+    "icon": "https://render.guildwars2.com/file/B697F7F5A8BFAC232816E3B8A0DEE9CD062408D3/1012779.png"
+   },
+   "1336": {
+    "name": "Burst Precision",
+    "icon": "https://render.guildwars2.com/file/B93F326A054F0067AA1A35BB0F5E6B5C01992FB9/1012780.png"
+   },
+   "1346": {
+    "name": "Furious",
+    "icon": "https://render.guildwars2.com/file/10E50EAACB736A66317919D274C2594597AEE893/1012781.png"
+   },
+   "1707": {
+    "name": "Dual Wielding",
+    "icon": "https://render.guildwars2.com/file/43EA44D70D07DA34373536D607AF79AD09FA1713/1012782.png"
+   }
+  }
  },
  {
   "id": 37,
@@ -848,7 +2900,64 @@
     263,
     1511
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/C7F4C199EC07D0E6CC9417C6F53F53FDD3F92947/1011984.png",
+  "background": "https://render.guildwars2.com/file/01F1264B9F05CC52E46434C53DF6BA2A57CE21C5/1012035.png",
+  "minors": [
+   268,
+   264,
+   2004
+  ],
+  "traits": {
+   "268": {
+    "name": "Arcane Prowess",
+    "icon": "https://render.guildwars2.com/file/2FFB0E34C00BE2EE1E65FA0336F304199E156D0E/1012291.png"
+   },
+   "264": {
+    "name": "Elemental Attunement",
+    "icon": "https://render.guildwars2.com/file/EB242E0D58000DD8DCB80B0F7B049F03C62299B6/1012292.png"
+   },
+   "2004": {
+    "name": "Elemental Enchantment",
+    "icon": "https://render.guildwars2.com/file/C8986CF9A927C8A003ED152702270CC62745E56D/1012293.png"
+   },
+   "253": {
+    "name": "Arcane Precision",
+    "icon": "https://render.guildwars2.com/file/1CB6B7903F10246E9405DD625380161FCD4E6C23/1012282.png"
+   },
+   "266": {
+    "name": "Renewing Stamina",
+    "icon": "https://render.guildwars2.com/file/033DFD3593EED863D280AD98E6B7CC09E25D9ADE/1012283.png"
+   },
+   "1487": {
+    "name": "Arcane Restoration",
+    "icon": "https://render.guildwars2.com/file/5FCA61A1BC957433DA9F37AA70ED0808DAB1110C/1012284.png"
+   },
+   "265": {
+    "name": "Arcane Resurrection",
+    "icon": "https://render.guildwars2.com/file/E9BCF655FA539C1B0A1FDDCB52947542A1C6704B/1012285.png"
+   },
+   "1673": {
+    "name": "Elemental Lockdown",
+    "icon": "https://render.guildwars2.com/file/72DCC1061DC06F660FC509B60A1FA557C9B82A1D/1012286.png"
+   },
+   "257": {
+    "name": "Final Shielding",
+    "icon": "https://render.guildwars2.com/file/F00E3FB59751F0422F3D3C5859F5FD3B580EA9B3/1012287.png"
+   },
+   "238": {
+    "name": "Evasive Arcana",
+    "icon": "https://render.guildwars2.com/file/0B46175A2DCC7C396EEAA34B50DB6204390F0FE8/1012288.png"
+   },
+   "263": {
+    "name": "Arcane Lightning",
+    "icon": "https://render.guildwars2.com/file/005807D4EACC2FC562FAF2C6BABC3E38E33FC070/1012289.png"
+   },
+   "1511": {
+    "name": "Bountiful Power",
+    "icon": "https://render.guildwars2.com/file/F0C7F54A6FC70D079E1628FFE871980CAEBFD70D/1012290.png"
+   }
+  }
  },
  {
   "id": 38,
@@ -871,7 +2980,64 @@
     526,
     433
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/67A2C92B59BC94EDD3D857C2DD18E1A02A631F98/1011990.png",
+  "background": "https://render.guildwars2.com/file/2A37FAA50318E4BAE2B193D7A1DF30AAFCE7B139/1012042.png",
+  "minors": [
+   515,
+   536,
+   516
+  ],
+  "traits": {
+   "515": {
+    "name": "Serrated Steel",
+    "icon": "https://render.guildwars2.com/file/1A6944F7ABE9BA53DF50ED07A20D5B00FFBBB075/1012365.png"
+   },
+   "536": {
+    "name": "Hematic Focus",
+    "icon": "https://render.guildwars2.com/file/4E47135C80F9315B0EFF67B1A25331E4BAB60D7E/1012364.png"
+   },
+   "516": {
+    "name": "Modified Ammunition",
+    "icon": "https://render.guildwars2.com/file/4157A498F471AE4569F148A6A438C1444B1C7AE9/1012363.png"
+   },
+   "1878": {
+    "name": "Chemical Rounds",
+    "icon": "https://render.guildwars2.com/file/954B6424697BCA5574FE781C46A0954E0B9F6AE9/1012354.png"
+   },
+   "1930": {
+    "name": "Sanguine Array",
+    "icon": "https://render.guildwars2.com/file/0D44F9A20414755907FF6C91721AC49CB1AC5E30/1012355.png"
+   },
+   "1914": {
+    "name": "High Caliber",
+    "icon": "https://render.guildwars2.com/file/BA01D09FE6ADFCF4BCC0B7BF061FC8A506BE4C4E/1012356.png"
+   },
+   "1984": {
+    "name": "Juggernaut",
+    "icon": "https://render.guildwars2.com/file/374A7E3227C94B57047A78A8079F07C090D3CE6E/1012360.png"
+   },
+   "2006": {
+    "name": "Thermal Vision",
+    "icon": "https://render.guildwars2.com/file/F806ACB6130CED2DACC9DD804E4303327073385A/1012358.png"
+   },
+   "1923": {
+    "name": "No Scope",
+    "icon": "https://render.guildwars2.com/file/BDE5F642B025FACD7B44D9599822CBF80DA6F257/1012359.png"
+   },
+   "510": {
+    "name": "Heavy Metal",
+    "icon": "https://render.guildwars2.com/file/68380515301D93ABD5E7A4C89748F80CD819EB3F/1012357.png"
+   },
+   "526": {
+    "name": "Sharpshooter",
+    "icon": "https://render.guildwars2.com/file/EE70DAF7410E00259CA9426E770551D7BF017F09/1012361.png"
+   },
+   "433": {
+    "name": "Incendiary Powder",
+    "icon": "https://render.guildwars2.com/file/0D467BCA43AF4EFF9EE7CDAAB1A15696CE5B54AF/1012362.png"
+   }
+  }
  },
  {
   "id": 39,
@@ -894,7 +3060,64 @@
     1696,
     801
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/C8E1A81601C3D5AC10285505E9F730621C3357CD/1012007.png",
+  "background": "https://render.guildwars2.com/file/71E7075E1AC9460AA507A630B54D1395DA465B2D/1012065.png",
+  "minors": [
+   802,
+   803,
+   810
+  ],
+  "traits": {
+   "802": {
+    "name": "Barbed Precision",
+    "icon": "https://render.guildwars2.com/file/BAB49A0BBD9F96D4B27F9E5DEB08ADDF1230C90C/1012555.png"
+   },
+   "803": {
+    "name": "Furious Demise",
+    "icon": "https://render.guildwars2.com/file/3907DA1AFB5B94D0A221F6623FC3ACE819334861/1012556.png"
+   },
+   "810": {
+    "name": "Target the Weak",
+    "icon": "https://render.guildwars2.com/file/1BA35717D3954A08444578250CB32717E0F92B69/1012557.png"
+   },
+   "1883": {
+    "name": "Insidious Disruption",
+    "icon": "https://render.guildwars2.com/file/130A2FAB4CFC7AECE5557EC0A1A20B039C0C0B9B/2229316.png"
+   },
+   "2013": {
+    "name": "Plague Sending",
+    "icon": "https://render.guildwars2.com/file/F004E33D079E4B5762EEF51F94CA493B64FFC4A2/1012547.png"
+   },
+   "815": {
+    "name": "Chilling Darkness",
+    "icon": "https://render.guildwars2.com/file/6B150BF59E2064171BBDF1B9085054080F31C46A/1012548.png"
+   },
+   "816": {
+    "name": "Master of Corruption",
+    "icon": "https://render.guildwars2.com/file/B63DE52ADE559806E0D5BC201F2CDF5F66585F19/1012549.png"
+   },
+   "1693": {
+    "name": "Path of Corruption",
+    "icon": "https://render.guildwars2.com/file/C52E37C330010C05434662F0F70B5D011669D73B/1012550.png"
+   },
+   "812": {
+    "name": "Parasitic Contagion",
+    "icon": "https://render.guildwars2.com/file/64A06911F701972655B6130727A308023C98E301/1012553.png"
+   },
+   "813": {
+    "name": "Weakening Shroud",
+    "icon": "https://render.guildwars2.com/file/A0F1F39CA0A102D63CBBC95CAB7FEB0B99AE9ED6/1012552.png"
+   },
+   "1696": {
+    "name": "Terror",
+    "icon": "https://render.guildwars2.com/file/DA2EEB0209496A643A574B52C30D27B4D0555804/1012551.png"
+   },
+   "801": {
+    "name": "Lingering Curse",
+    "icon": "https://render.guildwars2.com/file/1927954AD4FF7FB85032017CD8B9B67BF87CC0EB/1012554.png"
+   }
+  }
  },
  {
   "id": 40,
@@ -917,7 +3140,64 @@
     2022,
     1890
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D9C960059A69F4DB6604DAD6AF06D0F940E76754/1012001.png",
+  "background": "https://render.guildwars2.com/file/9D9F0DA395FDB21423981FAC2CABC850CF7E0A62/1012053.png",
+  "minors": [
+   2030,
+   1927,
+   1859
+  ],
+  "traits": {
+   "2030": {
+    "name": "Time Splitter",
+    "icon": "https://render.guildwars2.com/file/5A9347250FEF7B3431ECE3F6689EDCE20FB96CB6/1012483.png"
+   },
+   "1927": {
+    "name": "Flow of Time",
+    "icon": "https://render.guildwars2.com/file/54A00A0D36587A0245BD6400796CF130CE9970D7/1012484.png"
+   },
+   "1859": {
+    "name": "Time Marches On",
+    "icon": "https://render.guildwars2.com/file/D343AA7E530448F37B20936FCD3163C9BF2CE665/1012485.png"
+   },
+   "1838": {
+    "name": "Delayed Reactions",
+    "icon": "https://render.guildwars2.com/file/C26CBECA553C29091F1D2C9B05732847E4C3457D/1012475.png"
+   },
+   "1995": {
+    "name": "Time Catches Up",
+    "icon": "https://render.guildwars2.com/file/3836E04A5BF0E8CCB815A8C1627904AB0CE5EE6A/1012474.png"
+   },
+   "1987": {
+    "name": "All's Well That Ends Well",
+    "icon": "https://render.guildwars2.com/file/46D30FCC070170B2F656C3D80005909CD8B0F3F4/1012476.png"
+   },
+   "2009": {
+    "name": "Danger Time",
+    "icon": "https://render.guildwars2.com/file/E0A1FF012E170754030A0CB6DFDBAED3E81FAB5B/1012479.png"
+   },
+   "1913": {
+    "name": "Illusionary Reversion",
+    "icon": "https://render.guildwars2.com/file/4B684BD7490D52689D9CF02D205CB03811D7BA06/1012477.png"
+   },
+   "1978": {
+    "name": "Time Bomb",
+    "icon": "https://render.guildwars2.com/file/C9BC67D77E3D959723393BF0EC9B212B53D8362D/1012478.png"
+   },
+   "1942": {
+    "name": "Stretched Time",
+    "icon": "https://render.guildwars2.com/file/1B7FF14574B92E6FFA71D03E3F0FEBE5FD4D2EB2/1012480.png"
+   },
+   "2022": {
+    "name": "Seize the Moment",
+    "icon": "https://render.guildwars2.com/file/0FF56A2B51F9C30CDA540CC41F0A1FA30CED74A0/1012482.png"
+   },
+   "1890": {
+    "name": "Chronophantasma",
+    "icon": "https://render.guildwars2.com/file/120E2199010315D0C1FACA9BBFB5DF9E5E47027F/1012481.png"
+   }
+  }
  },
  {
   "id": 41,
@@ -940,7 +3220,64 @@
     1503,
     1672
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D3DB62FF6055021A717F3C6A0C19502F2C4EC1FF/1011983.png",
+  "background": "https://render.guildwars2.com/file/97BE972EC832ABC4F8645FF4A063EFF89B2942B8/1012034.png",
+  "minors": [
+   221,
+   222,
+   223
+  ],
+  "traits": {
+   "221": {
+    "name": "Zephyr's Speed",
+    "icon": "https://render.guildwars2.com/file/9B55449FC8EF093FE4925DDE9BF41B5A6298BAAA/1012279.png"
+   },
+   "222": {
+    "name": "Electric Discharge",
+    "icon": "https://render.guildwars2.com/file/F4622EE8300028599369D4084EA7A2774D250DEA/1012280.png"
+   },
+   "223": {
+    "name": "Aeromancer's Training",
+    "icon": "https://render.guildwars2.com/file/B07EBE9F0136026A2C710C1405C528DB4AC37936/2175041.png"
+   },
+   "227": {
+    "name": "Zephyr's Boon",
+    "icon": "https://render.guildwars2.com/file/0542900C005EB41CEDFAF003D91A9104D479A848/1012270.png"
+   },
+   "224": {
+    "name": "One with Air",
+    "icon": "https://render.guildwars2.com/file/200BAEAD2FCD181E102556B02AF5F326EC583DD0/1012271.png"
+   },
+   "232": {
+    "name": "Ferocious Winds",
+    "icon": "https://render.guildwars2.com/file/A0EB166CD43079B2F7206ED305FD6C3D049BB704/1012272.png"
+   },
+   "229": {
+    "name": "Inscription",
+    "icon": "https://render.guildwars2.com/file/0157D1D40CF9B505B907DB95149F767A6FDB09DD/1012273.png"
+   },
+   "214": {
+    "name": "Raging Storm",
+    "icon": "https://render.guildwars2.com/file/74A414B378B54431EF183A37DA37CCFFFC0E04BD/2175040.png"
+   },
+   "1502": {
+    "name": "Stormsoul",
+    "icon": "https://render.guildwars2.com/file/4505D3D02606283B02124C3304697304E663ECAE/1012275.png"
+   },
+   "226": {
+    "name": "Bolt to the Heart",
+    "icon": "https://render.guildwars2.com/file/3E4E727D6D23DFEF4205F272A15E2136799DE291/1012276.png"
+   },
+   "1503": {
+    "name": "Fresh Air",
+    "icon": "https://render.guildwars2.com/file/FA64C9F2750F986E52E8376F22EDBA3844A8C603/1012277.png"
+   },
+   "1672": {
+    "name": "Lightning Rod",
+    "icon": "https://render.guildwars2.com/file/0D26024404D06BBB0A3BD70340251740C73E0F2C/1012278.png"
+   }
+  }
  },
  {
   "id": 42,
@@ -963,7 +3300,64 @@
     637,
     2017
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/479676FC6349C7A12D429B685F0D4205ABFF2F94/1011999.png",
+  "background": "https://render.guildwars2.com/file/9244C9726D2AD30F9D7E22CF5C7A49601BFAFCC0/1012050.png",
+  "minors": [
+   648,
+   646,
+   649
+  ],
+  "traits": {
+   "648": {
+    "name": "Zealot's Resolution",
+    "icon": "https://render.guildwars2.com/file/617705CDC4E6D5CA0EB9F492B94B4D060F354980/1012459.png"
+   },
+   "646": {
+    "name": "Symbolic Exposure",
+    "icon": "https://render.guildwars2.com/file/613CC440C79367EA7A6804EFA34ECC5F08EF6BE9/1012460.png"
+   },
+   "649": {
+    "name": "Symbolic Avenger",
+    "icon": "https://render.guildwars2.com/file/4D3415E7E81E71E474CE6256A5C6024FAFAC0A61/1012461.png"
+   },
+   "563": {
+    "name": "Wrathful Spirit",
+    "icon": "https://render.guildwars2.com/file/C9EB5B02B1AB1615D60FE82C457408C2D9CC49CC/1012450.png"
+   },
+   "634": {
+    "name": "Fiery Wrath",
+    "icon": "https://render.guildwars2.com/file/77AF59F6F43203DC1BBC3EBC66153D484AEF084C/1012451.png"
+   },
+   "1925": {
+    "name": "Zealous Scepter",
+    "icon": "https://render.guildwars2.com/file/AFB520780B6C135961D60A389450800F1A78660E/1012452.png"
+   },
+   "628": {
+    "name": "Renewing Splendor",
+    "icon": "https://render.guildwars2.com/file/C1A6EBA29894C831AAEE0D1C47080D12F9BA3AA3/1012458.png"
+   },
+   "653": {
+    "name": "Zealous Blade",
+    "icon": "https://render.guildwars2.com/file/39E4E73D0B5C33404B59B30508BC2FB95640ABD5/1012454.png"
+   },
+   "1556": {
+    "name": "Kindled Zeal",
+    "icon": "https://render.guildwars2.com/file/18F3380F1F593DF16FBBF7E9F6AABAE96F444E0D/1012455.png"
+   },
+   "635": {
+    "name": "Eternal Armory",
+    "icon": "https://render.guildwars2.com/file/7AC201ED19C00351CF647F0F657BBF03043DF705/1012456.png"
+   },
+   "637": {
+    "name": "Shattered Aegis",
+    "icon": "https://render.guildwars2.com/file/5D0BC6DF96B62BF5FBA1B41BEC064BD9D4E421F2/1012457.png"
+   },
+   "2017": {
+    "name": "Furious Focus",
+    "icon": "https://render.guildwars2.com/file/7450B5C97FA442E5B85442A4F6EF610DC403E85A/1012453.png"
+   }
+  }
  },
  {
   "id": 43,
@@ -986,7 +3380,64 @@
     2052,
     1849
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/FEB1B8C559DDB5A04F9C0579F741080259FEF841/1011991.png",
+  "background": "https://render.guildwars2.com/file/011D6BF69FF9A9F6E3DCBA1197BAA9281067FF01/1128516.png",
+  "minors": [
+   1959,
+   2014,
+   1877
+  ],
+  "traits": {
+   "1959": {
+    "name": "Function Gyro",
+    "icon": "https://render.guildwars2.com/file/62D43252CCF835C6A32113E9BD450A5CAC2E3E1E/1128527.png"
+   },
+   "2014": {
+    "name": "Speed of Synergy",
+    "icon": "https://render.guildwars2.com/file/9EA1A2AEAEEA679A4038D7A136C1C7B61A08C3C1/2175051.png"
+   },
+   "1877": {
+    "name": "Impact Savant",
+    "icon": "https://render.guildwars2.com/file/FD7AF757E6B02C7BC55101B0CFDCDAC87E5DBADD/1128528.png"
+   },
+   "1917": {
+    "name": "Gyroscopic Acceleration",
+    "icon": "https://render.guildwars2.com/file/5B1EDB0BEF3301DDC43849E8EDE83DAC374DF6A5/1128518.png"
+   },
+   "1971": {
+    "name": "System Shocker",
+    "icon": "https://render.guildwars2.com/file/D218686E042F19144D99A11F7205FB4763D053EF/2175050.png"
+   },
+   "1867": {
+    "name": "Mass Momentum",
+    "icon": "https://render.guildwars2.com/file/70281123EA553434A55F56E9F1D43F90E0CE22D2/1128526.png"
+   },
+   "1954": {
+    "name": "Rapid Regeneration",
+    "icon": "https://render.guildwars2.com/file/45FD994928E2247E2C80E42B3FF3B7F5EB280FC7/2983334.png"
+   },
+   "1999": {
+    "name": "Expert Examination",
+    "icon": "https://render.guildwars2.com/file/B62C0756B53D65A109E64863BC42F958DB6FDA93/1128522.png"
+   },
+   "1860": {
+    "name": "Object in Motion",
+    "icon": "https://render.guildwars2.com/file/FA6A0040D703B2FBF19B4592A63F3D7C2555FE02/2175049.png"
+   },
+   "1981": {
+    "name": "Ex Machina",
+    "icon": "https://render.guildwars2.com/file/10FEBEDA19B34AFB7E45AE0801B83220F7ECC441/3240356.png"
+   },
+   "2052": {
+    "name": "Kinetic Accelerators",
+    "icon": "https://render.guildwars2.com/file/7BC1F016DDD40D589CC4AF9A35E9A7490A0DE81A/1128520.png"
+   },
+   "1849": {
+    "name": "Applied Force",
+    "icon": "https://render.guildwars2.com/file/D1E27896EB409E1BF231CE1EB8090C60546D60C4/1128525.png"
+   }
+  }
  },
  {
   "id": 44,
@@ -1009,7 +3460,64 @@
     1158,
     1706
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/06BF06CDA7150617C5E075265C1E2F15E84B3D64/1012028.png",
+  "background": "https://render.guildwars2.com/file/00CDEB242E93EA19125E48B556D2069639D03DBF/1012104.png",
+  "minors": [
+   1137,
+   1232,
+   1157
+  ],
+  "traits": {
+   "1137": {
+    "name": "Kleptomaniac",
+    "icon": "https://render.guildwars2.com/file/B0D5E5DF57F45ED6C39BCCC5D467A4CCABEA130C/1012771.png"
+   },
+   "1232": {
+    "name": "Preparedness",
+    "icon": "https://render.guildwars2.com/file/6B47FB123522D290119FE8936D990D1C9CED2F60/1012772.png"
+   },
+   "1157": {
+    "name": "Lead Attacks",
+    "icon": "https://render.guildwars2.com/file/0E204D3ECBE43544E2366F250C3AEDDFC3A051FA/1012773.png"
+   },
+   "1159": {
+    "name": "Uncatchable",
+    "icon": "https://render.guildwars2.com/file/EC22A2BBEB08C71E270EA29FE6E5C80BC192BBEB/1012762.png"
+   },
+   "1252": {
+    "name": "Burst of Agility",
+    "icon": "https://render.guildwars2.com/file/4B0201023C2E4B06BFE3EED499B2382D1F98FCB4/1012763.png"
+   },
+   "1163": {
+    "name": "Thrill of the Crime",
+    "icon": "https://render.guildwars2.com/file/74C7DDBF73251A15033273763B352B50C8E659A4/1012764.png"
+   },
+   "1277": {
+    "name": "Bountiful Theft",
+    "icon": "https://render.guildwars2.com/file/C1D1E47EA4F66866ECE25FAF5359F54DBC2140B3/1012765.png"
+   },
+   "1286": {
+    "name": "Trickster",
+    "icon": "https://render.guildwars2.com/file/F2DAE84AE2A6D6C7F336F1C6076962F50FA6AA0A/1012766.png"
+   },
+   "1190": {
+    "name": "Pressure Striking",
+    "icon": "https://render.guildwars2.com/file/22BAF280A66B3FD257B9FA2E911264AE1DC234EF/1012767.png"
+   },
+   "1187": {
+    "name": "Quick Pockets",
+    "icon": "https://render.guildwars2.com/file/EE970B0E607C51D8490C6D2CF4403E0BF9E8DD4C/1012721.png"
+   },
+   "1158": {
+    "name": "Sleight of Hand",
+    "icon": "https://render.guildwars2.com/file/46240F185E216A1B2375E832F3B1B413FAF303C7/1012769.png"
+   },
+   "1706": {
+    "name": "Deadly Ambush",
+    "icon": "https://render.guildwars2.com/file/55FB4EE6F25EEFB23CB0F8317FC16968EF3A5791/1012770.png"
+   }
+  }
  },
  {
   "id": 45,
@@ -1032,7 +3540,64 @@
     674,
     1687
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/7FD4DF076AFB31793EFA07220B35B427B3D406C3/1012000.png",
+  "background": "https://render.guildwars2.com/file/B20B7C6DDC30F72207D9BE4FB87C2FDCDC292E90/1012051.png",
+  "minors": [
+   666,
+   667,
+   1865
+  ],
+  "traits": {
+   "666": {
+    "name": "Metaphysical Rejuvenation",
+    "icon": "https://render.guildwars2.com/file/9B6532A6F2ABBFB54649681E02B57F2313F3EF73/1012471.png"
+   },
+   "667": {
+    "name": "Illusionary Membrane",
+    "icon": "https://render.guildwars2.com/file/0DF6A27A24B01D069DCD7609ADD305C7C557A82A/1012472.png"
+   },
+   "1865": {
+    "name": "Chaotic Persistence",
+    "icon": "https://render.guildwars2.com/file/68A0B5BB7BA2BEDAD81167CFC95A9C6D551FE151/1012473.png"
+   },
+   "670": {
+    "name": "Method of Madness",
+    "icon": "https://render.guildwars2.com/file/319D02A993BE08CEFA0798C256AE6F972D623749/1012462.png"
+   },
+   "675": {
+    "name": "Illusionary Defense",
+    "icon": "https://render.guildwars2.com/file/0E25FD2E32E05D360DB1785818965A4439C1F445/1012463.png"
+   },
+   "677": {
+    "name": "Master of Manipulation",
+    "icon": "https://render.guildwars2.com/file/E875372EA24AF0529E29430D0F38A90F4AA5F4F9/1012464.png"
+   },
+   "673": {
+    "name": "Auspicious Anguish",
+    "icon": "https://render.guildwars2.com/file/67E22C14059400490834D1AF7F2C69A75D31E6AA/1012465.png"
+   },
+   "668": {
+    "name": "Chaotic Transference",
+    "icon": "https://render.guildwars2.com/file/C86C0AD576C6DDBBCC08D0110930E46FBC269908/1012466.png"
+   },
+   "669": {
+    "name": "Chaotic Interruption",
+    "icon": "https://render.guildwars2.com/file/0214AD1DC21171D73D24D25CD1EC71D14296F2F5/1012468.png"
+   },
+   "671": {
+    "name": "Shaper of Chaos",
+    "icon": "https://render.guildwars2.com/file/4BAB6E9C6C672B740742CA1BCE8013C95F1829B6/1012467.png"
+   },
+   "674": {
+    "name": "Prismatic Understanding",
+    "icon": "https://render.guildwars2.com/file/41F5AC92387E4CCAF30628E0A5FDB37FB5F50B34/1012469.png"
+   },
+   "1687": {
+    "name": "Bountiful Disillusionment",
+    "icon": "https://render.guildwars2.com/file/CC2E110B0C40A8D3AF607F59099856760CA5E9DC/1012470.png"
+   }
+  }
  },
  {
   "id": 46,
@@ -1055,7 +3620,64 @@
     554,
     612
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/E165042F92999B3BEFA91E280CB807F62EF30218/1011998.png",
+  "background": "https://render.guildwars2.com/file/08FE79184543F8314648D3104268789B484AB0BF/1012049.png",
+  "minors": [
+   621,
+   604,
+   620
+  ],
+  "traits": {
+   "621": {
+    "name": "Inspired Virtue",
+    "icon": "https://render.guildwars2.com/file/6FF2B9A0099D3C75FBE97D36CBCC0470F63DFE06/1012447.png"
+   },
+   "604": {
+    "name": "Virtue of Resolution",
+    "icon": "https://render.guildwars2.com/file/2869F4977D1EDF02E612C62D39DD69CA372E6928/1012448.png"
+   },
+   "620": {
+    "name": "Power of the Virtuous",
+    "icon": "https://render.guildwars2.com/file/4BA068C09760BD341196A463B7B1D1E1AC3E6098/1012449.png"
+   },
+   "624": {
+    "name": "Unscathed Contender",
+    "icon": "https://render.guildwars2.com/file/0FF7C102A0F70E6398712C12A62B427A2B6DC05F/1012438.png"
+   },
+   "625": {
+    "name": "Resolute Subconscious",
+    "icon": "https://render.guildwars2.com/file/BB3C57FD1467961118ACB5FDE84F39D965C9670B/1012439.png"
+   },
+   "617": {
+    "name": "Master of Consecrations",
+    "icon": "https://render.guildwars2.com/file/FA5B6B9E701C3F2BEAD6E053A4E8681B4878AFC4/1012440.png"
+   },
+   "603": {
+    "name": "Inspiring Virtue",
+    "icon": "https://render.guildwars2.com/file/3EC057E1739EF1F22815605956B46142D2669A6D/1466322.png"
+   },
+   "610": {
+    "name": "Absolute Resolve",
+    "icon": "https://render.guildwars2.com/file/FD1ED24CEFFABCD52D22CC1F955094E80C0C3C9B/1012442.png"
+   },
+   "587": {
+    "name": "Glacial Heart",
+    "icon": "https://render.guildwars2.com/file/B6B838104E585313E2FA34481FEDBD9F1B6F07B4/1012443.png"
+   },
+   "622": {
+    "name": "Permeating Wrath",
+    "icon": "https://render.guildwars2.com/file/6A76F53CD306D8E65E3774D7F09FF54326D348B5/1012444.png"
+   },
+   "554": {
+    "name": "Battle Presence",
+    "icon": "https://render.guildwars2.com/file/33B6DF1FB0AB7C497E3C5467EA22C8ABFFC83D17/1012445.png"
+   },
+   "612": {
+    "name": "Indomitable Courage",
+    "icon": "https://render.guildwars2.com/file/2602F16A45D30AECA8D3F11AB1A1FEDADBFD1120/1012446.png"
+   }
+  }
  },
  {
   "id": 47,
@@ -1078,7 +3700,64 @@
     1680,
     1916
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/91F9AF48FA1DDEB66A449095A4E1A6E901AE203D/1011992.png",
+  "background": "https://render.guildwars2.com/file/807C3D97D8B6A25E47B49C905B081419A779201D/1012043.png",
+  "minors": [
+   518,
+   508,
+   519
+  ],
+  "traits": {
+   "518": {
+    "name": "Cleansing Synergy",
+    "icon": "https://render.guildwars2.com/file/637B6BDF42FB6C3F5C91992CBF71745DC0FEE6E2/1012375.png"
+   },
+   "508": {
+    "name": "Reconstruction Enclosure",
+    "icon": "https://render.guildwars2.com/file/6A76E8D3262097AFFADB54DD3C9FE4F93DBC1C5E/1012376.png"
+   },
+   "519": {
+    "name": "Energy Amplifier",
+    "icon": "https://render.guildwars2.com/file/9B0BA7E593FB0AEA330E4971DBA5632375391E6C/1012377.png"
+   },
+   "394": {
+    "name": "Over Shield",
+    "icon": "https://render.guildwars2.com/file/F90CB6E3E23B6ECB761C062D92507799694CF4D2/1012366.png"
+   },
+   "1901": {
+    "name": "Automated Medical Response",
+    "icon": "https://render.guildwars2.com/file/F1660BB6D1DD0CBAEE97C46A6856BA072D2A6464/1012367.png"
+   },
+   "507": {
+    "name": "Sapping Device",
+    "icon": "https://render.guildwars2.com/file/5580D97E0BC8B7AD57783CAD2CE6E64F0F3AD45F/1012368.png"
+   },
+   "1678": {
+    "name": "Experimental Turrets",
+    "icon": "https://render.guildwars2.com/file/BED3FAAEBD083392DD9F6E48C657AEC19AA43D33/1012369.png"
+   },
+   "1834": {
+    "name": "Soothing Detonation",
+    "icon": "https://render.guildwars2.com/file/5E0C5F9FBA57D5C80109241602BE4A76A917A708/1012370.png"
+   },
+   "445": {
+    "name": "Mecha Legs",
+    "icon": "https://render.guildwars2.com/file/4D2DE7CDF20239FCA2905CBAC91FC461FB0EF6A2/1012371.png"
+   },
+   "472": {
+    "name": "Anticorrosion Plating",
+    "icon": "https://render.guildwars2.com/file/A169390B67F8133D4BC7DE4767DEF6357DBC08B2/1938786.png"
+   },
+   "1680": {
+    "name": "Bunker Down",
+    "icon": "https://render.guildwars2.com/file/6EABBE9E7D25709058EF66CC593E4BC8F903A83F/1012373.png"
+   },
+   "1916": {
+    "name": "Medical Dispersion Field",
+    "icon": "https://render.guildwars2.com/file/4B4FA8FEC9F830DC75F8D1532AE6490B09326D98/1012374.png"
+   }
+  }
  },
  {
   "id": 48,
@@ -1101,7 +3780,64 @@
     2033,
     1986
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D1970ABC09D07B4275C7E47DDD0EDC0F4CFC050C/1029930.png",
+  "background": "https://render.guildwars2.com/file/D22197110A38F5651AA3F4C23914A197DD2C5BA1/1029936.png",
+  "minors": [
+   2025,
+   1938,
+   1948
+  ],
+  "traits": {
+   "2025": {
+    "name": "Singularity",
+    "icon": "https://render.guildwars2.com/file/B5B020BD12E7A490DE9551FA06D920AC4F9A6036/1029952.png"
+   },
+   "1938": {
+    "name": "Gathered Focus",
+    "icon": "https://render.guildwars2.com/file/410EF84D7D37FBE72E1D2AB026249E1050CD70AF/2207774.png"
+   },
+   "1948": {
+    "name": "Hardy Conduit",
+    "icon": "https://render.guildwars2.com/file/F61B0203A07CDF17A3613731EE93F6C09410E825/1029953.png"
+   },
+   "1952": {
+    "name": "Gale Song",
+    "icon": "https://render.guildwars2.com/file/65ED3B2F3816172BC7E23598DA93A0731D6D0245/1029943.png"
+   },
+   "1962": {
+    "name": "Latent Stamina",
+    "icon": "https://render.guildwars2.com/file/BA1F1D070867AC48FE57F876315657DDA25A044E/1029944.png"
+   },
+   "1886": {
+    "name": "Unstable Conduit",
+    "icon": "https://render.guildwars2.com/file/51765B3330426700C8A2E580B23637CA9CD728FB/1029945.png"
+   },
+   "1891": {
+    "name": "Tempestuous Aria",
+    "icon": "https://render.guildwars2.com/file/0C2A72B848A7FBB596DE6096B4C45814D3266EEB/1029946.png"
+   },
+   "1902": {
+    "name": "Harmonious Conduit",
+    "icon": "https://render.guildwars2.com/file/DC03410B07E666C9F8AECFEDCE9855C65136E597/1029948.png"
+   },
+   "2015": {
+    "name": "Invigorating Torrents",
+    "icon": "https://render.guildwars2.com/file/053DD3F436F333340672EB1F7F951F540ADFDBC4/1029947.png"
+   },
+   "1839": {
+    "name": "Transcendent Tempest",
+    "icon": "https://render.guildwars2.com/file/0C79A761B446E53CAB6DA4B320D12D656B5E1151/2207773.png"
+   },
+   "2033": {
+    "name": "Lucid Singularity",
+    "icon": "https://render.guildwars2.com/file/2E3AEA68A85501D1209EABD2E1603C0151ED9292/1029951.png"
+   },
+   "1986": {
+    "name": "Elemental Bastion",
+    "icon": "https://render.guildwars2.com/file/570FD4DD0094280F906ACAAD37705E9B0F4ADA63/1029949.png"
+   }
+  }
  },
  {
   "id": 49,
@@ -1124,7 +3860,64 @@
     558,
     1682
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A4C0E39152B005EE226DA56D010DEEABB1ADBF2B/1011995.png",
+  "background": "https://render.guildwars2.com/file/98C3AB64254E61E59D03D3AF29D75314730E9E72/1012046.png",
+  "minors": [
+   564,
+   551,
+   1685
+  ],
+  "traits": {
+   "564": {
+    "name": "Vigorous Precision",
+    "icon": "https://render.guildwars2.com/file/05BF7C7F4D37239656B4047519F698CB32BDD67A/1012411.png"
+   },
+   "551": {
+    "name": "Selfless Daring",
+    "icon": "https://render.guildwars2.com/file/32BAB20860259FF3E8214E784E6BE7521213089C/1012412.png"
+   },
+   "1685": {
+    "name": "Purity of Body",
+    "icon": "https://render.guildwars2.com/file/4393150B92392F32D10C3D551A363FE2C9400E27/1012413.png"
+   },
+   "1899": {
+    "name": "Invigorated Bulwark",
+    "icon": "https://render.guildwars2.com/file/504B1F9EF89652FD5A00D52DE52A52B7023043E9/1012402.png"
+   },
+   "559": {
+    "name": "Protective Reviver",
+    "icon": "https://render.guildwars2.com/file/5F23B231E1039C4DC401BA2D6AE473C0E1E06D7E/1012403.png"
+   },
+   "654": {
+    "name": "Protector's Restoration",
+    "icon": "https://render.guildwars2.com/file/DB1111AB10B1D3FAA67EF4957A0167BB1E61C90C/1012404.png"
+   },
+   "557": {
+    "name": "Honorable Staff",
+    "icon": "https://render.guildwars2.com/file/4B04DDA13B459179E500052B03B39579093BAD18/1012405.png"
+   },
+   "549": {
+    "name": "Pure of Heart",
+    "icon": "https://render.guildwars2.com/file/B8FD6EB1B2C6CF7CEFE4715994B6FBCC201FF24D/1012406.png"
+   },
+   "562": {
+    "name": "Empowering Might",
+    "icon": "https://render.guildwars2.com/file/F8467ACFF89AFDE01C5E9F706A7341A3D2C9597C/1012407.png"
+   },
+   "553": {
+    "name": "Pure of Voice",
+    "icon": "https://render.guildwars2.com/file/6ED99443C2E00AEBCF52F974221B0B31A0CCB457/1012408.png"
+   },
+   "558": {
+    "name": "Writ of Persistence",
+    "icon": "https://render.guildwars2.com/file/663CB2609609A546744620D72EBD7ECEC9020FA6/1012409.png"
+   },
+   "1682": {
+    "name": "Force of Will",
+    "icon": "https://render.guildwars2.com/file/AA9EDC9B5B343F27372ADDBA320702D3A19CD7D5/1012410.png"
+   }
+  }
  },
  {
   "id": 50,
@@ -1147,7 +3940,64 @@
     893,
     905
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A5A95CB5FADD99F59E07400907F0782B659574A9/1012010.png",
+  "background": "https://render.guildwars2.com/file/0956926B4A5109E07EFAB556E5DBEDCBC2B67C3B/1012071.png",
+  "minors": [
+   887,
+   891,
+   874
+  ],
+  "traits": {
+   "887": {
+    "name": "Gluttony",
+    "icon": "https://render.guildwars2.com/file/2C254E1B7AEA1101FA25FCE610EB074E32B8CD02/1012591.png"
+   },
+   "891": {
+    "name": "Sinister Shroud",
+    "icon": "https://render.guildwars2.com/file/75273DA6696969760BB6D765E56D0CDCD0ABBA43/1012592.png"
+   },
+   "874": {
+    "name": "Soul Battery",
+    "icon": "https://render.guildwars2.com/file/022357BDC7179BBBF7679BD0A5B80EF59E02B050/1012593.png"
+   },
+   "875": {
+    "name": "Unyielding Blast",
+    "icon": "https://render.guildwars2.com/file/C161543798EAA41863E26E3250FD534E4C1E357C/1012582.png"
+   },
+   "898": {
+    "name": "Soul Marks",
+    "icon": "https://render.guildwars2.com/file/33961B371EDB0C0DC8FCC9963E0C9F103D6891DB/1012583.png"
+   },
+   "888": {
+    "name": "Speed of Shadows",
+    "icon": "https://render.guildwars2.com/file/6DDE13189AD8C45020D1CC1F0803E329F26839CB/1012584.png"
+   },
+   "894": {
+    "name": "Soul Barbs",
+    "icon": "https://render.guildwars2.com/file/59A0DA7819F43F1B5E689B14CE0D0ABCC0EF3173/1012585.png"
+   },
+   "861": {
+    "name": "Vital Persistence",
+    "icon": "https://render.guildwars2.com/file/9BC34679FF900F4A387672CACB7BDAF59FB64956/1012586.png"
+   },
+   "892": {
+    "name": "Fear of Death",
+    "icon": "https://render.guildwars2.com/file/0FF8E9ACE2E2105C0CF69696D12AADC000EF75A5/1012587.png"
+   },
+   "889": {
+    "name": "Eternal Life",
+    "icon": "https://render.guildwars2.com/file/AEE06B525C42EFB8E47A3D23FED87DF2473793CF/2261508.png"
+   },
+   "893": {
+    "name": "Death Perception",
+    "icon": "https://render.guildwars2.com/file/D2360AB8930CAA809136287E6DA03DA37360E1A7/1012589.png"
+   },
+   "905": {
+    "name": "Dhuumfire",
+    "icon": "https://render.guildwars2.com/file/A309650463ECED29B2ADB89E0DC402662377BB99/1012590.png"
+   }
+  }
  },
  {
   "id": 51,
@@ -1170,7 +4020,64 @@
     1317,
     1657
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D10B771D01C85DA404472EE90F35EF15B0B36240/1012031.png",
+  "background": "https://render.guildwars2.com/file/2B80CF6504DA1B0DC8470D45ED5BE9992BEEC2B7/1012108.png",
+  "minors": [
+   1415,
+   1416,
+   1417
+  ],
+  "traits": {
+   "1415": {
+    "name": "Versatile Rage",
+    "icon": "https://render.guildwars2.com/file/43326D076ABE56ADA04A0D051016E5E1F9225301/1012807.png"
+   },
+   "1416": {
+    "name": "Fast Hands",
+    "icon": "https://render.guildwars2.com/file/E411053E9A4BCE69750DA02AB1CDC5D6260E9560/1012808.png"
+   },
+   "1417": {
+    "name": "Versatile Power",
+    "icon": "https://render.guildwars2.com/file/9C4B111C63D603BD0F73EA0015DE0ABDEE0D107A/1012809.png"
+   },
+   "1329": {
+    "name": "Crack Shot",
+    "icon": "https://render.guildwars2.com/file/505DE7D46224C105D2E953FDFC6807E30EBCA733/1012798.png"
+   },
+   "1413": {
+    "name": "Warrior's Sprint",
+    "icon": "https://render.guildwars2.com/file/0D0DD0E0002F5ED423FF01A85E9890D32CE7960E/1012799.png"
+   },
+   "1381": {
+    "name": "Stalwart Focus",
+    "icon": "https://render.guildwars2.com/file/20A8F34554C69CC12A6013AF002114F008557C0F/1012800.png"
+   },
+   "1484": {
+    "name": "Doubled Standards",
+    "icon": "https://render.guildwars2.com/file/3DD095F41404F7F043C70854AB944116F45570F7/1012801.png"
+   },
+   "1489": {
+    "name": "Destruction of the Empowered",
+    "icon": "https://render.guildwars2.com/file/663A52BDEEBF0AE40DC8995D0234EE196DFDECB5/1012802.png"
+   },
+   "1709": {
+    "name": "Brawler's Recovery",
+    "icon": "https://render.guildwars2.com/file/751DB3B9700B6B14CAE9D2BE77D32795056DB665/1012803.png"
+   },
+   "1369": {
+    "name": "Axe Mastery",
+    "icon": "https://render.guildwars2.com/file/DC444D0B05F5BDB3D096480617E7DF40C54D0E0A/1012818.png"
+   },
+   "1317": {
+    "name": "Heightened Focus",
+    "icon": "https://render.guildwars2.com/file/FC5A1E5591B670A175ED01297B48C7F2B1DC1FED/1012806.png"
+   },
+   "1657": {
+    "name": "Burst Mastery",
+    "icon": "https://render.guildwars2.com/file/4E393624960EF6AA7D5C9CF27902FAFC180B5DB5/1012805.png"
+   }
+  }
  },
  {
   "id": 52,
@@ -1193,7 +4100,64 @@
     1772,
     1803
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/78496E9E95C46527F8E0B974530A07A017DC9B79/1058520.png",
+  "background": "https://render.guildwars2.com/file/F2EEC706430942BEC2D51565AECC13135DF304F8/1012091.png",
+  "minors": [
+   1777,
+   1737,
+   1788
+  ],
+  "traits": {
+   "1777": {
+    "name": "Crystal Harbinger",
+    "icon": "https://render.guildwars2.com/file/717C45E150E866A74310E6E5A96FC83BD96C384A/1058543.png"
+   },
+   "1737": {
+    "name": "Draconic Fortitude",
+    "icon": "https://render.guildwars2.com/file/9178A80B7BA73E1EAF47AE12462B5AE5B103E857/1058544.png"
+   },
+   "1788": {
+    "name": "Reinforced Potency",
+    "icon": "https://render.guildwars2.com/file/52070CB9BA3EDCCE2FF8AECBE769559FE2DE7619/1058545.png"
+   },
+   "1813": {
+    "name": "Elder's Respite",
+    "icon": "https://render.guildwars2.com/file/ED0E15AFDDD1F944A09A561B290A1BCB36F799E1/1058541.png"
+   },
+   "1806": {
+    "name": "Core Value",
+    "icon": "https://render.guildwars2.com/file/62C2F3EAEF34D71657DB12D5ED6475992D6534F3/1058540.png"
+   },
+   "1716": {
+    "name": "Rising Momentum",
+    "icon": "https://render.guildwars2.com/file/BADE3878F6F5EE4247D501CE5ACDFB7BC24BA1AE/1058535.png"
+   },
+   "1738": {
+    "name": "Shared Empowerment",
+    "icon": "https://render.guildwars2.com/file/1F09ADF696D0DC9C900DB8040F98A0BD57D303CB/1058539.png"
+   },
+   "1743": {
+    "name": "Shining Aspects",
+    "icon": "https://render.guildwars2.com/file/A626100680584B0F7E3DD5934B08D103C4943417/1058542.png"
+   },
+   "1730": {
+    "name": "Hardening Persistence",
+    "icon": "https://render.guildwars2.com/file/24682D5C432BB44FE807C5380DA4E8FAFC9FC678/1058537.png"
+   },
+   "1746": {
+    "name": "Elevated Compassion",
+    "icon": "https://render.guildwars2.com/file/07A728FDFD275D406F255B08A26BBDCB37F6EE1F/2029284.png"
+   },
+   "1772": {
+    "name": "Draconic Echo",
+    "icon": "https://render.guildwars2.com/file/F67AF8A1C7923504487AE5FB0F222DD213F99623/1058536.png"
+   },
+   "1803": {
+    "name": "Forceful Persistence",
+    "icon": "https://render.guildwars2.com/file/A079965EF4C4DC29C0C1EA115E403FD0DE0A07F3/1012680.png"
+   }
+  }
  },
  {
   "id": 53,
@@ -1216,7 +4180,64 @@
     853,
     903
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/2D34377B04051FFDCDB553C7DCDABCD5DFBB68D7/1012011.png",
+  "background": "https://render.guildwars2.com/file/DDF39DBD61CCC1BCDD03B271080869251D097041/1012073.png",
+  "minors": [
+   913,
+   915,
+   917
+  ],
+  "traits": {
+   "913": {
+    "name": "Reaper's Might",
+    "icon": "https://render.guildwars2.com/file/080173CE4527AF48B3F90770C8FB676343EBDB02/1012603.png"
+   },
+   "915": {
+    "name": "Awaken the Pain",
+    "icon": "https://render.guildwars2.com/file/FD34100F781539CF49B657412CDBD9B170D6C964/1012605.png"
+   },
+   "917": {
+    "name": "Siphoned Power",
+    "icon": "https://render.guildwars2.com/file/F9CC326D70BFDFAED0054C27F721362AFB32177E/1012604.png"
+   },
+   "914": {
+    "name": "Spiteful Talisman",
+    "icon": "https://render.guildwars2.com/file/4FDFAB1B3BFF06F6044A491B04967C5D03526B0B/1012594.png"
+   },
+   "916": {
+    "name": "Malicious Swarm",
+    "icon": "https://render.guildwars2.com/file/EFCE14DF279DDD28C54077500B03DEC1B692120A/1012595.png"
+   },
+   "1863": {
+    "name": "Bitter Chill",
+    "icon": "https://render.guildwars2.com/file/2431E825115DA7FF690C091C2316AAB9F493B93A/1012596.png"
+   },
+   "899": {
+    "name": "Chill of Death",
+    "icon": "https://render.guildwars2.com/file/FED2475CCB0936A368AB44DA729EE0AFACBBBE06/1012597.png"
+   },
+   "829": {
+    "name": "Spiteful Fortitude",
+    "icon": "https://render.guildwars2.com/file/6272F31C9A6D02196C0891040C4A9C0108901BDA/1012598.png"
+   },
+   "909": {
+    "name": "Signets of Suffering",
+    "icon": "https://render.guildwars2.com/file/EEB462072294673B6ADC280A2374216047529798/1012600.png"
+   },
+   "919": {
+    "name": "Dread",
+    "icon": "https://render.guildwars2.com/file/7BC853D02CC59AD43A677E3D515674AA1D3FE164/1012599.png"
+   },
+   "853": {
+    "name": "Close to Death",
+    "icon": "https://render.guildwars2.com/file/ADD8DB0EA734C99FE123FF0A513E0D124FD4AC2E/1012601.png"
+   },
+   "903": {
+    "name": "Spiteful Spirit",
+    "icon": "https://render.guildwars2.com/file/9775E905A6CBDF95CB106A0F95B79E74132CAF9C/1012602.png"
+   }
+  }
  },
  {
   "id": 54,
@@ -1239,7 +4260,64 @@
     1295,
     1703
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/E109FF4E65CD3FA4AAC20E9D219C4D5207E1E461/1012023.png",
+  "background": "https://render.guildwars2.com/file/0CACB74F6E36F80921C6D6F2F0786B6C1CCCDCA4/1012099.png",
+  "minors": [
+   1240,
+   1234,
+   1242
+  ],
+  "traits": {
+   "1240": {
+    "name": "Expeditious Dodger",
+    "icon": "https://render.guildwars2.com/file/46E42E0D330FA8C60B6477BF6E206FDA98E114D6/1012723.png"
+   },
+   "1234": {
+    "name": "Feline Grace",
+    "icon": "https://render.guildwars2.com/file/7C2022C101DCE37874391DEAB44A4A66E2929472/1012724.png"
+   },
+   "1242": {
+    "name": "Fluid Strikes",
+    "icon": "https://render.guildwars2.com/file/64A151F4F69F7F6E36986108224DA606660EDD64/1012725.png"
+   },
+   "1112": {
+    "name": "Instant Reflexes",
+    "icon": "https://render.guildwars2.com/file/E80BD3449E33470B1ECA0FF242CC6B031B459514/1012714.png"
+   },
+   "1289": {
+    "name": "Pumping Up",
+    "icon": "https://render.guildwars2.com/file/F6031E3A99700AD327760C9D276F1A21A2EAF8BD/1012715.png"
+   },
+   "1237": {
+    "name": "Pain Response",
+    "icon": "https://render.guildwars2.com/file/E6D3C67F5EF7DCBCF09C40D1529393CEDD9ABFCC/1012716.png"
+   },
+   "1241": {
+    "name": "Guarded Initiation",
+    "icon": "https://render.guildwars2.com/file/DA7CF19FEA207C0809BEAF31B0F722EC32EC27B2/1012717.png"
+   },
+   "1192": {
+    "name": "Swindler's Equilibrium",
+    "icon": "https://render.guildwars2.com/file/E00D420461F4C04AB601FB0EB3BEFE3903E8CE1A/1012718.png"
+   },
+   "1290": {
+    "name": "Hard to Catch",
+    "icon": "https://render.guildwars2.com/file/091B2B7A2BD14657D06D2127B097D9321D175903/1012719.png"
+   },
+   "1238": {
+    "name": "Assassin's Reward",
+    "icon": "https://render.guildwars2.com/file/319EE2C0AC583CDBD7741BB23051FA026022F20A/1012720.png"
+   },
+   "1295": {
+    "name": "Upper Hand",
+    "icon": "https://render.guildwars2.com/file/B6017A7603085677A0A5DD7F670C769E597A3309/1012768.png"
+   },
+   "1703": {
+    "name": "Don't Stop",
+    "icon": "https://render.guildwars2.com/file/B152120F945398A4380B09371C0F6F253A44AA4C/1012722.png"
+   }
+  }
  },
  {
   "id": 55,
@@ -1262,7 +4340,64 @@
     2128,
     2143
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/0AA4A2C62C4F2D0E0D59DBEE9C63EB4AF472F0C5/1769893.png",
+  "background": "https://render.guildwars2.com/file/D624537D6B50C90B2A329EB16CF8911BDD4C0107/1769902.png",
+  "minors": [
+   2151,
+   2156,
+   2127
+  ],
+  "traits": {
+   "2151": {
+    "name": "Elevated Bond",
+    "icon": "https://render.guildwars2.com/file/59CBE2049C451991A62F07135B92BDB94501B1F6/1769984.png"
+   },
+   "2156": {
+    "name": "Furious Strength",
+    "icon": "https://render.guildwars2.com/file/C95A3880A940B9073707A565A216032B92F5FCDD/1769985.png"
+   },
+   "2127": {
+    "name": "Twice as Vicious",
+    "icon": "https://render.guildwars2.com/file/42AE5234142F3045D5B665EC60D6E3FF7C564D62/1769986.png"
+   },
+   "2134": {
+    "name": "Fresh Reinforcement",
+    "icon": "https://render.guildwars2.com/file/3F0D2D1606230D309D3305F4CB9401272AF46D3E/1769978.png"
+   },
+   "2071": {
+    "name": "Live Fast",
+    "icon": "https://render.guildwars2.com/file/6B91D72D480A280C4B31AD14381F480604481569/1769980.png"
+   },
+   "2072": {
+    "name": "Unstoppable Union",
+    "icon": "https://render.guildwars2.com/file/51C4B10380F0B292C2ACB894B53CE14DDE091E19/1769979.png"
+   },
+   "2119": {
+    "name": "Second Skin",
+    "icon": "https://render.guildwars2.com/file/0C2E46F9BBF87F4EC89349385923A409BB1CFBF6/1769975.png"
+   },
+   "2085": {
+    "name": "Essence of Speed",
+    "icon": "https://render.guildwars2.com/file/011A28E51A388006C2800DAED408FC3401DF6231/1769982.png"
+   },
+   "2161": {
+    "name": "Predator's Cunning",
+    "icon": "https://render.guildwars2.com/file/25054EAF081EAB14A6B5C53197312F2AE6C32A17/1769977.png"
+   },
+   "2155": {
+    "name": "Eternal Bond",
+    "icon": "https://render.guildwars2.com/file/BB58C7379E130F3CA90542D5A6E8194B5B32A87F/1769981.png"
+   },
+   "2128": {
+    "name": "Leader of the Pack",
+    "icon": "https://render.guildwars2.com/file/F17AAF29C42854EFDBB7BE6502E2EDB4D02A9E44/1769976.png"
+   },
+   "2143": {
+    "name": "Oppressive Superiority",
+    "icon": "https://render.guildwars2.com/file/BBAE380FEB7F41CA1EDA96370F38FDBEE1FA0342/1769983.png"
+   }
+  }
  },
  {
   "id": 56,
@@ -1285,7 +4420,64 @@
     2090,
     2138
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/02FAA82BF2F5BF3E3AD89BCF05FF56B4C86139F4/1769888.png",
+  "background": "https://render.guildwars2.com/file/C3D501E451AD49310F05B40924B20A3B7CB14E07/1769897.png",
+  "minors": [
+   2109,
+   2077,
+   2081
+  ],
+  "traits": {
+   "2109": {
+    "name": "Weaver",
+    "icon": "https://render.guildwars2.com/file/B0707EB06310175FC0CAB50C68C113F4D5B3912E/1769924.png"
+   },
+   "2077": {
+    "name": "Elemental Refreshment",
+    "icon": "https://render.guildwars2.com/file/32D4A99DECA90337DC0722ACF84C38B44A93429C/1769925.png"
+   },
+   "2081": {
+    "name": "Elemental Polyphony",
+    "icon": "https://render.guildwars2.com/file/28460700BDF3B9D3000B963977B1555F7E999512/1769926.png"
+   },
+   "2177": {
+    "name": "Superior Elements",
+    "icon": "https://render.guildwars2.com/file/0017B2083219583F0150B537B0B8B54A3A7E3228/1769915.png"
+   },
+   "2165": {
+    "name": "Elemental Pursuit",
+    "icon": "https://render.guildwars2.com/file/194D097708234E783C04C790E2C362290054B9C1/1769916.png"
+   },
+   "2115": {
+    "name": "Weaver's Prowess",
+    "icon": "https://render.guildwars2.com/file/FCA86506DDAD2C32CF130C4819DFEE3119026C96/1769917.png"
+   },
+   "2180": {
+    "name": "Master's Fortitude",
+    "icon": "https://render.guildwars2.com/file/28BEBF776AF9FDBEF0BDF8B715265AE724E40878/1769923.png"
+   },
+   "2061": {
+    "name": "Swift Revenge",
+    "icon": "https://render.guildwars2.com/file/7B0B0072429031F44DC41404F9BA0D08A5B2EDE2/1769919.png"
+   },
+   "2170": {
+    "name": "Bolstered Elements",
+    "icon": "https://render.guildwars2.com/file/BE23D1F64BA73B9837C87A2059EA531BBE65D52B/1769920.png"
+   },
+   "2131": {
+    "name": "Elements of Rage",
+    "icon": "https://render.guildwars2.com/file/4269910A34FB0FB861DAE2A13229D594523B0BA0/1769921.png"
+   },
+   "2090": {
+    "name": "Woven Stride",
+    "icon": "https://render.guildwars2.com/file/66CB08AA2823930D5B47AF3259B60A7DD86FAFE4/1769922.png"
+   },
+   "2138": {
+    "name": "Flow State",
+    "icon": "https://render.guildwars2.com/file/78DA4AC17D4EBDA04BBBD325A024C346F59ED150/1769918.png"
+   }
+  }
  },
  {
   "id": 57,
@@ -1308,7 +4500,64 @@
     2137,
     2064
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/F41CDEE4603FC0741669A7F2A7E977D36123DF7C/1769889.png",
+  "background": "https://render.guildwars2.com/file/FF0814C6EFA56F9ADA0B3EA7986BADF120F7D11D/1769898.png",
+  "minors": [
+   2158,
+   2135,
+   2122
+  ],
+  "traits": {
+   "2158": {
+    "name": "Photon Projector",
+    "icon": "https://render.guildwars2.com/file/5E01A22E14BB552CCEB5B5E99417DD20D0C45B67/1769936.png"
+   },
+   "2135": {
+    "name": "Heat Therapy",
+    "icon": "https://render.guildwars2.com/file/C1B0A2466701BF6CB45176D967D5C29B940F6397/1769937.png"
+   },
+   "2122": {
+    "name": "Laser's Edge",
+    "icon": "https://render.guildwars2.com/file/0D5D9B2C77B736E0609004026A06756D5142690B/1769938.png"
+   },
+   "2114": {
+    "name": "Light Density Amplifier",
+    "icon": "https://render.guildwars2.com/file/3994F02CE07262B156C90E9143F2720ADF2DB0FD/1769927.png"
+   },
+   "2157": {
+    "name": "Prismatic Converter",
+    "icon": "https://render.guildwars2.com/file/DC0BB7751AFC3CC425E66E774179F00B9C3C9E29/1769928.png"
+   },
+   "2106": {
+    "name": "Solar Focusing Lens",
+    "icon": "https://render.guildwars2.com/file/19FE5C016ACFF174DE03752D40D202F9B75FB0C2/1769929.png"
+   },
+   "2103": {
+    "name": "Crystal Configuration: Storm",
+    "icon": "https://render.guildwars2.com/file/E9E927D85AAEB368805AA8F2D2A4BE32B6C6A507/1769930.png"
+   },
+   "2152": {
+    "name": "Crystal Configuration: Eclipse",
+    "icon": "https://render.guildwars2.com/file/7C0E6BD391C3D0CCEEC9BD1B0796A0355C075755/1769931.png"
+   },
+   "2091": {
+    "name": "Crystal Configuration: Zephyr",
+    "icon": "https://render.guildwars2.com/file/73D708B30A589E3AE2E3141B327B4616B9CC663F/1769932.png"
+   },
+   "2066": {
+    "name": "Thermal Release Valve",
+    "icon": "https://render.guildwars2.com/file/051954D32BCDA37DEAA1730C9CF09CAEF22F9FB3/1769933.png"
+   },
+   "2137": {
+    "name": "Enhanced Capacity Storage Unit",
+    "icon": "https://render.guildwars2.com/file/5DE502FD03496B4DF70A0CDA1616022B602A049B/1769934.png"
+   },
+   "2064": {
+    "name": "Photonic Blasting Module",
+    "icon": "https://render.guildwars2.com/file/580C8052ABEA092722A3026D54B12BA0AA1DCD14/1769935.png"
+   }
+  }
  },
  {
   "id": 58,
@@ -1331,7 +4580,64 @@
     2093,
     2146
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/F93EF1717238E9ACC1CA330D4416D324AE08585D/1769895.png",
+  "background": "https://render.guildwars2.com/file/09B7D10707C7095C050B34ED68E3E3BB06626C7A/1769904.png",
+  "minors": [
+   2171,
+   2172,
+   2084
+  ],
+  "traits": {
+   "2171": {
+    "name": "Deadeye's Gaze",
+    "icon": "https://render.guildwars2.com/file/0AD214FC6FC10814E5397A1FC573D303B4A06EEC/1770009.png"
+   },
+   "2172": {
+    "name": "Renewing Gaze",
+    "icon": "https://render.guildwars2.com/file/94445580FABDA4724ED3DA3DF9B126C29004614D/1770010.png"
+   },
+   "2084": {
+    "name": "Iron Sight",
+    "icon": "https://render.guildwars2.com/file/3402AD187DDB42150AB5DE35143DBA0F80048015/1983627.png"
+   },
+   "2145": {
+    "name": "Malicious Intent",
+    "icon": "https://render.guildwars2.com/file/A36DB29059090F04E4565724E3673CFD189E6177/1770000.png"
+   },
+   "2173": {
+    "name": "Collateral Damage",
+    "icon": "https://render.guildwars2.com/file/1E6104F9F36395A3A175649DE6232BD0DDC61180/1983625.png"
+   },
+   "2136": {
+    "name": "One in the Chamber",
+    "icon": "https://render.guildwars2.com/file/72377B6191DEF64EA87DEEA70BFB7699937D6207/1770002.png"
+   },
+   "2118": {
+    "name": "Silent Scope",
+    "icon": "https://render.guildwars2.com/file/589A60502EB2EE62CABC78F43321045FE037ABD1/1770003.png"
+   },
+   "2078": {
+    "name": "Payback",
+    "icon": "https://render.guildwars2.com/file/961C4A2F1458FB0AEAF80AF938390096DC4BFF6E/1770004.png"
+   },
+   "2160": {
+    "name": "Premeditation",
+    "icon": "https://render.guildwars2.com/file/C72B4CD0151A0C4C5074D105649D9306C3284896/1983626.png"
+   },
+   "2111": {
+    "name": "Maleficent Seven",
+    "icon": "https://render.guildwars2.com/file/2602433ECE52C0CBAD52626061C1E5C97E195E9A/1770006.png"
+   },
+   "2093": {
+    "name": "Be Quick or Be Killed",
+    "icon": "https://render.guildwars2.com/file/073DDC6D4D1319EB2B039373FD5C7173009DBFA7/1770007.png"
+   },
+   "2146": {
+    "name": "Fire for Effect",
+    "icon": "https://render.guildwars2.com/file/C50DB05A985BE0B8ADB2164DC8D671AC61049C4B/1770008.png"
+   }
+  }
  },
  {
   "id": 59,
@@ -1354,7 +4660,64 @@
     2113,
     2169
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/6403ECA8E6C1683E2C9D075A39C154ED3A7C04A1/1769891.png",
+  "background": "https://render.guildwars2.com/file/BB67F76B46052E6E291AFE75807AFC7DD33563E4/1769900.png",
+  "minors": [
+   2150,
+   2069,
+   2117
+  ],
+  "traits": {
+   "2150": {
+    "name": "Mirage Cloak",
+    "icon": "https://render.guildwars2.com/file/FAF3D0D195F36EBA2F11086A05A5BA75A6BDDDEC/1769960.png"
+   },
+   "2069": {
+    "name": "Nomad's Endurance",
+    "icon": "https://render.guildwars2.com/file/EC4E5BEAD50EC6A5A91C312EE521B7C6EC56393B/1769961.png"
+   },
+   "2117": {
+    "name": "Speed of Sand",
+    "icon": "https://render.guildwars2.com/file/FFB70F3D954E5A60CE03132778D310CA4824E4BF/1769962.png"
+   },
+   "2141": {
+    "name": "Self-Deception",
+    "icon": "https://render.guildwars2.com/file/603C30B0D0F90E21BCCC569AE8B5A35BC9E0BDBC/1769951.png"
+   },
+   "2082": {
+    "name": "Renewing Oasis",
+    "icon": "https://render.guildwars2.com/file/7F0307D7130523A57E75DC19C9A3DC0CED0A6FB3/1769952.png"
+   },
+   "2110": {
+    "name": "Riddle of Sand",
+    "icon": "https://render.guildwars2.com/file/5E140DCE41A40CD852FA570E4250D825627F7708/1769953.png"
+   },
+   "2178": {
+    "name": "Desert Distortion",
+    "icon": "https://render.guildwars2.com/file/FD373803E32D2311701C1EEEBC06A3D19A060FEC/1769954.png"
+   },
+   "2174": {
+    "name": "Mirage Mantle",
+    "icon": "https://render.guildwars2.com/file/275DBDFD630099D49A76287DDD237709150C1D73/1769955.png"
+   },
+   "2098": {
+    "name": "Phantom Pain",
+    "icon": "https://render.guildwars2.com/file/3999015BF80BA211F8AD463C50BEBD0826DC1D12/1769956.png"
+   },
+   "2070": {
+    "name": "Infinite Horizon",
+    "icon": "https://render.guildwars2.com/file/AE970495F2A5F7907CDBB836B5079911FC5A1064/1769957.png"
+   },
+   "2113": {
+    "name": "Elusive Mind",
+    "icon": "https://render.guildwars2.com/file/75EDD136DA210F119A74C3D8DCE1AF0D58FB2F9F/1769958.png"
+   },
+   "2169": {
+    "name": "Dune Cloak",
+    "icon": "https://render.guildwars2.com/file/5909B2013D16F1BF6F08B7BB341D295F4411DABA/1769959.png"
+   }
+  }
  },
  {
   "id": 60,
@@ -1377,7 +4740,64 @@
     2164,
     2080
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/1407ADE7787A6BF6E457F5FA6DFA1062A5FA93FD/1769892.png",
+  "background": "https://render.guildwars2.com/file/DEE244AB7045EE31941E222AE4A06A94DCB4360E/1769901.png",
+  "minors": [
+   2147,
+   2121,
+   2096
+  ],
+  "traits": {
+   "2147": {
+    "name": "Mantle of Sand",
+    "icon": "https://render.guildwars2.com/file/CC70C2E5CBD991510C2DF661111AD0351DAF186E/1769972.png"
+   },
+   "2121": {
+    "name": "Sand Sage",
+    "icon": "https://render.guildwars2.com/file/EC99779F63204EBAC00C37147BC43B0643F64091/1769973.png"
+   },
+   "2096": {
+    "name": "Blood as Sand",
+    "icon": "https://render.guildwars2.com/file/BE75E965AB68DC0E5BFE5F3EA3A69C23CC01D5CC/1769974.png"
+   },
+   "2167": {
+    "name": "Abrasive Grit",
+    "icon": "https://render.guildwars2.com/file/CA5C4DFB464203434617C1605879A8A77D11CDB4/1769964.png"
+   },
+   "2074": {
+    "name": "Fell Beacon",
+    "icon": "https://render.guildwars2.com/file/39509D44AE46ACEB2046EFE9D70378ECE072B1AC/1769963.png"
+   },
+   "2102": {
+    "name": "Nourishing Ashes",
+    "icon": "https://render.guildwars2.com/file/0B6B794BD907A580606F7D3FC91FB49732DF3858/1769965.png"
+   },
+   "2059": {
+    "name": "Feed from Corruption",
+    "icon": "https://render.guildwars2.com/file/DD52420FDE56D4F5480D529F4A966041730054E3/1769971.png"
+   },
+   "2067": {
+    "name": "Sadistic Searing",
+    "icon": "https://render.guildwars2.com/file/36B6A2055933F4B47B08260DA104FFD1E46F0E1D/1769966.png"
+   },
+   "2123": {
+    "name": "Herald of Sorrow",
+    "icon": "https://render.guildwars2.com/file/A4779F3D1924A75A58C0C100E82A0923A46C5CBD/1769968.png"
+   },
+   "2112": {
+    "name": "Sand Savant",
+    "icon": "https://render.guildwars2.com/file/582722DC2FB1D0004F3E0657E76F3AE6EECCEC52/1769967.png"
+   },
+   "2164": {
+    "name": "Demonic Lore",
+    "icon": "https://render.guildwars2.com/file/C4FD5C32D32EB309F520021BC5140B94DE0A7A3B/1769969.png"
+   },
+   "2080": {
+    "name": "Desert Empowerment",
+    "icon": "https://render.guildwars2.com/file/2459E053ADCC6A6064DD505CC03FEA767D12DBB6/1769970.png"
+   }
+  }
  },
  {
   "id": 61,
@@ -1400,7 +4820,64 @@
     2168,
     2060
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/06DFB7E3F267ADD0BB43C7383251343858371D02/1769896.png",
+  "background": "https://render.guildwars2.com/file/C0D57D3B17CC0408A2EE17FE2BA0C80A4E1838FA/1769905.png",
+  "minors": [
+   2175,
+   2162,
+   2130
+  ],
+  "traits": {
+   "2175": {
+    "name": "Spellbreaker's Conviction",
+    "icon": "https://render.guildwars2.com/file/BD996FC6ABFDC280A0B3356C786D7C5D20DE4139/1770021.png"
+   },
+   "2162": {
+    "name": "Dispelling Force",
+    "icon": "https://render.guildwars2.com/file/FA30C4D650B0F1BD3569A36F9AF6F4975D726164/1770022.png"
+   },
+   "2130": {
+    "name": "Attacker's Insight",
+    "icon": "https://render.guildwars2.com/file/211512491566A15FDCE3E1B64A010445F1EB39E5/1770023.png"
+   },
+   "2107": {
+    "name": "Pure Strike",
+    "icon": "https://render.guildwars2.com/file/11D652C0A03EBE2C50D7C804E30BD66862025F69/1770012.png"
+   },
+   "2153": {
+    "name": "Guard Counter",
+    "icon": "https://render.guildwars2.com/file/612A9DC2C632D8D64CA2630768A61AF26F7E7305/1770013.png"
+   },
+   "2140": {
+    "name": "No Escape",
+    "icon": "https://render.guildwars2.com/file/25421B04ACA795BB215FEC33EA9567A1C84D7844/1770014.png"
+   },
+   "2126": {
+    "name": "Loss Aversion",
+    "icon": "https://render.guildwars2.com/file/CBD0D10F08D5D57ECAF57C0CC122D6419BE0060A/1770015.png"
+   },
+   "2097": {
+    "name": "Resilient Counter",
+    "icon": "https://render.guildwars2.com/file/BAE747D0F6E36FC5511E24BBAE66D071374AC91A/1770016.png"
+   },
+   "2095": {
+    "name": "Sun and Moon Style",
+    "icon": "https://render.guildwars2.com/file/6FF450563C661EB718CF167C9CE20D667F4B519E/1770017.png"
+   },
+   "2163": {
+    "name": "Enchantment Collapse",
+    "icon": "https://render.guildwars2.com/file/AE076D6974ED7BD015E2EBBDDBCDEC1E21220CE7/1770018.png"
+   },
+   "2168": {
+    "name": "Resolute Counter",
+    "icon": "https://render.guildwars2.com/file/2D0B31CB9C66442AD024195224AD6D343C733231/1770019.png"
+   },
+   "2060": {
+    "name": "Magebane Tether",
+    "icon": "https://render.guildwars2.com/file/040FEAA53CC4AE3273E753D16A585EA3C9452F6E/1770020.png"
+   }
+  }
  },
  {
   "id": 62,
@@ -1423,7 +4900,64 @@
     2179,
     2159
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/6D18B2D3EE0BFA0E4BC851A7D3C39D4330250916/1769890.png",
+  "background": "https://render.guildwars2.com/file/7E6454FF9A13DBE93873AF72E192A74622990171/1769899.png",
+  "minors": [
+   2089,
+   2062,
+   2148
+  ],
+  "traits": {
+   "2089": {
+    "name": "Purity of Word",
+    "icon": "https://render.guildwars2.com/file/CC360DF028353A0C1AD09D97FA2CDF1D6D0AABA8/1769948.png"
+   },
+   "2062": {
+    "name": "Swift Scholar",
+    "icon": "https://render.guildwars2.com/file/C2347F4CA45520676368C8C5D64A3F094A0D73F8/1769949.png"
+   },
+   "2148": {
+    "name": "Imbued Haste",
+    "icon": "https://render.guildwars2.com/file/CD01F2B8C328AC37B760D0913F6D4DDDAC0477D2/1769950.png"
+   },
+   "2075": {
+    "name": "Unrelenting Criticism",
+    "icon": "https://render.guildwars2.com/file/367971C6121BCC00A453525834FD673D0CABF398/1769939.png"
+   },
+   "2101": {
+    "name": "Liberator's Vow",
+    "icon": "https://render.guildwars2.com/file/2EF42105F7B45367AB72AD737250E014597708A5/1769940.png"
+   },
+   "2086": {
+    "name": "Archivist of Whispers",
+    "icon": "https://render.guildwars2.com/file/0F76350307E3B8A894F529C8110CA8FB977E63F8/1769941.png"
+   },
+   "2063": {
+    "name": "Weighty Terms",
+    "icon": "https://render.guildwars2.com/file/3D80FCC2D64D10B566185CFA94CE681FE73BD237/1769942.png"
+   },
+   "2076": {
+    "name": "Stalwart Speed",
+    "icon": "https://render.guildwars2.com/file/50F01C5E76B37D0AE93C0E07EA0F675B270950D0/1769943.png"
+   },
+   "2116": {
+    "name": "Legendary Lore",
+    "icon": "https://render.guildwars2.com/file/0B9351C97E03000DA106650C1116BA3F5715AFDD/1769944.png"
+   },
+   "2105": {
+    "name": "Stoic Demeanor",
+    "icon": "https://render.guildwars2.com/file/FC3E5E76E418B620C2B5D3BF9851913553E46E21/1769945.png"
+   },
+   "2179": {
+    "name": "Quickfire",
+    "icon": "https://render.guildwars2.com/file/BC32643101E9CEC1D3B4B9709E4969637C283B7A/1769946.png"
+   },
+   "2159": {
+    "name": "Loremaster",
+    "icon": "https://render.guildwars2.com/file/1496F706100F1E16C5E3F76466C51D1DEF29C4FA/1769947.png"
+   }
+  }
  },
  {
   "id": 63,
@@ -1446,7 +4980,64 @@
     2100,
     2182
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/0152279F7DD0FCFA21F2D1CC17DE21B2BD58EFF3/1769894.png",
+  "background": "https://render.guildwars2.com/file/30377A5829605D7F1209B4064203A83F580548AD/1769903.png",
+  "minors": [
+   2181,
+   2154,
+   2142
+  ],
+  "traits": {
+   "2181": {
+    "name": "Ambush Commander",
+    "icon": "https://render.guildwars2.com/file/07624B40AE70CAE632BC0BBBB241FC386347A775/1769997.png"
+   },
+   "2154": {
+    "name": "Endless Enmity",
+    "icon": "https://render.guildwars2.com/file/A4D16BE749A19FE8A8B5783EE2BD1DF899156D47/1769999.png"
+   },
+   "2142": {
+    "name": "Brutal Momentum",
+    "icon": "https://render.guildwars2.com/file/02380E4BB2AEA4C92A51599F1A7657C2FE586759/1769998.png"
+   },
+   "2166": {
+    "name": "Ashen Demeanor",
+    "icon": "https://render.guildwars2.com/file/F0F4A37B01F0916F2BB8081203E3F47A25DEDEE3/1769988.png"
+   },
+   "2079": {
+    "name": "Blood Fury",
+    "icon": "https://render.guildwars2.com/file/10FA58BEA8CF9AAB3F7841B154DC26E95A4FC705/1769989.png"
+   },
+   "2120": {
+    "name": "Wrought-Iron Will",
+    "icon": "https://render.guildwars2.com/file/14C869BDBD96052543726D78CCBA241DC20F9308/1769990.png"
+   },
+   "2133": {
+    "name": "Bold Reversal",
+    "icon": "https://render.guildwars2.com/file/3F281F3706BC3EC26DADF3DC90A70B16D814A29F/1769991.png"
+   },
+   "2092": {
+    "name": "Heartpiercer",
+    "icon": "https://render.guildwars2.com/file/2063E7131B74C390D0A80853A73699E97B517F35/1769992.png"
+   },
+   "2108": {
+    "name": "All for One",
+    "icon": "https://render.guildwars2.com/file/9398D8F8E764A23596E17EDAA35B99961D62F061/1769993.png"
+   },
+   "2094": {
+    "name": "Vindication",
+    "icon": "https://render.guildwars2.com/file/3453B30240026E36661AACD3FA94FB0DBFC8246C/1769995.png"
+   },
+   "2100": {
+    "name": "Lasting Legacy",
+    "icon": "https://render.guildwars2.com/file/3BA0F9B4766D2C80037DAEE37E5D07AC1EA2C030/1769994.png"
+   },
+   "2182": {
+    "name": "Righteous Rebel",
+    "icon": "https://render.guildwars2.com/file/2374691454FF114724B41E1BF0CD98ECA645380A/1769996.png"
+   }
+  }
  },
  {
   "id": 64,
@@ -1469,7 +5060,64 @@
     2194,
     2203
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/75B05DF5ED51D0153838EC134CEFCFC80D97DA0E/2479304.png",
+  "background": "https://render.guildwars2.com/file/0B3EEFCC210D5A2C9D91F5F4D4D5AE965B4A6420/2479307.png",
+  "minors": [
+   2183,
+   2186,
+   2217
+  ],
+  "traits": {
+   "2183": {
+    "name": "Dark Disciple",
+    "icon": "https://render.guildwars2.com/file/0167422FE0046CCFE6B5CFE05DFC67582A1CA529/2479347.png"
+   },
+   "2186": {
+    "name": "Alchemic Vigor",
+    "icon": "https://render.guildwars2.com/file/E4DC4795777A0FCDE04FA876526E01BD6A495D25/2479348.png"
+   },
+   "2217": {
+    "name": "Corrupted Talent",
+    "icon": "https://render.guildwars2.com/file/38AD2F083072FEB51D780BD0939203BDFD4D0C60/2479349.png"
+   },
+   "2188": {
+    "name": "Wicked Corruption",
+    "icon": "https://render.guildwars2.com/file/05EEA50A3EB30B33EF1AC84EF0ED0E3A13487871/2479338.png"
+   },
+   "2219": {
+    "name": "Bolstering Brew",
+    "icon": "https://render.guildwars2.com/file/5768D3E9974405C19E04A50D757873FF79F4D02A/2479339.png"
+   },
+   "2185": {
+    "name": "Septic Corruption",
+    "icon": "https://render.guildwars2.com/file/4E2E73E9AF1E4A62B5C3AA0818DE383FBFBCFA24/2479340.png"
+   },
+   "2192": {
+    "name": "Implacable Foe",
+    "icon": "https://render.guildwars2.com/file/E3ABCC0E40170F08B0BDE72378D200BC06D1AF13/2479341.png"
+   },
+   "2220": {
+    "name": "Twisted Medicine",
+    "icon": "https://render.guildwars2.com/file/D8652B66081F580A082807C9DF4E743A75D038FF/2479342.png"
+   },
+   "2209": {
+    "name": "Dark Gunslinger",
+    "icon": "https://render.guildwars2.com/file/FEA2C4067D1E1B4167FEBE0A186F75701E651B5A/2479343.png"
+   },
+   "2218": {
+    "name": "Cascading Corruption",
+    "icon": "https://render.guildwars2.com/file/CDF71E71761E7997794E193A97FFC315E36CF1E7/2479344.png"
+   },
+   "2194": {
+    "name": "Deathly Haste",
+    "icon": "https://render.guildwars2.com/file/7CC30E093EDFC0A3A4F32198B53E729842779AF6/2479345.png"
+   },
+   "2203": {
+    "name": "Doom Approaches",
+    "icon": "https://render.guildwars2.com/file/DDF771C8E5AA242AAEE72BAF26180C6DB4000771/2479346.png"
+   }
+  }
  },
  {
   "id": 65,
@@ -1492,7 +5140,64 @@
     2201,
     2198
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/117F4659C3AD0AF6625D51013F03D541BEF2E8A6/2479302.png",
+  "background": "https://render.guildwars2.com/file/D90821BEE9EC0D7BBE3B462A6D44D4625BAFF198/2479305.png",
+  "minors": [
+   2200,
+   2222,
+   2189
+  ],
+  "traits": {
+   "2200": {
+    "name": "Willbender Training",
+    "icon": "https://render.guildwars2.com/file/ABC2E5DBE5589C3D3CD25E4FCF33A50A5AF25101/2479323.png"
+   },
+   "2222": {
+    "name": "Righteous Sprint",
+    "icon": "https://render.guildwars2.com/file/A046F1DB16615C0B5A4A46D2909CF34469ADE0F9/2479324.png"
+   },
+   "2189": {
+    "name": "Lethal Tempo",
+    "icon": "https://render.guildwars2.com/file/08351965141B6F3013600B3B9CC7F880DEFF05D4/2479325.png"
+   },
+   "2191": {
+    "name": "Searing Pact",
+    "icon": "https://render.guildwars2.com/file/A99C37B4DD3A04B496DE2A601B724ED6B193B8A2/2479314.png"
+   },
+   "2190": {
+    "name": "Power for Power",
+    "icon": "https://render.guildwars2.com/file/1DE84562D18036F352903060D2C27C022139EA78/2479315.png"
+   },
+   "2187": {
+    "name": "Conceited Curate",
+    "icon": "https://render.guildwars2.com/file/5BA0D4513309584BF1D5B0507A5B58BDFA6C33A9/2479316.png"
+   },
+   "2197": {
+    "name": "Restorative Virtues",
+    "icon": "https://render.guildwars2.com/file/FC4753574837A826E47E39CB5CD875D9470F6D9F/2479317.png"
+   },
+   "2210": {
+    "name": "Holy Reckoning",
+    "icon": "https://render.guildwars2.com/file/1A1A95F133208028F0492A66C1D3F2F03A6ABED5/2479318.png"
+   },
+   "2199": {
+    "name": "Vanguard Tactics",
+    "icon": "https://render.guildwars2.com/file/3E34FFB8089ADC10491A243C0D4F7974E590A103/2479319.png"
+   },
+   "2195": {
+    "name": "Phoenix Protocol",
+    "icon": "https://render.guildwars2.com/file/1A795E5D7CDEC7D9F49D342F4157154F90D44CBF/2479320.png"
+   },
+   "2201": {
+    "name": "Tyrant's Momentum",
+    "icon": "https://render.guildwars2.com/file/B436E75A9DD8EA917C3677AE4964A40DFB1BCE67/2479321.png"
+   },
+   "2198": {
+    "name": "Deathless Courage",
+    "icon": "https://render.guildwars2.com/file/6640F790796D719F4F7EB5077900AAFCB6A02DB9/2479322.png"
+   }
+  }
  },
  {
   "id": 66,
@@ -1515,7 +5220,64 @@
     2206,
     2223
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/7B0F5E48320F35C0C6A2013ACF63F4C17B1105A5/2479303.png",
+  "background": "https://render.guildwars2.com/file/97632575F6E89EB62A0AC8AF1DE7DFB060312317/2479306.png",
+  "minors": [
+   2216,
+   2204,
+   2193
+  ],
+  "traits": {
+   "2216": {
+    "name": "Psychic Blades",
+    "icon": "https://render.guildwars2.com/file/D25E3C479F24BE357015AA03C4B8B2EBCBC01B1E/2479335.png"
+   },
+   "2204": {
+    "name": "Deadly Blades",
+    "icon": "https://render.guildwars2.com/file/C4AFBAAA039152A302C15B805CAD980EA9B5D006/2479337.png"
+   },
+   "2193": {
+    "name": "Quiet Intensity",
+    "icon": "https://render.guildwars2.com/file/34117EC942763960F40B372D5B07583D984C96D3/2479336.png"
+   },
+   "2212": {
+    "name": "Bladeturn Refrain",
+    "icon": "https://render.guildwars2.com/file/72A0FCF7DE6E277E1160AA50F7C1E30BF2394CA0/2479326.png"
+   },
+   "2208": {
+    "name": "Mental Focus",
+    "icon": "https://render.guildwars2.com/file/B32B3E90552D3AE773E403D6D7AA00F50F750580/2479328.png"
+   },
+   "2202": {
+    "name": "Jagged Mind",
+    "icon": "https://render.guildwars2.com/file/F3757C0FFD6F0912C2FD017E0E28E76137FA5F71/2479327.png"
+   },
+   "2215": {
+    "name": "Duelist's Reversal",
+    "icon": "https://render.guildwars2.com/file/5A036270324AE4F246D2086C92B23AF4354978F0/2479329.png"
+   },
+   "2205": {
+    "name": "Phantasmal Blades",
+    "icon": "https://render.guildwars2.com/file/D5A30DB7ABDDCDE5B8731A5FFF20E9780C9E42A2/2479330.png"
+   },
+   "2207": {
+    "name": "Sharpening Sorrow",
+    "icon": "https://render.guildwars2.com/file/0409B10E0D9E42C80EABE235E94F500F45301551/2479331.png"
+   },
+   "2211": {
+    "name": "Psychic Riposte",
+    "icon": "https://render.guildwars2.com/file/E89F2604C2E51F79E760F6DDB83E43E77078C13B/2479332.png"
+   },
+   "2206": {
+    "name": "Infinite Forge",
+    "icon": "https://render.guildwars2.com/file/DCEF7A9E2DA5E276D514B649F853CD67E3E7FBE4/2479333.png"
+   },
+   "2223": {
+    "name": "Bloodsong",
+    "icon": "https://render.guildwars2.com/file/D014E41E176D3B0B3B1168FF1A53DF6DE9D30D34/2479334.png"
+   }
+  }
  },
  {
   "id": 67,
@@ -1538,7 +5300,64 @@
     2241,
     2251
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/1DF8CD361899081107B504A02B01C9B3B3645970/2491507.png",
+  "background": "https://render.guildwars2.com/file/379EA2AA09ED39F1312B20A6FBA835C6F893FA2E/2491510.png",
+  "minors": [
+   2227,
+   2250,
+   2231
+  ],
+  "traits": {
+   "2227": {
+    "name": "Depth of Elements",
+    "icon": "https://render.guildwars2.com/file/F5BFCBC8BEF112AF6C046FCF6ABC44C997EFAA0E/2491528.png"
+   },
+   "2250": {
+    "name": "Elemental Empowerment",
+    "icon": "https://render.guildwars2.com/file/C3B3C99943ECABFAA936573030C599EE2A974420/2491529.png"
+   },
+   "2231": {
+    "name": "Elemental Epitome",
+    "icon": "https://render.guildwars2.com/file/1D6590FD63020A49AC1D975478E6AE5E79495447/2491530.png"
+   },
+   "2230": {
+    "name": "Hardened Auras",
+    "icon": "https://render.guildwars2.com/file/07F6DDB8129A05F6DF05E6669CE00C29FF260F80/2491519.png"
+   },
+   "2252": {
+    "name": "Vicious Empowerment",
+    "icon": "https://render.guildwars2.com/file/F5AD2F77BC2920E35E04D3026ED4B07C94B1734D/2491520.png"
+   },
+   "2224": {
+    "name": "Energized Elements",
+    "icon": "https://render.guildwars2.com/file/FBE5C807BE540522A044043B040427A117AF38CF/2491521.png"
+   },
+   "2247": {
+    "name": "Empowering Auras",
+    "icon": "https://render.guildwars2.com/file/C52EDB20EC120936089EC83C54A55A610A075652/2491522.png"
+   },
+   "2249": {
+    "name": "Evasive Empowerment",
+    "icon": "https://render.guildwars2.com/file/D5DA661099326A32D307FDC103A21E21BE5A0800/2491523.png"
+   },
+   "2234": {
+    "name": "Spectacular Sphere",
+    "icon": "https://render.guildwars2.com/file/B207785D56DABD962921DA4A0D65EB4C39270D3D/2491524.png"
+   },
+   "2233": {
+    "name": "Elemental Synergy",
+    "icon": "https://render.guildwars2.com/file/5F43FA3C1DB337CDF9152CCE4A651661F062C3B2/2491525.png"
+   },
+   "2241": {
+    "name": "Empowered Empowerment",
+    "icon": "https://render.guildwars2.com/file/AB403FC4AF1A3DA40AE1ADF20E09550E11706972/2491526.png"
+   },
+   "2251": {
+    "name": "Sphere Specialist",
+    "icon": "https://render.guildwars2.com/file/9806DF11221102AF1FAD30AA5E4A4FEB0F4FF8CE/2491527.png"
+   }
+  }
  },
  {
   "id": 68,
@@ -1561,7 +5380,64 @@
     2239,
     2245
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/9D0ADEDFDEACCCD2B27103A944B1E7F6C21DCBE2/2491509.png",
+  "background": "https://render.guildwars2.com/file/0E061BA341496AF47752A5A22578BCD67BF42D77/2491512.png",
+  "minors": [
+   2226,
+   2242,
+   2236
+  ],
+  "traits": {
+   "2226": {
+    "name": "Gun X Sword",
+    "icon": "https://render.guildwars2.com/file/BACAB405BB94D2C40568E273D0BEE55D29777FC3/2491552.png"
+   },
+   "2242": {
+    "name": "Dragonscale Defense",
+    "icon": "https://render.guildwars2.com/file/E4EEF71C9743D206D3F0B9E13A37D426EA0E7CBE/2491553.png"
+   },
+   "2236": {
+    "name": "Guns and Glory",
+    "icon": "https://render.guildwars2.com/file/0B2291AEBD4B3755F0CD9A38987797763AD34790/2491554.png"
+   },
+   "2225": {
+    "name": "Unseen Sword",
+    "icon": "https://render.guildwars2.com/file/FB0FA6E411D0CC2623012BAFCF3C28D659B4BE06/2491545.png"
+   },
+   "2260": {
+    "name": "Sharp as the Wind",
+    "icon": "https://render.guildwars2.com/file/E90966C0A20291FB1FC0FFC73BAFE756B938A805/2491544.png"
+   },
+   "2237": {
+    "name": "River's Flow",
+    "icon": "https://render.guildwars2.com/file/CBAF7BFF0A76F6F9C1C664F6A45FA0CDABCA77C6/2491543.png"
+   },
+   "2253": {
+    "name": "Unshakable Mountain",
+    "icon": "https://render.guildwars2.com/file/9E3A19BD9F097F5237990A732699514134470D9A/2491546.png"
+   },
+   "2302": {
+    "name": "Fierce as Fire",
+    "icon": "https://render.guildwars2.com/file/630362D11956CB69199DE9CE0EEA03232DC9DA38/2491547.png"
+   },
+   "2303": {
+    "name": "Lush Forest",
+    "icon": "https://render.guildwars2.com/file/3113E30122B1C50F30FE80F7A603DCC8DCF2BC01/2491548.png"
+   },
+   "2261": {
+    "name": "Immortal Dragon",
+    "icon": "https://render.guildwars2.com/file/EFD50422C974522BEC9FAF95006FF71DBD711BEC/2491549.png"
+   },
+   "2239": {
+    "name": "Unyielding Dragon",
+    "icon": "https://render.guildwars2.com/file/1EB2252BC0787298D1C656045C627D59AE666745/2491550.png"
+   },
+   "2245": {
+    "name": "Daring Dragon",
+    "icon": "https://render.guildwars2.com/file/A2267CB3E238FF9732565CDE55CCFE02B478E575/2491551.png"
+   }
+  }
  },
  {
   "id": 69,
@@ -1584,7 +5460,64 @@
     2232,
     2238
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/4FE40FD1ECD6C4EC45A32A2A740AC2E2A147E04F/2491508.png",
+  "background": "https://render.guildwars2.com/file/4A16C39ED845A4062D8014E5A20135910B201BA4/2491511.png",
+  "minors": [
+   2262,
+   2254,
+   2229
+  ],
+  "traits": {
+   "2262": {
+    "name": "Tenacious Ruin",
+    "icon": "https://render.guildwars2.com/file/1F450E36D1969A3B0F9E09B070A1E5A73C5B3133/2491540.png"
+   },
+   "2254": {
+    "name": "Balance in Discord",
+    "icon": "https://render.guildwars2.com/file/0E49C9069C055B4FC23E02DC1E1271CB426F430A/2491541.png"
+   },
+   "2229": {
+    "name": "Empire Divided",
+    "icon": "https://render.guildwars2.com/file/1CBAC4D8FC44F0239BAE1BD51BFFC37AB79601B6/2491542.png"
+   },
+   "2258": {
+    "name": "Leviathan Strength",
+    "icon": "https://render.guildwars2.com/file/5863F212529A39973D0ABB76010DAA11AADF2E5F/2491531.png"
+   },
+   "2248": {
+    "name": "Amnesty of Shing Jea",
+    "icon": "https://render.guildwars2.com/file/DCD8F1EB01943B0F3F40FAD0E5E708EDB3B91B7D/2491532.png"
+   },
+   "2228": {
+    "name": "Redemptor's Sermon",
+    "icon": "https://render.guildwars2.com/file/2FE60DE76D79B54EB1911ED896020C183BD2C878/2491533.png"
+   },
+   "2259": {
+    "name": "Reaver's Curse",
+    "icon": "https://render.guildwars2.com/file/00B56F050D44B6690427AFF77901E3074FF221AD/2491534.png"
+   },
+   "2243": {
+    "name": "Angsiyan's Trust",
+    "icon": "https://render.guildwars2.com/file/48A728EA57D0BAC26130C92C357A0B715D65CCFA/2491535.png"
+   },
+   "2255": {
+    "name": "Song of Arboreum",
+    "icon": "https://render.guildwars2.com/file/9F975F23435564FF56F2E3FE0AF0BBE196EDB6E8/2491536.png"
+   },
+   "2257": {
+    "name": "Forerunner of Death",
+    "icon": "https://render.guildwars2.com/file/2864D963D3FC9156E6F52FA95DD34C2DE30306BE/2491537.png"
+   },
+   "2232": {
+    "name": "Vassals of the Empire",
+    "icon": "https://render.guildwars2.com/file/955F334FAA12550A15127A6200CB7BDE4D41BD0A/2491538.png"
+   },
+   "2238": {
+    "name": "Saint of zu Heltzer",
+    "icon": "https://render.guildwars2.com/file/42D514BF15A3F84ECECBACC7E05F95CAE03EBF6D/2491539.png"
+   }
+  }
  },
  {
   "id": 70,
@@ -1607,7 +5540,64 @@
     2281,
     2298
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/F86CDF34404C0B5A01CD0CBB9D7D0DC1D8CC48CF/2503608.png",
+  "background": "https://render.guildwars2.com/file/19C21A9C04620227042E483758962301EFC030D4/2503611.png",
+  "minors": [
+   2291,
+   2266,
+   2267
+  ],
+  "traits": {
+   "2291": {
+    "name": "Mechanical Genius",
+    "icon": "https://render.guildwars2.com/file/E56C575C4703F3377FA8BE172656ABEA6B92DE4E/2503629.png"
+   },
+   "2266": {
+    "name": "Mech Fighter",
+    "icon": "https://render.guildwars2.com/file/170C6CC908E405F57A20019A5BB3D113F13359E5/2503630.png"
+   },
+   "2267": {
+    "name": "Exigency Protocols",
+    "icon": "https://render.guildwars2.com/file/D303A429CCF6B672E66DA12DD014FEF8A80335E7/2503631.png"
+   },
+   "2282": {
+    "name": "Mech Arms: Single-Edge Cutters",
+    "icon": "https://render.guildwars2.com/file/F035B89A374E0754AC089BC7C1E90F68A2F0EEEC/2503620.png"
+   },
+   "2296": {
+    "name": "Mech Arms: High-Impact Drivers",
+    "icon": "https://render.guildwars2.com/file/2542CD9B2273C1EE29F306ED9B6FC0E0A92C7F02/2503621.png"
+   },
+   "2279": {
+    "name": "Mech Arms: Jade Cannons",
+    "icon": "https://render.guildwars2.com/file/73600241FA662501C5D617719A7B4792F30B2846/2503622.png"
+   },
+   "2270": {
+    "name": "Mech Frame: Conductive Alloys",
+    "icon": "https://render.guildwars2.com/file/F45967B8DC5F20476780D493FB79B4991822CF5E/2503623.png"
+   },
+   "2276": {
+    "name": "Mech Frame: Channeling Conduits",
+    "icon": "https://render.guildwars2.com/file/EA4C0233E57A24A4C4417C0CC955B2D8C12D5B34/2503625.png"
+   },
+   "2294": {
+    "name": "Mech Frame: Variable Mass Distributor",
+    "icon": "https://render.guildwars2.com/file/715CE76B90B40EE7E30AE1D1FA3F7432D30C5D94/2503624.png"
+   },
+   "2292": {
+    "name": "Mech Core: Jade Dynamo",
+    "icon": "https://render.guildwars2.com/file/521FEBAE995F2BFB38F9EF3176DBDCFC075173F4/2503626.png"
+   },
+   "2281": {
+    "name": "Mech Core: Barrier Engine",
+    "icon": "https://render.guildwars2.com/file/EEE0C0D90EB9E244B3F11BA0AF7C77E3D83AF576/2503627.png"
+   },
+   "2298": {
+    "name": "Mech Core: J-Drive",
+    "icon": "https://render.guildwars2.com/file/0DB4530703CE745B0E15A56609BCCA21CC649837/2503628.png"
+   }
+  }
  },
  {
   "id": 71,
@@ -1630,7 +5620,64 @@
     2300,
     2289
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/E915E494C64037C93AB53FB6F2D414B468DBCA48/2503610.png",
+  "background": "https://render.guildwars2.com/file/BF7507EF23027CA6CAD12C586D7D7EAA05962249/2503613.png",
+  "minors": [
+   2184,
+   2272,
+   2280
+  ],
+  "traits": {
+   "2184": {
+    "name": "Specter",
+    "icon": "https://render.guildwars2.com/file/A610A7B4D00D5BAE0FDBDE0BF64EAF063C96B308/2503653.png"
+   },
+   "2272": {
+    "name": "Dark Sentry",
+    "icon": "https://render.guildwars2.com/file/0F0B6509C8D5023D949153929E02FD2195AF63FE/2503654.png"
+   },
+   "2280": {
+    "name": "Panaku's Ambition",
+    "icon": "https://render.guildwars2.com/file/630D6100268010ED04B2ABE529BD4AE9110BF65F/2503655.png"
+   },
+   "2284": {
+    "name": "Second Opinion",
+    "icon": "https://render.guildwars2.com/file/91D1F2C2D65D18F2F5CB02B43F6CF253F4E12043/2503644.png"
+   },
+   "2299": {
+    "name": "Shallow Grave",
+    "icon": "https://render.guildwars2.com/file/D31FC1BD407E28B2F4F967FCA76CB3347AE8C9A7/2503645.png"
+   },
+   "2275": {
+    "name": "Consume Shadows",
+    "icon": "https://render.guildwars2.com/file/0DE6EECA322FE219A7DF6FFA9EE04B975FA2E06B/2503646.png"
+   },
+   "2290": {
+    "name": "Larcenous Torment",
+    "icon": "https://render.guildwars2.com/file/2E41AD9FAC08F79333EAC791C4B9967EE60E98AA/2503647.png"
+   },
+   "2288": {
+    "name": "Amplified Siphoning",
+    "icon": "https://render.guildwars2.com/file/D87B7B5603FCC14BC2F8B239C0522006F45ACBC1/2503648.png"
+   },
+   "2285": {
+    "name": "Traversing Dusk",
+    "icon": "https://render.guildwars2.com/file/DCA50F003BB8C0C5AC302A990BEEFF4D380E5071/2503649.png"
+   },
+   "2264": {
+    "name": "Strength of Shadows",
+    "icon": "https://render.guildwars2.com/file/BAF9A03EB934BFBA801461A5CCE0FD0B7E461506/2503650.png"
+   },
+   "2300": {
+    "name": "Hungering Darkness",
+    "icon": "https://render.guildwars2.com/file/2D14F85E2F069B20BD06F3DBC91B5453B0BB49F0/2503651.png"
+   },
+   "2289": {
+    "name": "Shadestep",
+    "icon": "https://render.guildwars2.com/file/5C3F020C08045735BAA12A92A3FF9674EEAE4672/2503652.png"
+   }
+  }
  },
  {
   "id": 72,
@@ -1653,7 +5700,64 @@
     2283,
     2274
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/D219A813B5312BA9D1D10A74C10E9E5F3F54936B/2503609.png",
+  "background": "https://render.guildwars2.com/file/ED44DB9901D82D760DC5B8A918BB603DA06B3257/2503612.png",
+  "minors": [
+   2268,
+   2286,
+   2269
+  ],
+  "traits": {
+   "2268": {
+    "name": "Unleashed Power",
+    "icon": "https://render.guildwars2.com/file/985312115044390876A0D309CD7E05E124E2D90E/2503641.png"
+   },
+   "2286": {
+    "name": "Natural Fortitude",
+    "icon": "https://render.guildwars2.com/file/0EC6000B27090A500127630C639949E8081F9BE4/2503642.png"
+   },
+   "2269": {
+    "name": "Vow of the Untamed",
+    "icon": "https://render.guildwars2.com/file/6C71F5D550E3CBACBB067376F52DE40A0148776F/2503643.png"
+   },
+   "2297": {
+    "name": "Debilitating Blows",
+    "icon": "https://render.guildwars2.com/file/67AE6DDC0A0266CC206E03FA27A0FFDC0DBD4BB0/2503632.png"
+   },
+   "2277": {
+    "name": "Nature's Shield",
+    "icon": "https://render.guildwars2.com/file/190A65447E01046A9B90C52C14AB2EF1AD8077AF/2503636.png"
+   },
+   "2301": {
+    "name": "Blinding Outburst",
+    "icon": "https://render.guildwars2.com/file/AD425360631C67A415F53C06FAD4027FA505474C/2503634.png"
+   },
+   "2263": {
+    "name": "Enhancing Impact",
+    "icon": "https://render.guildwars2.com/file/E772E5E89C0DE45293FE6437A574702BA3672775/2503635.png"
+   },
+   "2287": {
+    "name": "Cleansing Unleash",
+    "icon": "https://render.guildwars2.com/file/C85AA35DE3FCF36EE0A909B1EE0B90F9B5284EAD/2503633.png"
+   },
+   "2278": {
+    "name": "Corrupting Vines",
+    "icon": "https://render.guildwars2.com/file/5999A42A73A5C9F829F82A0D36410BF792261426/2503637.png"
+   },
+   "2271": {
+    "name": "Let Loose",
+    "icon": "https://render.guildwars2.com/file/B32F06D106DA429C04FAD32202EE2B400CCF53C0/2503638.png"
+   },
+   "2283": {
+    "name": "Biorhythm",
+    "icon": "https://render.guildwars2.com/file/44B8970EAEBCFC14E11A910C5B5D0FC512FEEBE5/2503639.png"
+   },
+   "2274": {
+    "name": "Ferocious Symbiosis",
+    "icon": "https://render.guildwars2.com/file/B367DF25F5F07C51CE5BD280C35A0E7BB19B98A3/2503640.png"
+   }
+  }
  },
  {
   "id": 73,
@@ -1676,7 +5780,64 @@
     2414,
     2441
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/0FDD99E8B7A7FB4B06186C0756E02C0515520F75/3679899.png",
+  "background": "https://render.guildwars2.com/file/A9AF4BB7BC18AB4871B7D69EBEDEB344CD59D3DE/3679908.png",
+  "minors": [
+   2386,
+   2424,
+   2374
+  ],
+  "traits": {
+   "2386": {
+    "name": "Wandering Minstrel",
+    "icon": "https://render.guildwars2.com/file/20B247166125BF0E03E65372F7C5ECE23207A208/3679976.png"
+   },
+   "2424": {
+    "name": "Symphonic Resonance",
+    "icon": "https://render.guildwars2.com/file/AF276ECB07996BF5343A513FF2E52F3BE1CBAD0B/3679978.png"
+   },
+   "2374": {
+    "name": "Harmonize",
+    "icon": "https://render.guildwars2.com/file/4BE6ED63233DEB2D5801D5D66BB202E202A6A27F/3679977.png"
+   },
+   "2427": {
+    "name": "Mayhem",
+    "icon": "https://render.guildwars2.com/file/A31842FADE40E64D553D230C0922E43D58495209/3679967.png"
+   },
+   "2326": {
+    "name": "Raconteur",
+    "icon": "https://render.guildwars2.com/file/77005B6DA7C4266CECE0BABD357E0F283D3E7F53/3679971.png"
+   },
+   "2432": {
+    "name": "Syncopate",
+    "icon": "https://render.guildwars2.com/file/42C9802D696B9670A0155DDF0FD2480CD9FBC473/3679969.png"
+   },
+   "2343": {
+    "name": "Shredding",
+    "icon": "https://render.guildwars2.com/file/EF2D16FDF29BDCFEEC96503E0145BE1A9846F04C/3679970.png"
+   },
+   "2367": {
+    "name": "Life of the Party",
+    "icon": "https://render.guildwars2.com/file/0D59A15F3F7F2671456A36C41A1737A94F050665/3679968.png"
+   },
+   "2422": {
+    "name": "Love Song",
+    "icon": "https://render.guildwars2.com/file/1CC50D6BDDE64580522F0D396D194C020AC50DCE/3679972.png"
+   },
+   "2353": {
+    "name": "Fortissimo",
+    "icon": "https://render.guildwars2.com/file/57A93CAD1CDC7A45BA3B3BEB1739BDC7765109D6/3679973.png"
+   },
+   "2414": {
+    "name": "Call and Response",
+    "icon": "https://render.guildwars2.com/file/1C96474AC3D5C74E05B724E8FF9DF9FC0ADCAFC2/3679974.png"
+   },
+   "2441": {
+    "name": "Altered Chord",
+    "icon": "https://render.guildwars2.com/file/57FB13067F3039331F0C03A63B0D07242F0C72C4/3679975.png"
+   }
+  }
  },
  {
   "id": 74,
@@ -1699,7 +5860,64 @@
     2375,
     2428
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/B915D599CB40733130F7121B5CDE0BE42ED9E06C/3679904.png",
+  "background": "https://render.guildwars2.com/file/F879AC0997C964DE562D98A5BC4EA60BC7C22849/3679913.png",
+  "minors": [
+   2373,
+   2418,
+   2340
+  ],
+  "traits": {
+   "2373": {
+    "name": "Rally the Valiant",
+    "icon": "https://render.guildwars2.com/file/045E3160E19E1C2118495014EB7FDB3D0F0C26D1/3680036.png"
+   },
+   "2418": {
+    "name": "Inspiring Implements",
+    "icon": "https://render.guildwars2.com/file/E3204571092E5421DB040C1CA7CF6D4DB020C40A/3680037.png"
+   },
+   "2340": {
+    "name": "Unyielding Resolve",
+    "icon": "https://render.guildwars2.com/file/B59FD327A19AE730A3EEE4B444216D1372A3AE77/3680038.png"
+   },
+   "2345": {
+    "name": "Call to Action",
+    "icon": "https://render.guildwars2.com/file/1B6120AEA5BC4075D6BFACA03708AA3A687A2D0B/3680027.png"
+   },
+   "2433": {
+    "name": "Calming Tongue",
+    "icon": "https://render.guildwars2.com/file/09E0E10AC5A6A5F011EFDC5B0FAF5ACBD43446ED/3680028.png"
+   },
+   "2357": {
+    "name": "Liberating Liaise",
+    "icon": "https://render.guildwars2.com/file/FC6B3A6C31385C46DDCD71A30AB5B3AABCA4ABCE/3680029.png"
+   },
+   "2385": {
+    "name": "Strengthening Stanzas",
+    "icon": "https://render.guildwars2.com/file/0B71DE9F6F070A90257FCC7F6F13AEB5AD0C0D0A/3680034.png"
+   },
+   "2426": {
+    "name": "Invigorating Tempo",
+    "icon": "https://render.guildwars2.com/file/1473CC04EF16295D167629EB4E0D3EF53F282F05/3680031.png"
+   },
+   "2399": {
+    "name": "Reverberation",
+    "icon": "https://render.guildwars2.com/file/02BCDA5A38D15A02000A075B4503160D5191665C/3680032.png"
+   },
+   "2369": {
+    "name": "Feverish Pulse",
+    "icon": "https://render.guildwars2.com/file/A372A2E828F4A6EF4F0F2C205DA0E7E8EDC695C1/3680033.png"
+   },
+   "2375": {
+    "name": "Brisk Pacing",
+    "icon": "https://render.guildwars2.com/file/9D35A3CED107B068AD4D20A3782BF6262FE36610/3680030.png"
+   },
+   "2428": {
+    "name": "Enduring Refrain",
+    "icon": "https://render.guildwars2.com/file/2AB5996B0180A45A53E7FC4AB5230D6F5A3C0767/3680035.png"
+   }
+  }
  },
  {
   "id": 75,
@@ -1722,7 +5940,64 @@
     2387,
     2334
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/67AA599996662C5BA8427FA7BA6FF8B4ED221B0D/3679897.png",
+  "background": "https://render.guildwars2.com/file/094F0711ADF50A3F013F2963C5B03215626C96A8/3679906.png",
+  "minors": [
+   2377,
+   2389,
+   2356
+  ],
+  "traits": {
+   "2377": {
+    "name": "Experimental Union",
+    "icon": "https://render.guildwars2.com/file/389B4548DDBC08AEA668F3AF1802394E0955B591/3679952.png"
+   },
+   "2389": {
+    "name": "Hybrid Vigor",
+    "icon": "https://render.guildwars2.com/file/69F518AF096998F9B127C7CB1C05EA7348D170C7/3679953.png"
+   },
+   "2356": {
+    "name": "Willing Host",
+    "icon": "https://render.guildwars2.com/file/49DEE2C90E04E876DE2517C201060E330A7D9FDE/3679954.png"
+   },
+   "2366": {
+    "name": "Stainless Steel",
+    "icon": "https://render.guildwars2.com/file/C280022834C550F145319BE3AC0401EB3D9B92CE/3679943.png"
+   },
+   "2395": {
+    "name": "Innervating Alloy",
+    "icon": "https://render.guildwars2.com/file/0AB2B3EE2E255AD7A766F93D7BE0A0AD59CF6637/3679944.png"
+   },
+   "2434": {
+    "name": "Hardened Chrome",
+    "icon": "https://render.guildwars2.com/file/2FB406D8030E90F0AAB8AF487E0276F023140BE9/3679945.png"
+   },
+   "2383": {
+    "name": "Carbolic Composition",
+    "icon": "https://render.guildwars2.com/file/9D0E774CFF5A9FD6C8739DD5D9EBEB3D270CACF6/3679946.png"
+   },
+   "2420": {
+    "name": "Mercurial Tendencies",
+    "icon": "https://render.guildwars2.com/file/B2CBCEF3DACEECD7BFBBD1CF946AD1CBFF0AD866/3679947.png"
+   },
+   "2349": {
+    "name": "Silver Lining",
+    "icon": "https://render.guildwars2.com/file/EBC7B54429A00A7C1CB021A2EF7B470E7831B064/3679948.png"
+   },
+   "2406": {
+    "name": "Symbiotic Synergy",
+    "icon": "https://render.guildwars2.com/file/457A0302F976CCF42D065D0E01DD08390666DFCD/3679949.png"
+   },
+   "2387": {
+    "name": "New Genes",
+    "icon": "https://render.guildwars2.com/file/B6E5BA5FF8F4179F2521F61696EEC3D7DEE50F07/3679950.png"
+   },
+   "2334": {
+    "name": "Double Helix",
+    "icon": "https://render.guildwars2.com/file/000E5AC3B7BE616A329F46ECAD06EB07507ADF73/3679951.png"
+   }
+  }
  },
  {
   "id": 76,
@@ -1745,7 +6020,64 @@
     2333,
     2392
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/9064C22D08E4A7686FFB0256DDF42B97055EB144/3679900.png",
+  "background": "https://render.guildwars2.com/file/B2050637E3F0091CB62E7EB5230F68CF35E8E2CD/3679909.png",
+  "minors": [
+   2338,
+   2371,
+   2398
+  ],
+  "traits": {
+   "2338": {
+    "name": "Spawning Power",
+    "icon": "https://render.guildwars2.com/file/34DA7A4732080C2046EABF0665C1EDEFBEAC0A77/3679988.png"
+   },
+   "2371": {
+    "name": "Boon of Creation",
+    "icon": "https://render.guildwars2.com/file/0505292B441441E01D92357A6DB6DBFBBD98BDF6/3679989.png"
+   },
+   "2398": {
+    "name": "Charged Souls",
+    "icon": "https://render.guildwars2.com/file/9B099042C2D9ED59E269946CCF2CC104D7C55FC5/3679990.png"
+   },
+   "2327": {
+    "name": "Wandering Spirits",
+    "icon": "https://render.guildwars2.com/file/A7BCADD16A9D722876E0C7691C97CFF22209061E/3679979.png"
+   },
+   "2378": {
+    "name": "Spirit's Gift",
+    "icon": "https://render.guildwars2.com/file/55FE1567ACC241C60CE266CFE5742DC2CA2A539D/3679980.png"
+   },
+   "2339": {
+    "name": "Explosive Growth",
+    "icon": "https://render.guildwars2.com/file/EBEED007E2F92B18B921210ACE261F279329E31F/3679981.png"
+   },
+   "2384": {
+    "name": "Spirits' Remedy",
+    "icon": "https://render.guildwars2.com/file/07310A77945BA85DA3E92640A8B3661DDDDA36FD/3679982.png"
+   },
+   "2405": {
+    "name": "Empowering Spirits",
+    "icon": "https://render.guildwars2.com/file/CB9EA5F92C50D94644E005D76A677E61C917E9DE/3679983.png"
+   },
+   "2421": {
+    "name": "Spirit's Strength",
+    "icon": "https://render.guildwars2.com/file/2A16D0E19CD2A37945C53B53C04EC7D5D93576AD/3679984.png"
+   },
+   "2376": {
+    "name": "Wielder's Boon",
+    "icon": "https://render.guildwars2.com/file/04A0D095F007E2DABC99A5460AF2EA3A4610EA1C/3679985.png"
+   },
+   "2333": {
+    "name": "Lingering Spirits",
+    "icon": "https://render.guildwars2.com/file/A14721D00D6A034E9EB60BB00F7B1414C118CA06/3679986.png"
+   },
+   "2392": {
+    "name": "Soul Twisting",
+    "icon": "https://render.guildwars2.com/file/FF601244FDFBE87DB102F0CEDAC04D1958BAF60C/3679987.png"
+   }
+  }
  },
  {
   "id": 77,
@@ -1768,7 +6100,64 @@
     2393,
     2348
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/569D3C9A9E7121939844809F0D05E81480C8F6F8/3679903.png",
+  "background": "https://render.guildwars2.com/file/32E896AC6766E272C8910B6170394A3575C0D335/3679912.png",
+  "minors": [
+   2403,
+   2337,
+   2362
+  ],
+  "traits": {
+   "2403": {
+    "name": "Trinket Collector",
+    "icon": "https://render.guildwars2.com/file/359CC672C30816395DE613909DAC17791A2B5609/3680024.png"
+   },
+   "2337": {
+    "name": "Magpie's Defense",
+    "icon": "https://render.guildwars2.com/file/3A4DAC71019B64EA1893E06638234E1BE4DB6251/3680025.png"
+   },
+   "2362": {
+    "name": "Enterprising Aristocrat",
+    "icon": "https://render.guildwars2.com/file/CEED9A51F13AD702C52A015C26B5AD3880260169/3680026.png"
+   },
+   "2423": {
+    "name": "Card Swap",
+    "icon": "https://render.guildwars2.com/file/5662430D23996FB7B0042B22A205557C50B8C2A9/3680015.png"
+   },
+   "2365": {
+    "name": "Repeat Ransacker",
+    "icon": "https://render.guildwars2.com/file/6AEAF7E01D590A0DB654B1B3B591919819DFB296/3680016.png"
+   },
+   "2346": {
+    "name": "Prolific Plunderer",
+    "icon": "https://render.guildwars2.com/file/5DE6C298930CBD77DE940F471F4B789A6CD5B1C3/3680017.png"
+   },
+   "2400": {
+    "name": "Scoundrel's Luck",
+    "icon": "https://render.guildwars2.com/file/4AAA71A143C45B000A10AF5D0F75060CF72144A7/3680018.png"
+   },
+   "2431": {
+    "name": "Meticulous Custodian",
+    "icon": "https://render.guildwars2.com/file/F918D37414AFFAE66AB79141430302CA3380FF80/3680019.png"
+   },
+   "2350": {
+    "name": "Exhilarating Ephemera",
+    "icon": "https://render.guildwars2.com/file/08475BFD2DA578D96933C0D42FB33770AF68A454/3680020.png"
+   },
+   "2409": {
+    "name": "Prodigious Pincher",
+    "icon": "https://render.guildwars2.com/file/E6727CC4670FCA6FE2CC79302ABCBF99D14D05DA/3680021.png"
+   },
+   "2393": {
+    "name": "Possessive Hoarder",
+    "icon": "https://render.guildwars2.com/file/14EE00EF0E792D7DE9C8A03CB0404C72ECF128B7/3680022.png"
+   },
+   "2348": {
+    "name": "Combat High",
+    "icon": "https://render.guildwars2.com/file/EDF09834A4A650256C98A3680C2DF4A4C5339BAC/3680023.png"
+   }
+  }
  },
  {
   "id": 78,
@@ -1791,7 +6180,64 @@
     2336,
     2372
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/1E0DE9DF219380B3DD15AD35466461C935930515/3679901.png",
+  "background": "https://render.guildwars2.com/file/4BC6740C765896B9EE6E38671BD204B7A82535F9/3679910.png",
+  "minors": [
+   2359,
+   2363,
+   2341
+  ],
+  "traits": {
+   "2359": {
+    "name": "Teachings of the Tengu",
+    "icon": "https://render.guildwars2.com/file/DBBA6892E6A871D5C56B5967282EFCAECB1AB0FC/3680000.png"
+   },
+   "2363": {
+    "name": "Bird of Prey",
+    "icon": "https://render.guildwars2.com/file/D95923386652CE75C66D93F8E20EC06A066C51B8/3680001.png"
+   },
+   "2341": {
+    "name": "Jetstream",
+    "icon": "https://render.guildwars2.com/file/FBA5A4DCB905A8BFBC960E6C62D21151D87DECC9/3680002.png"
+   },
+   "2402": {
+    "name": "Joy of Movement",
+    "icon": "https://render.guildwars2.com/file/ECC60120623FF8F60DBA76069F140C1F2B389DD1/3679991.png"
+   },
+   "2370": {
+    "name": "Feel the Rush",
+    "icon": "https://render.guildwars2.com/file/ADF07346C562CEAB0295AE5A12ADA63CBC01DE34/3679992.png"
+   },
+   "2360": {
+    "name": "Wuthering Wind",
+    "icon": "https://render.guildwars2.com/file/BE5F0405E79D13C89F0D9EF13B1B11479D0C3805/3679993.png"
+   },
+   "2408": {
+    "name": "Flock Together",
+    "icon": "https://render.guildwars2.com/file/705F72DB08D671B04EA5E3329976C3E4999AFB3E/3679994.png"
+   },
+   "2413": {
+    "name": "Perilous Skies",
+    "icon": "https://render.guildwars2.com/file/E9167E11087E64EB021B0F257C393305A5CD757F/3679995.png"
+   },
+   "2396": {
+    "name": "Thrill of the Catch",
+    "icon": "https://render.guildwars2.com/file/9C94EE77BCC40E0175A471DE17454CD97059A770/3679996.png"
+   },
+   "2425": {
+    "name": "Cloudburst",
+    "icon": "https://render.guildwars2.com/file/CD50C06E229B696D4EFE21DCC9ABA4F9335738E2/3679997.png"
+   },
+   "2336": {
+    "name": "Gale Force",
+    "icon": "https://render.guildwars2.com/file/206A95E4F6F236D824F80CF2495B4E6553ABFF34/3679998.png"
+   },
+   "2372": {
+    "name": "Shrike",
+    "icon": "https://render.guildwars2.com/file/562E1E5BAFAF14367F48521966E1BCF7DD92E2D4/3679999.png"
+   }
+  }
  },
  {
   "id": 79,
@@ -1814,7 +6260,64 @@
     2379,
     2352
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/63DD70A26845681B9B993A51987F60A2F7970C52/3679902.png",
+  "background": "https://render.guildwars2.com/file/24DCBA06ED23E55A54953996025B07E46FFBC4B9/3679911.png",
+  "minors": [
+   2364,
+   2331,
+   2440
+  ],
+  "traits": {
+   "2364": {
+    "name": "Enigmatic Connection",
+    "icon": "https://render.guildwars2.com/file/EFAF4505C30228C26DBA974C57FEA43BA8EEF6C6/3680012.png"
+   },
+   "2331": {
+    "name": "Bolstered Bonds",
+    "icon": "https://render.guildwars2.com/file/EE281EB94E5A05EBABA8E1430FE163B758095696/3680013.png"
+   },
+   "2440": {
+    "name": "Numinous Gift",
+    "icon": "https://render.guildwars2.com/file/7C40B5ED64D8C97477C721590541E16B0977DBC7/3680014.png"
+   },
+   "2390": {
+    "name": "Conductive Armaments",
+    "icon": "https://render.guildwars2.com/file/03E180493B5346251D1934A0A71A1178CF503936/3680003.png"
+   },
+   "2355": {
+    "name": "Shared Wisdom",
+    "icon": "https://render.guildwars2.com/file/0C23B09FFB9B1803AA74B3F33D6E47B7F60A5CB1/3680008.png"
+   },
+   "2407": {
+    "name": "Lingering Determination",
+    "icon": "https://render.guildwars2.com/file/C20A447DB7AC6F014BEA6A67DBC8CA5A557FA849/3680007.png"
+   },
+   "2411": {
+    "name": "Kinetic Insight",
+    "icon": "https://render.guildwars2.com/file/FA072331B55C06B36738A30E050B64920C513C5F/3680006.png"
+   },
+   "2358": {
+    "name": "Expanded Consciousness",
+    "icon": "https://render.guildwars2.com/file/6ACBECC9DCB9F87A90C17EF4BD95F14F5F1B27CF/3680005.png"
+   },
+   "2416": {
+    "name": "Ethereal Purification",
+    "icon": "https://render.guildwars2.com/file/A415FEE3B8013102B77E18753CCB7DE0682B4A0B/3680004.png"
+   },
+   "2429": {
+    "name": "Mistfire",
+    "icon": "https://render.guildwars2.com/file/AD98A272DA5375CCD6109217CB39ED4C50441E3E/3680009.png"
+   },
+   "2379": {
+    "name": "Enhanced Embodiment",
+    "icon": "https://render.guildwars2.com/file/F380CE649F7294375BA550FF2757025B4BC75C73/3680010.png"
+   },
+   "2352": {
+    "name": "Found Purpose",
+    "icon": "https://render.guildwars2.com/file/623DA39A3225D07CC009359841CA951EF410DBC2/3680011.png"
+   }
+  }
  },
  {
   "id": 80,
@@ -1837,7 +6340,64 @@
     2436,
     2437
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/A80E0721636B027711E408BF0ADFDCD3330920AA/3679896.png",
+  "background": "https://render.guildwars2.com/file/393A550E0EA1C4A9CB3FB9CD4AE4DDDC01E6C1D3/3679905.png",
+  "minors": [
+   2344,
+   2382,
+   2351
+  ],
+  "traits": {
+   "2344": {
+    "name": "Evocation",
+    "icon": "https://render.guildwars2.com/file/3FE7D7FE06E2FBF1DFC85AAE1EB101F56F137938/3679940.png"
+   },
+   "2382": {
+    "name": "Enhanced Potency",
+    "icon": "https://render.guildwars2.com/file/F31CA1E555EEEC123D09D7602E7C07F326FC0DFE/3679941.png"
+   },
+   "2351": {
+    "name": "Familiar's Prowess",
+    "icon": "https://render.guildwars2.com/file/18964AD8371C1FB3160A7779D0AA0120B9FFABBB/3679942.png"
+   },
+   "2391": {
+    "name": "Fiery Might",
+    "icon": "https://render.guildwars2.com/file/B90AE3D7B9BF46A516567DDD7DC072AEC64DE850/3679934.png"
+   },
+   "2415": {
+    "name": "Altruistic Aspect",
+    "icon": "https://render.guildwars2.com/file/1A01DE9D0567081D12F9B75DF8B5B26D38AE1508/3679933.png"
+   },
+   "2354": {
+    "name": "Spirit's Succor",
+    "icon": "https://render.guildwars2.com/file/5963EEA1935F352ADE7EAB464EC5F89FA8A74A7F/3679936.png"
+   },
+   "2342": {
+    "name": "Familiar's Focus",
+    "icon": "https://render.guildwars2.com/file/F9FE2E9559AD4700D0737EACCF3608CED3E50BA6/3679937.png"
+   },
+   "2380": {
+    "name": "Familiar's Blessing",
+    "icon": "https://render.guildwars2.com/file/324AF976A04EADC23FAF0D27B1FD01EC057B5B5E/3679938.png"
+   },
+   "2438": {
+    "name": "Elemental Dynamo",
+    "icon": "https://render.guildwars2.com/file/5978B791032A18A2C596986B482B1B1A48E916C9/3679931.png"
+   },
+   "2335": {
+    "name": "Galvanic Enchantment",
+    "icon": "https://render.guildwars2.com/file/1561D12A4FFC17F3D52AE27337A359274A74D53F/3679932.png"
+   },
+   "2436": {
+    "name": "Elemental Balance",
+    "icon": "https://render.guildwars2.com/file/6B625B190E65062542F7CCF9B1565D2AF403C2C6/3679935.png"
+   },
+   "2437": {
+    "name": "Specialized Elements",
+    "icon": "https://render.guildwars2.com/file/7FC97790020E564E5507630A75069F42903B57AE/3679939.png"
+   }
+  }
  },
  {
   "id": 81,
@@ -1860,6 +6420,63 @@
     2328,
     2388
    ]
-  ]
+  ],
+  "icon": "https://render.guildwars2.com/file/034C203DBD60CFF19D3D5CE9E71B27CA0103F50D/3679898.png",
+  "background": "https://render.guildwars2.com/file/AF9E19ADE842E1661324EDC6AAAEF7B2933CF132/3679907.png",
+  "minors": [
+   2381,
+   2394,
+   2435
+  ],
+  "traits": {
+   "2381": {
+    "name": "Luminary",
+    "icon": "https://render.guildwars2.com/file/1C173BD7036E52E6E0463317F5B63490B101B4D5/3679964.png"
+   },
+   "2394": {
+    "name": "Light's Gift",
+    "icon": "https://render.guildwars2.com/file/6C920751304B14ADFFB6A70CACEA1B80D2ABFC59/3679965.png"
+   },
+   "2435": {
+    "name": "Radiant Armaments",
+    "icon": "https://render.guildwars2.com/file/9D40CA9DC73D7C03EA58BE0EB51CDC46DA9E9403/3679966.png"
+   },
+   "2410": {
+    "name": "Shimmering Stances",
+    "icon": "https://render.guildwars2.com/file/0BBF59B654A528C492CA26463B2728DD590EE016/3679955.png"
+   },
+   "2417": {
+    "name": "Resolute Blessing",
+    "icon": "https://render.guildwars2.com/file/3580BB0C4F3E9BBC96080454BE9491CC934A6C55/3679956.png"
+   },
+   "2329": {
+    "name": "Persistent Blessing",
+    "icon": "https://render.guildwars2.com/file/CA0853B1409CF197E0082626E5EDE57BE758CF40/3679957.png"
+   },
+   "2330": {
+    "name": "Resplendent Weaponry",
+    "icon": "https://render.guildwars2.com/file/5176E7FBE301F9DF01C54A79BCFD02F6C3029BED/3679958.png"
+   },
+   "2401": {
+    "name": "Purging Light",
+    "icon": "https://render.guildwars2.com/file/0F9AC6B095FF6924D01F07FF26BF0F5C0DADD824/3679959.png"
+   },
+   "2419": {
+    "name": "Empowered Armaments",
+    "icon": "https://render.guildwars2.com/file/37424E9DD0A3ADC61DD56BB180C96201DB61099C/3679960.png"
+   },
+   "2368": {
+    "name": "Illuminating Inspiration",
+    "icon": "https://render.guildwars2.com/file/DDFE760CBC42D4B2EC0645099C161AC850E41EA7/3679961.png"
+   },
+   "2328": {
+    "name": "Sovereign of Light",
+    "icon": "https://render.guildwars2.com/file/111A0EA54101D7C22F57070690139662D0BC5316/3679962.png"
+   },
+   "2388": {
+    "name": "Master-at-Arms",
+    "icon": "https://render.guildwars2.com/file/B4094AF403DC0753F496E97F014A0FB02FB1D209/3679963.png"
+   }
+  }
  }
 ]
