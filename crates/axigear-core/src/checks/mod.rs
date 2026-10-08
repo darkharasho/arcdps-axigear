@@ -1,6 +1,7 @@
 //! The check engine: expected build + live state + API snapshot → results.
 
 pub mod build;
+pub mod consumables;
 pub mod gear;
 
 use std::time::Instant;
@@ -105,6 +106,8 @@ pub fn run(ctx: &Ctx, severities: &Severities) -> Vec<CheckResult> {
         }
     }
     out.extend(build::skills_seen(ctx));
+    out.extend(consumables::food(ctx));
+    out.extend(consumables::utility(ctx));
     out.retain_mut(|r| match severities.get(r.category).severity() {
         None => false,
         Some(s) => {
