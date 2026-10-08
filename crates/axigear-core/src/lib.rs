@@ -4,6 +4,7 @@
 pub mod axicode;
 pub mod link;
 pub mod model;
+pub mod publish;
 pub mod raw;
 pub mod text;
 
