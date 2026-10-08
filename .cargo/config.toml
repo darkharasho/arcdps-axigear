@@ -1,0 +1,4 @@
+[alias]
+dll = ["xwin", "build", "--release", "-p", "arcdps_axigear", "--target", "x86_64-pc-windows-msvc"]
+dll-dev = ["xwin", "build", "-p", "arcdps_axigear", "--target", "x86_64-pc-windows-msvc"]
+dll-check = ["xwin", "check", "-p", "arcdps_axigear", "--target", "x86_64-pc-windows-msvc"]

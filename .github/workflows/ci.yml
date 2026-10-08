@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      XWIN_ACCEPT_LICENSE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace
+      - run: sudo apt-get update && sudo apt-get install -y clang lld llvm
+      - run: cargo install cargo-xwin --locked
+      - run: cargo xwin check -p arcdps_axigear --target x86_64-pc-windows-msvc
