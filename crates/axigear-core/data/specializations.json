@@ -1,0 +1,1865 @@
+[
+ {
+  "id": 1,
+  "name": "Dueling",
+  "profession": "Mesmer",
+  "elite": false,
+  "majors": [
+   [
+    701,
+    705,
+    700
+   ],
+   [
+    1889,
+    1960,
+    708
+   ],
+   [
+    692,
+    1950,
+    704
+   ]
+  ]
+ },
+ {
+  "id": 2,
+  "name": "Death Magic",
+  "profession": "Necromancer",
+  "elite": false,
+  "majors": [
+   [
+    820,
+    857,
+    1922
+   ],
+   [
+    858,
+    860,
+    855
+   ],
+   [
+    842,
+    1940,
+    1694
+   ]
+  ]
+ },
+ {
+  "id": 3,
+  "name": "Invocation",
+  "profession": "Revenant",
+  "elite": false,
+  "majors": [
+   [
+    1732,
+    1761,
+    1784
+   ],
+   [
+    1774,
+    1760,
+    1781
+   ],
+   [
+    1749,
+    1791,
+    1719
+   ]
+  ]
+ },
+ {
+  "id": 4,
+  "name": "Strength",
+  "profession": "Warrior",
+  "elite": false,
+  "majors": [
+   [
+    1447,
+    1451,
+    1444
+   ],
+   [
+    2000,
+    1338,
+    1449
+   ],
+   [
+    1437,
+    1454,
+    1440
+   ]
+  ]
+ },
+ {
+  "id": 5,
+  "name": "Druid",
+  "profession": "Ranger",
+  "elite": true,
+  "majors": [
+   [
+    1868,
+    2016,
+    1935
+   ],
+   [
+    2053,
+    2001,
+    2056
+   ],
+   [
+    2057,
+    2058,
+    2055
+   ]
+  ]
+ },
+ {
+  "id": 6,
+  "name": "Explosives",
+  "profession": "Engineer",
+  "elite": false,
+  "majors": [
+   [
+    514,
+    525,
+    1882
+   ],
+   [
+    482,
+    1892,
+    1944
+   ],
+   [
+    1541,
+    505,
+    1947
+   ]
+  ]
+ },
+ {
+  "id": 7,
+  "name": "Daredevil",
+  "profession": "Thief",
+  "elite": true,
+  "majors": [
+   [
+    1933,
+    2023,
+    1949
+   ],
+   [
+    1884,
+    1893,
+    1975
+   ],
+   [
+    1833,
+    1964,
+    2047
+   ]
+  ]
+ },
+ {
+  "id": 8,
+  "name": "Marksmanship",
+  "profession": "Ranger",
+  "elite": false,
+  "majors": [
+   [
+    1021,
+    1014,
+    986
+   ],
+   [
+    1001,
+    1000,
+    1070
+   ],
+   [
+    996,
+    1015,
+    1698
+   ]
+  ]
+ },
+ {
+  "id": 9,
+  "name": "Retribution",
+  "profession": "Revenant",
+  "elite": false,
+  "majors": [
+   [
+    1811,
+    1728,
+    1810
+   ],
+   [
+    1766,
+    1782,
+    1740
+   ],
+   [
+    1779,
+    1770,
+    1790
+   ]
+  ]
+ },
+ {
+  "id": 10,
+  "name": "Domination",
+  "profession": "Mesmer",
+  "elite": false,
+  "majors": [
+   [
+    686,
+    682,
+    687
+   ],
+   [
+    693,
+    713,
+    712
+   ],
+   [
+    681,
+    680,
+    1688
+   ]
+  ]
+ },
+ {
+  "id": 11,
+  "name": "Tactics",
+  "profession": "Warrior",
+  "elite": false,
+  "majors": [
+   [
+    1469,
+    1474,
+    1471
+   ],
+   [
+    1486,
+    1479,
+    1482
+   ],
+   [
+    1667,
+    1470,
+    1711
+   ]
+  ]
+ },
+ {
+  "id": 12,
+  "name": "Salvation",
+  "profession": "Revenant",
+  "elite": false,
+  "majors": [
+   [
+    1823,
+    1824,
+    1822
+   ],
+   [
+    1819,
+    1817,
+    1818
+   ],
+   [
+    1815,
+    1825,
+    1820
+   ]
+  ]
+ },
+ {
+  "id": 13,
+  "name": "Valor",
+  "profession": "Guardian",
+  "elite": false,
+  "majors": [
+   [
+    588,
+    581,
+    633
+   ],
+   [
+    580,
+    584,
+    1684
+   ],
+   [
+    585,
+    586,
+    589
+   ]
+  ]
+ },
+ {
+  "id": 14,
+  "name": "Corruption",
+  "profession": "Revenant",
+  "elite": false,
+  "majors": [
+   [
+    1793,
+    1789,
+    1741
+   ],
+   [
+    1727,
+    1726,
+    1714
+   ],
+   [
+    1795,
+    1720,
+    1721
+   ]
+  ]
+ },
+ {
+  "id": 15,
+  "name": "Devastation",
+  "profession": "Revenant",
+  "elite": false,
+  "majors": [
+   [
+    1776,
+    1767,
+    1755
+   ],
+   [
+    1786,
+    1765,
+    1802
+   ],
+   [
+    1715,
+    1800,
+    1754
+   ]
+  ]
+ },
+ {
+  "id": 16,
+  "name": "Radiance",
+  "profession": "Guardian",
+  "elite": false,
+  "majors": [
+   [
+    577,
+    566,
+    574
+   ],
+   [
+    578,
+    567,
+    565
+   ],
+   [
+    1686,
+    579,
+    1683
+   ]
+  ]
+ },
+ {
+  "id": 17,
+  "name": "Water",
+  "profession": "Elementalist",
+  "elite": false,
+  "majors": [
+   [
+    348,
+    363,
+    360
+   ],
+   [
+    364,
+    358,
+    349
+   ],
+   [
+    362,
+    361,
+    2028
+   ]
+  ]
+ },
+ {
+  "id": 18,
+  "name": "Berserker",
+  "profession": "Warrior",
+  "elite": true,
+  "majors": [
+   [
+    2049,
+    2039,
+    1977
+   ],
+   [
+    2011,
+    2042,
+    2002
+   ],
+   [
+    1928,
+    2038,
+    2307
+   ]
+  ]
+ },
+ {
+  "id": 19,
+  "name": "Blood Magic",
+  "profession": "Necromancer",
+  "elite": false,
+  "majors": [
+   [
+    780,
+    788,
+    1876
+   ],
+   [
+    789,
+    799,
+    1844
+   ],
+   [
+    782,
+    1692,
+    778
+   ]
+  ]
+ },
+ {
+  "id": 20,
+  "name": "Shadow Arts",
+  "profession": "Thief",
+  "elite": false,
+  "majors": [
+   [
+    1160,
+    1293,
+    1284
+   ],
+   [
+    1297,
+    1130,
+    1300
+   ],
+   [
+    1134,
+    1135,
+    1162
+   ]
+  ]
+ },
+ {
+  "id": 21,
+  "name": "Tools",
+  "profession": "Engineer",
+  "elite": false,
+  "majors": [
+   [
+    532,
+    1997,
+    531
+   ],
+   [
+    512,
+    1946,
+    1832
+   ],
+   [
+    1856,
+    523,
+    1679
+   ]
+  ]
+ },
+ {
+  "id": 22,
+  "name": "Defense",
+  "profession": "Warrior",
+  "elite": false,
+  "majors": [
+   [
+    1376,
+    1488,
+    1372
+   ],
+   [
+    1368,
+    1379,
+    1367
+   ],
+   [
+    1375,
+    1649,
+    1708
+   ]
+  ]
+ },
+ {
+  "id": 23,
+  "name": "Inspiration",
+  "profession": "Mesmer",
+  "elite": false,
+  "majors": [
+   [
+    756,
+    738,
+    744
+   ],
+   [
+    751,
+    740,
+    1980
+   ],
+   [
+    2005,
+    1866,
+    752
+   ]
+  ]
+ },
+ {
+  "id": 24,
+  "name": "Illusions",
+  "profession": "Mesmer",
+  "elite": false,
+  "majors": [
+   [
+    721,
+    1869,
+    691
+   ],
+   [
+    722,
+    729,
+    1690
+   ],
+   [
+    733,
+    2035,
+    753
+   ]
+  ]
+ },
+ {
+  "id": 25,
+  "name": "Nature Magic",
+  "profession": "Ranger",
+  "elite": false,
+  "majors": [
+   [
+    1062,
+    978,
+    1060
+   ],
+   [
+    1054,
+    965,
+    964
+   ],
+   [
+    1038,
+    1988,
+    1697
+   ]
+  ]
+ },
+ {
+  "id": 26,
+  "name": "Earth",
+  "profession": "Elementalist",
+  "elite": false,
+  "majors": [
+   [
+    282,
+    1507,
+    289
+   ],
+   [
+    275,
+    281,
+    277
+   ],
+   [
+    1508,
+    287,
+    1674
+   ]
+  ]
+ },
+ {
+  "id": 27,
+  "name": "Dragonhunter",
+  "profession": "Guardian",
+  "elite": true,
+  "majors": [
+   [
+    1898,
+    1983,
+    1911
+   ],
+   [
+    2037,
+    1835,
+    1943
+   ],
+   [
+    1908,
+    1963,
+    1955
+   ]
+  ]
+ },
+ {
+  "id": 28,
+  "name": "Deadly Arts",
+  "profession": "Thief",
+  "elite": false,
+  "majors": [
+   [
+    1245,
+    1276,
+    1164
+   ],
+   [
+    1169,
+    1292,
+    1704
+   ],
+   [
+    1291,
+    1167,
+    1269
+   ]
+  ]
+ },
+ {
+  "id": 29,
+  "name": "Alchemy",
+  "profession": "Engineer",
+  "elite": false,
+  "majors": [
+   [
+    396,
+    509,
+    521
+   ],
+   [
+    520,
+    469,
+    470
+   ],
+   [
+    473,
+    1871,
+    1854
+   ]
+  ]
+ },
+ {
+  "id": 30,
+  "name": "Skirmishing",
+  "profession": "Ranger",
+  "elite": false,
+  "majors": [
+   [
+    1069,
+    1067,
+    1075
+   ],
+   [
+    1016,
+    1700,
+    1846
+   ],
+   [
+    1064,
+    1912,
+    1888
+   ]
+  ]
+ },
+ {
+  "id": 31,
+  "name": "Fire",
+  "profession": "Elementalist",
+  "elite": false,
+  "majors": [
+   [
+    296,
+    328,
+    335
+   ],
+   [
+    325,
+    340,
+    334
+   ],
+   [
+    1510,
+    294,
+    1675
+   ]
+  ]
+ },
+ {
+  "id": 32,
+  "name": "Beastmastery",
+  "profession": "Ranger",
+  "elite": false,
+  "majors": [
+   [
+    1861,
+    1072,
+    1606
+   ],
+   [
+    975,
+    1047,
+    970
+   ],
+   [
+    1945,
+    968,
+    1066
+   ]
+  ]
+ },
+ {
+  "id": 33,
+  "name": "Wilderness Survival",
+  "profession": "Ranger",
+  "elite": false,
+  "majors": [
+   [
+    1098,
+    1086,
+    1099
+   ],
+   [
+    1101,
+    2032,
+    1100
+   ],
+   [
+    1094,
+    1699,
+    1701
+   ]
+  ]
+ },
+ {
+  "id": 34,
+  "name": "Reaper",
+  "profession": "Necromancer",
+  "elite": true,
+  "majors": [
+   [
+    1974,
+    2020,
+    2026
+   ],
+   [
+    1969,
+    2008,
+    2031
+   ],
+   [
+    1932,
+    1919,
+    2021
+   ]
+  ]
+ },
+ {
+  "id": 35,
+  "name": "Critical Strikes",
+  "profession": "Thief",
+  "elite": false,
+  "majors": [
+   [
+    1209,
+    1267,
+    1268
+   ],
+   [
+    1170,
+    1272,
+    1299
+   ],
+   [
+    1904,
+    1215,
+    1702
+   ]
+  ]
+ },
+ {
+  "id": 36,
+  "name": "Arms",
+  "profession": "Warrior",
+  "elite": false,
+  "majors": [
+   [
+    1455,
+    1344,
+    1334
+   ],
+   [
+    1315,
+    1316,
+    1333
+   ],
+   [
+    1336,
+    1346,
+    1707
+   ]
+  ]
+ },
+ {
+  "id": 37,
+  "name": "Arcane",
+  "profession": "Elementalist",
+  "elite": false,
+  "majors": [
+   [
+    253,
+    266,
+    1487
+   ],
+   [
+    265,
+    1673,
+    257
+   ],
+   [
+    238,
+    263,
+    1511
+   ]
+  ]
+ },
+ {
+  "id": 38,
+  "name": "Firearms",
+  "profession": "Engineer",
+  "elite": false,
+  "majors": [
+   [
+    1878,
+    1930,
+    1914
+   ],
+   [
+    1984,
+    2006,
+    1923
+   ],
+   [
+    510,
+    526,
+    433
+   ]
+  ]
+ },
+ {
+  "id": 39,
+  "name": "Curses",
+  "profession": "Necromancer",
+  "elite": false,
+  "majors": [
+   [
+    1883,
+    2013,
+    815
+   ],
+   [
+    816,
+    1693,
+    812
+   ],
+   [
+    813,
+    1696,
+    801
+   ]
+  ]
+ },
+ {
+  "id": 40,
+  "name": "Chronomancer",
+  "profession": "Mesmer",
+  "elite": true,
+  "majors": [
+   [
+    1838,
+    1995,
+    1987
+   ],
+   [
+    2009,
+    1913,
+    1978
+   ],
+   [
+    1942,
+    2022,
+    1890
+   ]
+  ]
+ },
+ {
+  "id": 41,
+  "name": "Air",
+  "profession": "Elementalist",
+  "elite": false,
+  "majors": [
+   [
+    227,
+    224,
+    232
+   ],
+   [
+    229,
+    214,
+    1502
+   ],
+   [
+    226,
+    1503,
+    1672
+   ]
+  ]
+ },
+ {
+  "id": 42,
+  "name": "Zeal",
+  "profession": "Guardian",
+  "elite": false,
+  "majors": [
+   [
+    563,
+    634,
+    1925
+   ],
+   [
+    628,
+    653,
+    1556
+   ],
+   [
+    635,
+    637,
+    2017
+   ]
+  ]
+ },
+ {
+  "id": 43,
+  "name": "Scrapper",
+  "profession": "Engineer",
+  "elite": true,
+  "majors": [
+   [
+    1917,
+    1971,
+    1867
+   ],
+   [
+    1954,
+    1999,
+    1860
+   ],
+   [
+    1981,
+    2052,
+    1849
+   ]
+  ]
+ },
+ {
+  "id": 44,
+  "name": "Trickery",
+  "profession": "Thief",
+  "elite": false,
+  "majors": [
+   [
+    1159,
+    1252,
+    1163
+   ],
+   [
+    1277,
+    1286,
+    1190
+   ],
+   [
+    1187,
+    1158,
+    1706
+   ]
+  ]
+ },
+ {
+  "id": 45,
+  "name": "Chaos",
+  "profession": "Mesmer",
+  "elite": false,
+  "majors": [
+   [
+    670,
+    675,
+    677
+   ],
+   [
+    673,
+    668,
+    669
+   ],
+   [
+    671,
+    674,
+    1687
+   ]
+  ]
+ },
+ {
+  "id": 46,
+  "name": "Virtues",
+  "profession": "Guardian",
+  "elite": false,
+  "majors": [
+   [
+    624,
+    625,
+    617
+   ],
+   [
+    603,
+    610,
+    587
+   ],
+   [
+    622,
+    554,
+    612
+   ]
+  ]
+ },
+ {
+  "id": 47,
+  "name": "Inventions",
+  "profession": "Engineer",
+  "elite": false,
+  "majors": [
+   [
+    394,
+    1901,
+    507
+   ],
+   [
+    1678,
+    1834,
+    445
+   ],
+   [
+    472,
+    1680,
+    1916
+   ]
+  ]
+ },
+ {
+  "id": 48,
+  "name": "Tempest",
+  "profession": "Elementalist",
+  "elite": true,
+  "majors": [
+   [
+    1952,
+    1962,
+    1886
+   ],
+   [
+    1891,
+    1902,
+    2015
+   ],
+   [
+    1839,
+    2033,
+    1986
+   ]
+  ]
+ },
+ {
+  "id": 49,
+  "name": "Honor",
+  "profession": "Guardian",
+  "elite": false,
+  "majors": [
+   [
+    1899,
+    559,
+    654
+   ],
+   [
+    557,
+    549,
+    562
+   ],
+   [
+    553,
+    558,
+    1682
+   ]
+  ]
+ },
+ {
+  "id": 50,
+  "name": "Soul Reaping",
+  "profession": "Necromancer",
+  "elite": false,
+  "majors": [
+   [
+    875,
+    898,
+    888
+   ],
+   [
+    894,
+    861,
+    892
+   ],
+   [
+    889,
+    893,
+    905
+   ]
+  ]
+ },
+ {
+  "id": 51,
+  "name": "Discipline",
+  "profession": "Warrior",
+  "elite": false,
+  "majors": [
+   [
+    1329,
+    1413,
+    1381
+   ],
+   [
+    1484,
+    1489,
+    1709
+   ],
+   [
+    1369,
+    1317,
+    1657
+   ]
+  ]
+ },
+ {
+  "id": 52,
+  "name": "Herald",
+  "profession": "Revenant",
+  "elite": true,
+  "majors": [
+   [
+    1813,
+    1806,
+    1716
+   ],
+   [
+    1738,
+    1743,
+    1730
+   ],
+   [
+    1746,
+    1772,
+    1803
+   ]
+  ]
+ },
+ {
+  "id": 53,
+  "name": "Spite",
+  "profession": "Necromancer",
+  "elite": false,
+  "majors": [
+   [
+    914,
+    916,
+    1863
+   ],
+   [
+    899,
+    829,
+    909
+   ],
+   [
+    919,
+    853,
+    903
+   ]
+  ]
+ },
+ {
+  "id": 54,
+  "name": "Acrobatics",
+  "profession": "Thief",
+  "elite": false,
+  "majors": [
+   [
+    1112,
+    1289,
+    1237
+   ],
+   [
+    1241,
+    1192,
+    1290
+   ],
+   [
+    1238,
+    1295,
+    1703
+   ]
+  ]
+ },
+ {
+  "id": 55,
+  "name": "Soulbeast",
+  "profession": "Ranger",
+  "elite": true,
+  "majors": [
+   [
+    2134,
+    2071,
+    2072
+   ],
+   [
+    2119,
+    2085,
+    2161
+   ],
+   [
+    2155,
+    2128,
+    2143
+   ]
+  ]
+ },
+ {
+  "id": 56,
+  "name": "Weaver",
+  "profession": "Elementalist",
+  "elite": true,
+  "majors": [
+   [
+    2177,
+    2165,
+    2115
+   ],
+   [
+    2180,
+    2061,
+    2170
+   ],
+   [
+    2131,
+    2090,
+    2138
+   ]
+  ]
+ },
+ {
+  "id": 57,
+  "name": "Holosmith",
+  "profession": "Engineer",
+  "elite": true,
+  "majors": [
+   [
+    2114,
+    2157,
+    2106
+   ],
+   [
+    2103,
+    2152,
+    2091
+   ],
+   [
+    2066,
+    2137,
+    2064
+   ]
+  ]
+ },
+ {
+  "id": 58,
+  "name": "Deadeye",
+  "profession": "Thief",
+  "elite": true,
+  "majors": [
+   [
+    2145,
+    2173,
+    2136
+   ],
+   [
+    2118,
+    2078,
+    2160
+   ],
+   [
+    2111,
+    2093,
+    2146
+   ]
+  ]
+ },
+ {
+  "id": 59,
+  "name": "Mirage",
+  "profession": "Mesmer",
+  "elite": true,
+  "majors": [
+   [
+    2141,
+    2082,
+    2110
+   ],
+   [
+    2178,
+    2174,
+    2098
+   ],
+   [
+    2070,
+    2113,
+    2169
+   ]
+  ]
+ },
+ {
+  "id": 60,
+  "name": "Scourge",
+  "profession": "Necromancer",
+  "elite": true,
+  "majors": [
+   [
+    2167,
+    2074,
+    2102
+   ],
+   [
+    2059,
+    2067,
+    2123
+   ],
+   [
+    2112,
+    2164,
+    2080
+   ]
+  ]
+ },
+ {
+  "id": 61,
+  "name": "Spellbreaker",
+  "profession": "Warrior",
+  "elite": true,
+  "majors": [
+   [
+    2107,
+    2153,
+    2140
+   ],
+   [
+    2126,
+    2097,
+    2095
+   ],
+   [
+    2163,
+    2168,
+    2060
+   ]
+  ]
+ },
+ {
+  "id": 62,
+  "name": "Firebrand",
+  "profession": "Guardian",
+  "elite": true,
+  "majors": [
+   [
+    2075,
+    2101,
+    2086
+   ],
+   [
+    2063,
+    2076,
+    2116
+   ],
+   [
+    2105,
+    2179,
+    2159
+   ]
+  ]
+ },
+ {
+  "id": 63,
+  "name": "Renegade",
+  "profession": "Revenant",
+  "elite": true,
+  "majors": [
+   [
+    2166,
+    2079,
+    2120
+   ],
+   [
+    2133,
+    2092,
+    2108
+   ],
+   [
+    2094,
+    2100,
+    2182
+   ]
+  ]
+ },
+ {
+  "id": 64,
+  "name": "Harbinger",
+  "profession": "Necromancer",
+  "elite": true,
+  "majors": [
+   [
+    2188,
+    2219,
+    2185
+   ],
+   [
+    2192,
+    2220,
+    2209
+   ],
+   [
+    2218,
+    2194,
+    2203
+   ]
+  ]
+ },
+ {
+  "id": 65,
+  "name": "Willbender",
+  "profession": "Guardian",
+  "elite": true,
+  "majors": [
+   [
+    2191,
+    2190,
+    2187
+   ],
+   [
+    2197,
+    2210,
+    2199
+   ],
+   [
+    2195,
+    2201,
+    2198
+   ]
+  ]
+ },
+ {
+  "id": 66,
+  "name": "Virtuoso",
+  "profession": "Mesmer",
+  "elite": true,
+  "majors": [
+   [
+    2212,
+    2208,
+    2202
+   ],
+   [
+    2215,
+    2205,
+    2207
+   ],
+   [
+    2211,
+    2206,
+    2223
+   ]
+  ]
+ },
+ {
+  "id": 67,
+  "name": "Catalyst",
+  "profession": "Elementalist",
+  "elite": true,
+  "majors": [
+   [
+    2230,
+    2252,
+    2224
+   ],
+   [
+    2247,
+    2249,
+    2234
+   ],
+   [
+    2233,
+    2241,
+    2251
+   ]
+  ]
+ },
+ {
+  "id": 68,
+  "name": "Bladesworn",
+  "profession": "Warrior",
+  "elite": true,
+  "majors": [
+   [
+    2225,
+    2260,
+    2237
+   ],
+   [
+    2253,
+    2302,
+    2303
+   ],
+   [
+    2261,
+    2239,
+    2245
+   ]
+  ]
+ },
+ {
+  "id": 69,
+  "name": "Vindicator",
+  "profession": "Revenant",
+  "elite": true,
+  "majors": [
+   [
+    2258,
+    2248,
+    2228
+   ],
+   [
+    2259,
+    2243,
+    2255
+   ],
+   [
+    2257,
+    2232,
+    2238
+   ]
+  ]
+ },
+ {
+  "id": 70,
+  "name": "Mechanist",
+  "profession": "Engineer",
+  "elite": true,
+  "majors": [
+   [
+    2282,
+    2296,
+    2279
+   ],
+   [
+    2270,
+    2276,
+    2294
+   ],
+   [
+    2292,
+    2281,
+    2298
+   ]
+  ]
+ },
+ {
+  "id": 71,
+  "name": "Specter",
+  "profession": "Thief",
+  "elite": true,
+  "majors": [
+   [
+    2284,
+    2299,
+    2275
+   ],
+   [
+    2290,
+    2288,
+    2285
+   ],
+   [
+    2264,
+    2300,
+    2289
+   ]
+  ]
+ },
+ {
+  "id": 72,
+  "name": "Untamed",
+  "profession": "Ranger",
+  "elite": true,
+  "majors": [
+   [
+    2297,
+    2277,
+    2301
+   ],
+   [
+    2263,
+    2287,
+    2278
+   ],
+   [
+    2271,
+    2283,
+    2274
+   ]
+  ]
+ },
+ {
+  "id": 73,
+  "name": "Troubadour",
+  "profession": "Mesmer",
+  "elite": true,
+  "majors": [
+   [
+    2427,
+    2326,
+    2432
+   ],
+   [
+    2343,
+    2367,
+    2422
+   ],
+   [
+    2353,
+    2414,
+    2441
+   ]
+  ]
+ },
+ {
+  "id": 74,
+  "name": "Paragon",
+  "profession": "Warrior",
+  "elite": true,
+  "majors": [
+   [
+    2345,
+    2433,
+    2357
+   ],
+   [
+    2385,
+    2426,
+    2399
+   ],
+   [
+    2369,
+    2375,
+    2428
+   ]
+  ]
+ },
+ {
+  "id": 75,
+  "name": "Amalgam",
+  "profession": "Engineer",
+  "elite": true,
+  "majors": [
+   [
+    2366,
+    2395,
+    2434
+   ],
+   [
+    2383,
+    2420,
+    2349
+   ],
+   [
+    2406,
+    2387,
+    2334
+   ]
+  ]
+ },
+ {
+  "id": 76,
+  "name": "Ritualist",
+  "profession": "Necromancer",
+  "elite": true,
+  "majors": [
+   [
+    2327,
+    2378,
+    2339
+   ],
+   [
+    2384,
+    2405,
+    2421
+   ],
+   [
+    2376,
+    2333,
+    2392
+   ]
+  ]
+ },
+ {
+  "id": 77,
+  "name": "Antiquary",
+  "profession": "Thief",
+  "elite": true,
+  "majors": [
+   [
+    2423,
+    2365,
+    2346
+   ],
+   [
+    2400,
+    2431,
+    2350
+   ],
+   [
+    2409,
+    2393,
+    2348
+   ]
+  ]
+ },
+ {
+  "id": 78,
+  "name": "Galeshot",
+  "profession": "Ranger",
+  "elite": true,
+  "majors": [
+   [
+    2402,
+    2370,
+    2360
+   ],
+   [
+    2408,
+    2413,
+    2396
+   ],
+   [
+    2425,
+    2336,
+    2372
+   ]
+  ]
+ },
+ {
+  "id": 79,
+  "name": "Conduit",
+  "profession": "Revenant",
+  "elite": true,
+  "majors": [
+   [
+    2390,
+    2355,
+    2407
+   ],
+   [
+    2411,
+    2358,
+    2416
+   ],
+   [
+    2429,
+    2379,
+    2352
+   ]
+  ]
+ },
+ {
+  "id": 80,
+  "name": "Evoker",
+  "profession": "Elementalist",
+  "elite": true,
+  "majors": [
+   [
+    2391,
+    2415,
+    2354
+   ],
+   [
+    2342,
+    2380,
+    2438
+   ],
+   [
+    2335,
+    2436,
+    2437
+   ]
+  ]
+ },
+ {
+  "id": 81,
+  "name": "Luminary",
+  "profession": "Guardian",
+  "elite": true,
+  "majors": [
+   [
+    2410,
+    2417,
+    2329
+   ],
+   [
+    2330,
+    2401,
+    2419
+   ],
+   [
+    2368,
+    2328,
+    2388
+   ]
+  ]
+ }
+]

@@ -2,8 +2,11 @@
 //! comp codes are `<AxiForge:Comp:base64url(zlib(json))>`.
 
 pub mod bits;
+pub mod build;
 pub mod tables;
 pub mod z85;
+
+pub use build::decode_build_code;
 
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum DecodeError {

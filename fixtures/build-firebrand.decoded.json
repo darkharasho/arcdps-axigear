@@ -1,0 +1,163 @@
+{
+  "profession": "Guardian",
+  "gameMode": "wvw",
+  "specializations": [
+    {
+      "id": 42,
+      "traitChoices": [
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": 46,
+      "traitChoices": [
+        1,
+        3,
+        2
+      ]
+    },
+    {
+      "id": 62,
+      "traitChoices": [
+        3,
+        1,
+        1
+      ]
+    }
+  ],
+  "skills": {
+    "healId": 41714,
+    "utilityIds": [
+      40915,
+      9153,
+      9246
+    ],
+    "eliteId": 43357
+  },
+  "underwaterSkills": {
+    "healId": 0,
+    "utilityIds": [
+      0,
+      0,
+      0
+    ],
+    "eliteId": 0
+  },
+  "equipment": {
+    "statPackage": "",
+    "slots": {
+      "head": "Minstrel's",
+      "shoulders": "Minstrel's",
+      "chest": "Minstrel's",
+      "hands": "Minstrel's",
+      "legs": "Minstrel's",
+      "feet": "Minstrel's",
+      "back": "Minstrel's",
+      "amulet": "Minstrel's",
+      "ring1": "Minstrel's",
+      "ring2": "Minstrel's",
+      "accessory1": "Minstrel's",
+      "accessory2": "Minstrel's",
+      "mainhand1": "Minstrel's",
+      "offhand1": "Minstrel's",
+      "mainhand2": "Harrier's"
+    },
+    "relic": "Relic of the Flock",
+    "food": "Plate of Truffle Steak Dinner",
+    "utility": "Bountiful Maintenance Oil",
+    "enrichment": "",
+    "weapons": {
+      "mainhand1": "mace",
+      "offhand1": "shield",
+      "mainhand2": "staff",
+      "offhand2": "",
+      "aquatic1": "",
+      "aquatic2": ""
+    },
+    "runes": {
+      "head": "24842",
+      "shoulders": "24842",
+      "chest": "24842",
+      "hands": "24842",
+      "legs": "24691",
+      "feet": "24691"
+    },
+    "sigils": {
+      "mainhand1": [
+        "24865"
+      ],
+      "offhand1": [
+        "24612"
+      ],
+      "mainhand2": [
+        "24865",
+        "24612"
+      ],
+      "offhand2": [],
+      "aquatic1": [],
+      "aquatic2": []
+    },
+    "infusions": {
+      "head": "37133",
+      "shoulders": "37133",
+      "chest": "37133",
+      "hands": "37133",
+      "legs": "37133",
+      "feet": "37133",
+      "back": [
+        "37133",
+        "86180"
+      ],
+      "ring1": [
+        "37133",
+        "37133",
+        "37133"
+      ],
+      "ring2": [
+        "37133",
+        "37133",
+        "37133"
+      ],
+      "accessory1": "37133",
+      "accessory2": "37133",
+      "mainhand1": [
+        "37133",
+        "37133"
+      ],
+      "offhand1": [
+        "37133"
+      ],
+      "mainhand2": [
+        "37133",
+        "37133"
+      ],
+      "offhand2": []
+    }
+  },
+  "selectedLegends": [
+    "",
+    ""
+  ],
+  "selectedUnderwaterLegends": [
+    "",
+    ""
+  ],
+  "selectedPets": {
+    "terrestrial1": 0,
+    "terrestrial2": 0,
+    "aquatic1": 0,
+    "aquatic2": 0
+  },
+  "activeAttunement": "",
+  "activeAttunement2": "",
+  "activeKit": 0,
+  "activeWeaponSet": 1,
+  "allianceTacticsForm": 0,
+  "antiquaryArtifacts": {
+    "f2": 0,
+    "f3": 0,
+    "f4": 0
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "profession": "Necromancer",
+  "gameMode": "wvw",
+  "specializations": [
+    {
+      "id": 19,
+      "traitChoices": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": 50,
+      "traitChoices": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": 53,
+      "traitChoices": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "skills": {
+    "healId": 10527,
+    "utilityIds": [
+      10545,
+      0,
+      10685
+    ],
+    "eliteId": 10646
+  },
+  "underwaterSkills": {
+    "healId": 0,
+    "utilityIds": [
+      0,
+      0,
+      0
+    ],
+    "eliteId": 0
+  },
+  "equipment": {
+    "statPackage": "Viper's",
+    "slots": {},
+    "relic": "",
+    "food": "",
+    "utility": "",
+    "enrichment": "",
+    "weapons": {
+      "mainhand1": "staff",
+      "offhand1": "",
+      "mainhand2": "",
+      "offhand2": "",
+      "aquatic1": "",
+      "aquatic2": ""
+    },
+    "runes": {
+      "head": "0",
+      "shoulders": "0",
+      "chest": "0",
+      "hands": "0",
+      "legs": "0",
+      "feet": "0"
+    },
+    "sigils": {
+      "mainhand1": [
+        "0",
+        "0"
+      ],
+      "offhand1": [],
+      "mainhand2": [],
+      "offhand2": [],
+      "aquatic1": [],
+      "aquatic2": []
+    },
+    "infusions": {
+      "head": "0",
+      "shoulders": "0",
+      "chest": "0",
+      "hands": "0",
+      "legs": "0",
+      "feet": "0",
+      "back": [
+        "0",
+        "0"
+      ],
+      "ring1": [
+        "0",
+        "0",
+        "0"
+      ],
+      "ring2": [
+        "0",
+        "0",
+        "0"
+      ],
+      "accessory1": "0",
+      "accessory2": "0",
+      "mainhand1": [
+        "0",
+        "0"
+      ],
+      "offhand1": [],
+      "mainhand2": [],
+      "offhand2": []
+    }
+  },
+  "selectedLegends": [
+    "",
+    ""
+  ],
+  "selectedUnderwaterLegends": [
+    "",
+    ""
+  ],
+  "selectedPets": {
+    "terrestrial1": 0,
+    "terrestrial2": 0,
+    "aquatic1": 0,
+    "aquatic2": 0
+  },
+  "activeAttunement": "",
+  "activeAttunement2": "",
+  "activeKit": 0,
+  "activeWeaponSet": 1,
+  "allianceTacticsForm": 0,
+  "antiquaryArtifacts": {
+    "f2": 0,
+    "f3": 0,
+    "f4": 0
+  }
+}

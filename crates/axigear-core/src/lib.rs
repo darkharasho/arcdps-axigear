@@ -5,3 +5,6 @@ pub mod axicode;
 pub mod model;
 pub mod raw;
 pub mod text;
+
+#[cfg(test)]
+pub(crate) mod testutil;

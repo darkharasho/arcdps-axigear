@@ -1,0 +1,551 @@
+{
+  "schemaVersion": 1,
+  "id": "comp1",
+  "name": "Tuesday Zerg",
+  "notes": "",
+  "tags": [],
+  "gameMode": "wvw",
+  "partyLines": [
+    {
+      "id": "l1",
+      "capacity": 5,
+      "slots": [
+        "firebrand",
+        "berserker",
+        "tag:dps"
+      ]
+    },
+    {
+      "id": "l2",
+      "capacity": 5,
+      "slots": [
+        "firebrand",
+        "necro"
+      ]
+    }
+  ],
+  "buildColors": {},
+  "images": {},
+  "notesClassIcons": {},
+  "categories": [
+    {
+      "id": "dps",
+      "name": "DPS",
+      "icon": "",
+      "buildIds": [
+        "berserker",
+        "necro"
+      ]
+    }
+  ],
+  "builds": {
+    "berserker": {
+      "underwaterSkills": {
+        "heal": null,
+        "utility": [
+          null,
+          null,
+          null
+        ],
+        "elite": null
+      },
+      "selectedLegends": [
+        "",
+        ""
+      ],
+      "selectedUnderwaterLegends": [
+        "",
+        ""
+      ],
+      "selectedPets": {
+        "terrestrial1": 0,
+        "terrestrial2": 0,
+        "aquatic1": 0,
+        "aquatic2": 0
+      },
+      "activeAttunement": "",
+      "activeAttunement2": "",
+      "activeKit": 0,
+      "activeWeaponSet": 1,
+      "allianceTacticsForm": 0,
+      "antiquaryArtifacts": {
+        "f2": 0,
+        "f3": 0,
+        "f4": 0
+      },
+      "id": "berserker",
+      "title": "Berserker DPS",
+      "profession": "Warrior",
+      "gameMode": "pve",
+      "specializations": [
+        {
+          "id": 4,
+          "name": "Strength",
+          "elite": false,
+          "majorChoices": {
+            "1": 1444,
+            "2": 1449,
+            "3": 1437
+          }
+        },
+        {
+          "id": 36,
+          "name": "Arms",
+          "elite": false,
+          "majorChoices": {
+            "1": 1455,
+            "2": 1316,
+            "3": 1707
+          }
+        },
+        {
+          "id": 18,
+          "name": "Berserker",
+          "elite": true,
+          "majorChoices": {
+            "1": 2039,
+            "2": 2011,
+            "3": 1928
+          }
+        }
+      ],
+      "skills": {
+        "heal": {
+          "id": 14402,
+          "name": "skill-14402"
+        },
+        "utility": [
+          {
+            "id": 14404,
+            "name": "skill-14404"
+          },
+          {
+            "id": 14410,
+            "name": "skill-14410"
+          },
+          {
+            "id": 14405,
+            "name": "skill-14405"
+          }
+        ],
+        "elite": {
+          "id": 14355,
+          "name": "skill-14355"
+        }
+      },
+      "equipment": {
+        "statPackage": "Berserker's",
+        "relic": "Relic of the Thief",
+        "food": "Bowl of Sweet and Spicy Butternut Squash Soup",
+        "utility": "Superior Sharpening Stone",
+        "enrichment": "",
+        "weapons": {
+          "mainhand1": "greatsword",
+          "offhand1": "",
+          "mainhand2": "axe",
+          "offhand2": "",
+          "aquatic1": "",
+          "aquatic2": ""
+        },
+        "runes": {
+          "head": "24836",
+          "shoulders": "24836",
+          "chest": "24836",
+          "hands": "24836",
+          "legs": "24836",
+          "feet": "24836"
+        },
+        "sigils": {
+          "mainhand1": [
+            "24615",
+            "24868"
+          ],
+          "offhand1": [],
+          "mainhand2": [
+            "24615"
+          ],
+          "offhand2": [],
+          "aquatic1": [],
+          "aquatic2": []
+        },
+        "infusions": {
+          "head": "49432",
+          "shoulders": "49432",
+          "chest": "49432",
+          "hands": "49432",
+          "legs": "49432",
+          "feet": "49432",
+          "back": [
+            "49432",
+            "49432"
+          ],
+          "ring1": [
+            "49432",
+            "49432",
+            "49432"
+          ],
+          "ring2": [
+            "49432",
+            "49432",
+            "49432"
+          ],
+          "accessory1": "49432",
+          "accessory2": "49432",
+          "mainhand1": [
+            "49432",
+            "49432"
+          ],
+          "offhand1": [],
+          "mainhand2": [
+            "49432",
+            "49432"
+          ],
+          "offhand2": []
+        }
+      }
+    },
+    "firebrand": {
+      "underwaterSkills": {
+        "heal": null,
+        "utility": [
+          null,
+          null,
+          null
+        ],
+        "elite": null
+      },
+      "selectedLegends": [
+        "",
+        ""
+      ],
+      "selectedUnderwaterLegends": [
+        "",
+        ""
+      ],
+      "selectedPets": {
+        "terrestrial1": 0,
+        "terrestrial2": 0,
+        "aquatic1": 0,
+        "aquatic2": 0
+      },
+      "activeAttunement": "",
+      "activeAttunement2": "",
+      "activeKit": 0,
+      "activeWeaponSet": 1,
+      "allianceTacticsForm": 0,
+      "antiquaryArtifacts": {
+        "f2": 0,
+        "f3": 0,
+        "f4": 0
+      },
+      "id": "firebrand",
+      "title": "Quickbrand",
+      "profession": "Guardian",
+      "gameMode": "wvw",
+      "specializations": [
+        {
+          "id": 42,
+          "name": "Zeal",
+          "elite": false,
+          "majorChoices": {
+            "1": 634,
+            "2": 653,
+            "3": 635
+          }
+        },
+        {
+          "id": 46,
+          "name": "Virtues",
+          "elite": false,
+          "majorChoices": {
+            "1": 624,
+            "2": 587,
+            "3": 554
+          }
+        },
+        {
+          "id": 62,
+          "name": "Firebrand",
+          "elite": true,
+          "majorChoices": {
+            "1": 2086,
+            "2": 2063,
+            "3": 2105
+          }
+        }
+      ],
+      "skills": {
+        "heal": {
+          "id": 41714,
+          "name": "skill-41714"
+        },
+        "utility": [
+          {
+            "id": 40915,
+            "name": "skill-40915"
+          },
+          {
+            "id": 9153,
+            "name": "skill-9153"
+          },
+          {
+            "id": 9246,
+            "name": "skill-9246"
+          }
+        ],
+        "elite": {
+          "id": 43357,
+          "name": "skill-43357"
+        }
+      },
+      "equipment": {
+        "statPackage": "",
+        "relic": "Relic of the Flock",
+        "food": "Plate of Truffle Steak Dinner",
+        "utility": "Bountiful Maintenance Oil",
+        "enrichment": "",
+        "slots": {
+          "head": "Minstrel's",
+          "shoulders": "Minstrel's",
+          "chest": "Minstrel's",
+          "hands": "Minstrel's",
+          "legs": "Minstrel's",
+          "feet": "Minstrel's",
+          "back": "Minstrel's",
+          "amulet": "Minstrel's",
+          "ring1": "Minstrel's",
+          "ring2": "Minstrel's",
+          "accessory1": "Minstrel's",
+          "accessory2": "Minstrel's",
+          "mainhand1": "Minstrel's",
+          "offhand1": "Minstrel's",
+          "mainhand2": "Harrier's"
+        },
+        "weapons": {
+          "mainhand1": "mace",
+          "offhand1": "shield",
+          "mainhand2": "staff",
+          "offhand2": "",
+          "aquatic1": "",
+          "aquatic2": ""
+        },
+        "runes": {
+          "head": "24842",
+          "shoulders": "24842",
+          "chest": "24842",
+          "hands": "24842",
+          "legs": "24691",
+          "feet": "24691"
+        },
+        "sigils": {
+          "mainhand1": [
+            "24865"
+          ],
+          "offhand1": [
+            "24612"
+          ],
+          "mainhand2": [
+            "24865",
+            "24612"
+          ],
+          "offhand2": [],
+          "aquatic1": [],
+          "aquatic2": []
+        },
+        "infusions": {
+          "head": "37133",
+          "shoulders": "37133",
+          "chest": "37133",
+          "hands": "37133",
+          "legs": "37133",
+          "feet": "37133",
+          "back": [
+            "37133",
+            "86180"
+          ],
+          "ring1": [
+            "37133",
+            "37133",
+            "37133"
+          ],
+          "ring2": [
+            "37133",
+            "37133",
+            "37133"
+          ],
+          "accessory1": "37133",
+          "accessory2": "37133",
+          "mainhand1": [
+            "37133",
+            "37133"
+          ],
+          "offhand1": [
+            "37133"
+          ],
+          "mainhand2": [
+            "37133",
+            "37133"
+          ],
+          "offhand2": []
+        }
+      }
+    },
+    "necro": {
+      "underwaterSkills": {
+        "heal": null,
+        "utility": [
+          null,
+          null,
+          null
+        ],
+        "elite": null
+      },
+      "selectedLegends": [
+        "",
+        ""
+      ],
+      "selectedUnderwaterLegends": [
+        "",
+        ""
+      ],
+      "selectedPets": {
+        "terrestrial1": 0,
+        "terrestrial2": 0,
+        "aquatic1": 0,
+        "aquatic2": 0
+      },
+      "activeAttunement": "",
+      "activeAttunement2": "",
+      "activeKit": 0,
+      "activeWeaponSet": 1,
+      "allianceTacticsForm": 0,
+      "antiquaryArtifacts": {
+        "f2": 0,
+        "f3": 0,
+        "f4": 0
+      },
+      "id": "necro",
+      "title": "Core Necro",
+      "profession": "Necromancer",
+      "gameMode": "wvw",
+      "specializations": [
+        {
+          "id": 19,
+          "name": "Blood Magic",
+          "elite": false,
+          "majorChoices": {
+            "1": 780,
+            "2": 789,
+            "3": 782
+          }
+        },
+        {
+          "id": 50,
+          "name": "Soul Reaping",
+          "elite": false,
+          "majorChoices": {
+            "1": 875,
+            "2": 894,
+            "3": 889
+          }
+        },
+        {
+          "id": 53,
+          "name": "Spite",
+          "elite": false,
+          "majorChoices": {
+            "1": 914,
+            "2": 899,
+            "3": 919
+          }
+        }
+      ],
+      "skills": {
+        "heal": {
+          "id": 10527,
+          "name": "skill-10527"
+        },
+        "utility": [
+          {
+            "id": 10545,
+            "name": "skill-10545"
+          },
+          null,
+          {
+            "id": 10685,
+            "name": "skill-10685"
+          }
+        ],
+        "elite": {
+          "id": 10646,
+          "name": "skill-10646"
+        }
+      },
+      "equipment": {
+        "statPackage": "Viper's",
+        "relic": "",
+        "food": "",
+        "utility": "",
+        "enrichment": "",
+        "weapons": {
+          "mainhand1": "staff",
+          "offhand1": "",
+          "mainhand2": "",
+          "offhand2": "",
+          "aquatic1": "",
+          "aquatic2": ""
+        },
+        "runes": {
+          "head": "0",
+          "shoulders": "0",
+          "chest": "0",
+          "hands": "0",
+          "legs": "0",
+          "feet": "0"
+        },
+        "sigils": {
+          "mainhand1": [
+            "0",
+            "0"
+          ],
+          "offhand1": [],
+          "mainhand2": [],
+          "offhand2": [],
+          "aquatic1": [],
+          "aquatic2": []
+        },
+        "infusions": {
+          "head": "0",
+          "shoulders": "0",
+          "chest": "0",
+          "hands": "0",
+          "legs": "0",
+          "feet": "0",
+          "back": [
+            "0",
+            "0"
+          ],
+          "ring1": [
+            "0",
+            "0",
+            "0"
+          ],
+          "ring2": [
+            "0",
+            "0",
+            "0"
+          ],
+          "accessory1": "0",
+          "accessory2": "0",
+          "mainhand1": [
+            "0",
+            "0"
+          ],
+          "offhand1": [],
+          "mainhand2": [],
+          "offhand2": []
+        }
+      }
+    }
+  }
+}
