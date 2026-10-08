@@ -1,12 +1,15 @@
 # Release Notes
 
-Version v0.1.1 — October 8, 2026
+Version v0.1.2 — October 8, 2026
 
-## Fresher gear checks
+## Large comps load again
 
-- While a gear, trait or skill-bar check fails, axigear re-reads the
-  GW2 API every minute instead of every five, so a fix shows up
-  sooner. It drops back to five minutes once everything passes.
-- Hover the badge to see how old the gear data is ("gear as of 2m
-  ago"). The GW2 API itself lags a few minutes behind the game, so a
-  change you just made can take that long to appear.
+- Comps published by older AxiForge versions can be much bigger than
+  current ones, and some showed "offline (response too large)". axigear
+  now accepts comp files up to 32 MB.
+- A big download is no longer cut off after 8 seconds. It now fails
+  only if the connection stalls for 8 seconds, or after 60 seconds in
+  total.
+- A comp file that is still too large shows "Comp file is too large -
+  republish it from AxiForge." instead of retrying over and over.
+  Republishing from current AxiForge makes the file much smaller.
