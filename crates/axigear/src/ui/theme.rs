@@ -39,6 +39,11 @@ pub const META: [f32; 4]           = rgb(0x4e, 0xc3, 0xff); // --axi-meta, meta 
 pub const OK: [f32; 4]             = rgb(0x2f, 0xd3, 0x8a); // --axi-ok
 pub const WARN: [f32; 4]           = rgb(0xff, 0x7a, 0x2f); // --axi-warn
 pub const DANGER: [f32; 4]         = rgb(0xff, 0x52, 0x52); // --axi-danger
+pub const GOLD: [f32; 4]           = rgb(0xff, 0xc5, 0x3d); // --axi-gold
+
+/// Icon texture tints: dim for faded/empty tiles, white for full colour.
+pub const TINT_DIM: [f32; 4]  = [0.35, 0.35, 0.35, 1.0];
+pub const TINT_FULL: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
 
 /// Pushed as `WindowBg` so imgui paints nothing and we own the fill.
 /// Not a colour in the language's sense — the absence of one.

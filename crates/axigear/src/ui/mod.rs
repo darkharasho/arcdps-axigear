@@ -40,3 +40,5 @@ pub mod settings;
 pub mod state;
 #[cfg(windows)]
 pub mod textures;
+#[cfg(windows)]
+pub mod tile;
