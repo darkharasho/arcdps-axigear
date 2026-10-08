@@ -19,6 +19,10 @@ pub struct ItemInfo {
     /// `details.infix_upgrade.id` for fixed-stat items.
     #[serde(default)]
     pub default_stats: Option<u32>,
+    #[serde(default)]
+    pub icon: Option<String>,
+    #[serde(default)]
+    pub icon_checked: bool,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -26,6 +30,10 @@ pub struct SkillInfo {
     pub name: String,
     #[serde(default)]
     pub weapon_type: Option<String>,
+    #[serde(default)]
+    pub icon: Option<String>,
+    #[serde(default)]
+    pub icon_checked: bool,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -69,6 +77,14 @@ impl GameDb {
         self.items.get(&item_id)?.weapon_type.as_deref()
     }
 
+    pub fn item_icon(&self, id: u32) -> Option<&str> {
+        self.items.get(&id)?.icon.as_deref()
+    }
+
+    pub fn skill_icon(&self, id: u32) -> Option<&str> {
+        self.skills.get(&id)?.icon.as_deref()
+    }
+
     pub fn skill_name(&self, id: u32) -> Option<&str> {
         self.skills.get(&id).map(|s| s.name.as_str())
     }
@@ -90,7 +106,7 @@ impl GameDb {
             }
             w.items.extend(e.infusions.iter().copied());
             let skills = [b.skills.heal, b.skills.elite].into_iter().chain(b.skills.utilities);
-            w.skills.extend(skills.filter(|id| *id != 0 && !b.skill_names.contains_key(id)));
+            w.skills.extend(skills.filter(|id| *id != 0));
         }
         if let Some(s) = snap {
             for i in &s.equipment {
@@ -105,9 +121,9 @@ impl GameDb {
             w.skills.extend([sk.heal, sk.elite].into_iter().chain(sk.utilities).filter(|id| *id != 0));
         }
         w.skills.extend(cast.iter().copied());
-        w.items.retain(|id| !self.items.contains_key(id));
+        w.items.retain(|id| self.items.get(id).map_or(true, |i| !i.icon_checked));
         w.itemstats.retain(|id| !self.itemstats.contains_key(id));
-        w.skills.retain(|id| !self.skills.contains_key(id));
+        w.skills.retain(|id| self.skills.get(id).map_or(true, |s| !s.icon_checked));
         w
     }
 
@@ -123,6 +139,8 @@ impl GameDb {
                     name: v["name"].as_str().unwrap_or("").to_string(),
                     weapon_type,
                     default_stats: v["details"]["infix_upgrade"]["id"].as_u64().map(|x| x as u32),
+                    icon: icon_of(&v),
+                    icon_checked: true,
                 },
             );
         }
@@ -137,10 +155,19 @@ impl GameDb {
         for v in fetch_all(http, "skills", &wanted.skills)? {
             let Some(id) = v["id"].as_u64() else { continue };
             let weapon_type = v["weapon_type"].as_str().filter(|w| *w != "None").map(String::from);
-            self.skills.insert(id as u32, SkillInfo { name: v["name"].as_str().unwrap_or("").to_string(), weapon_type });
+            self.skills.insert(id as u32, SkillInfo {
+                name: v["name"].as_str().unwrap_or("").to_string(),
+                weapon_type,
+                icon: icon_of(&v),
+                icon_checked: true,
+            });
         }
         Ok(())
     }
+}
+
+fn icon_of(v: &Value) -> Option<String> {
+    v["icon"].as_str().filter(|s| !s.is_empty()).map(String::from)
 }
 
 fn fetch_all(http: &dyn Http, endpoint: &str, ids: &BTreeSet<u32>) -> Result<Vec<Value>, String> {
@@ -163,6 +190,7 @@ mod tests {
     use super::*;
     use crate::gw2api::{ApiBuild, ApiSkills};
     use crate::http::fake::FakeHttp;
+    use crate::model::GearSlot;
     use crate::testutil::firebrand;
     use std::time::Instant;
 
@@ -192,8 +220,8 @@ mod tests {
     #[test]
     fn known_ids_are_not_wanted_again() {
         let mut db = GameDb::default();
-        db.items.insert(100, ItemInfo { name: "Helm".into(), weapon_type: None, default_stats: Some(5) });
-        db.skills.insert(41714, SkillInfo { name: "Heal".into(), weapon_type: None });
+        db.items.insert(100, ItemInfo { name: "Helm".into(), weapon_type: None, default_stats: Some(5), icon_checked: true, ..Default::default() });
+        db.skills.insert(41714, SkillInfo { name: "Heal".into(), weapon_type: None, icon_checked: true, ..Default::default() });
         let w = db.wanted(None, Some(&snap(vec![item(100, "Helm", None)])), &BTreeSet::new());
         assert!(!w.items.contains(&100));
         assert_eq!(w.itemstats, [5].into(), "default stats of a known item");
@@ -249,5 +277,52 @@ mod tests {
         assert_eq!(GameDb::load(&path), db);
         std::fs::write(&path, "{broken").unwrap();
         assert_eq!(GameDb::load(&path), GameDb::default());
+    }
+
+    #[test]
+    fn icons_are_parsed_and_marked_checked() {
+        let http = FakeHttp::new();
+        http.on("https://api.guildwars2.com/v2/items?ids=24842", 200,
+            r#"[{"id":24842,"name":"Superior Rune of the Scholar","type":"UpgradeComponent","icon":"https://render.guildwars2.com/file/A/1.png","details":{}}]"#)
+        .on("https://api.guildwars2.com/v2/skills?ids=9153", 200,
+            r#"[{"id":9153,"name":"Mantra of Potence","icon":"https://render.guildwars2.com/file/B/2.png"}]"#);
+        let mut db = GameDb::default();
+        let w = Wanted { items: [24842].into(), skills: [9153].into(), ..Default::default() };
+        db.resolve(&http, &w).unwrap();
+        assert_eq!(db.item_icon(24842), Some("https://render.guildwars2.com/file/A/1.png"));
+        assert_eq!(db.skill_icon(9153), Some("https://render.guildwars2.com/file/B/2.png"));
+        assert!(db.items[&24842].icon_checked && db.skills[&9153].icon_checked);
+    }
+
+    #[test]
+    fn old_entries_are_rewanted_once_for_icons() {
+        // An itemdb.json written by v0.1.x: no icon / icon_checked fields.
+        let mut db: GameDb = serde_json::from_str(
+            r#"{"items":{"24842":{"name":"Rune"}},"skills":{"9153":{"name":"Mantra"}}}"#).unwrap();
+        let mut b = firebrand();
+        b.equipment.runes.clear();
+        b.equipment.runes.insert(GearSlot::Head, 24842);
+        let w = db.wanted(Some(&b), None, &BTreeSet::new());
+        assert!(w.items.contains(&24842), "old item without icon_checked is wanted");
+        // The API answers with no icon at all; it must not be wanted again.
+        let http = FakeHttp::new();
+        http.on(&format!("https://api.guildwars2.com/v2/items?ids={}", join(&w.items)), 200, r#"[{"id":24842,"name":"Rune"}]"#)
+            .on(&format!("https://api.guildwars2.com/v2/skills?ids={}", join(&w.skills)), 200, r#"[{"id":9153,"name":"Mantra"}]"#);
+        db.resolve(&http, &Wanted { itemstats: Default::default(), ..w.clone() }).unwrap();
+        let again = db.wanted(Some(&b), None, &BTreeSet::new());
+        assert!(!again.items.contains(&24842));
+        assert!(!again.skills.contains(&9153));
+    }
+
+    #[test]
+    fn named_build_skills_are_still_wanted_for_icons() {
+        let mut b = firebrand();
+        b.skill_names.insert(b.skills.heal, "Named Heal".into());
+        let w = GameDb::default().wanted(Some(&b), None, &BTreeSet::new());
+        assert!(w.skills.contains(&b.skills.heal));
+    }
+
+    fn join(ids: &BTreeSet<u32>) -> String {
+        ids.iter().map(u32::to_string).collect::<Vec<_>>().join(",")
     }
 }

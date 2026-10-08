@@ -435,7 +435,7 @@ mod tests {
     fn without_api_weapons_show_live_evidence() {
         let mut w = World::matching(firebrand());
         w.api.has_key = false;
-        w.db.skills.insert(9104, SkillInfo { name: "True Strike".into(), weapon_type: Some("Mace".into()) });
+        w.db.skills.insert(9104, SkillInfo { name: "True Strike".into(), weapon_type: Some("Mace".into()), ..Default::default() });
         w.live.skills_cast.insert(9104);
         let r = w.result("api.Weapons");
         assert_eq!(r.status, Status::Unknown);

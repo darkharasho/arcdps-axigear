@@ -48,15 +48,22 @@ so the player still sees what's wrong at a glance.
 
   `specs::SpecInfo` exposes these fields. Traits need no API calls at runtime.
 - **Stat-only slots.** Armor, trinkets, back and weapon types have no item ID, so
-  their icons are bundled PNGs embedded with `include_bytes!` under
-  `crates/axigear/assets/slots/`:
-  - Armor: 6 slots × 3 weight classes.
-  - Trinkets: amulet, ring, accessory, back.
-  - Weapons: one PNG per weapon type.
-
-  That is about 45 files at 64×64, around 1 MB in total. The armor weight class
-  comes from the build's profession. A small table in the UI crate maps
-  `(GearSlot, weight)` and weapon type to an asset.
+  their icons come from a bundled Rust table of fixed URLs instead of bundled PNGs.
+  - The URLs are copied from AxiForge, which draws these tiles from fixed URLs too:
+    `LEGENDARY_ARMOR_ICONS` and `EQUIP_TRINKET_SLOTS[].filledIcon` in
+    `axiforge/src/renderer/modules/constants.js`, and `GW2_WEAPONS[].icon` in
+    `axiforge/packages/forge-render/src/weapons.js`.
+  - They go through the same texture cache as every other icon.
+  - The allowed hosts are `render.guildwars2.com` and `wiki.guildwars2.com`; weapon
+    icons are on the wiki.
+  - The armor weight class comes from the build's profession. A small table in the UI
+    crate maps `(GearSlot, weight)` and weapon type to a URL.
+- **Relic, food and utility.** The build stores these three as names, not item IDs,
+  so the item-ID route cannot reach them. A generator, `scripts/gen-named-icons.py`,
+  reads AxiForge's `RELIC_ITEM_IDS` / `FOOD_ITEM_IDS` / `UTILITY_ITEM_IDS`
+  (`axiforge/src/main/gw2Data/upgradeIds.json`), fetches `/v2/items` once at
+  generation time and writes `crates/axigear-core/data/named_icons.json` as
+  `[{kind, name, icon, buff}]`.
 
 ### Per-slot status (axigear-core)
 
@@ -108,9 +115,8 @@ glyph drawer stays as it is.
   for the life of the process.
 - `textures::get(url) -> Option<IconHandle { tex: TextureId, aspect: f32 }>`.
   - If the icon isn't ready it returns `None` and queues the URL, deduplicated.
-  - Bundled PNGs go through the same upload path, keyed `bundled:<name>`.
-- Only URLs on `https://render.guildwars2.com/` are fetched. That host is a CDN,
-  not the rate-limited API. Any other host is treated as failed.
+- Only URLs on `https://render.guildwars2.com/` and `https://wiki.guildwars2.com/`
+  are fetched. Those hosts are CDNs, not the rate-limited API. Any other host is treated as failed.
 - New dependencies: the `image` crate (`default-features = false`,
   `features = ["png", "jpeg"]`), and the windows features
   `Win32_Graphics_Direct3D11`, `Win32_Graphics_Direct3D` and
@@ -205,11 +211,11 @@ The badge is unchanged.
 - **Download, decode or HTTP error.** The URL is marked failed for the session and
   never retried each frame. One `log::warn!` per URL. The tile keeps its text
   fallback.
-- **Missing icon URL.** Use the bundled slot PNG if there is one, otherwise the text
+- **Missing icon URL.** Use the bundled slot URL if there is one, otherwise the text
   tile.
 - **No D3D11 device.** The texture cache is disabled and `get` always returns
   `None`, so the UI renders entirely as text tiles.
-- **Disk cache.** Files live at `<arcdps addon dir>/axigear/icons/<fnv64(url)>.png`.
+- **Disk cache.** Files live at `<arcdps addon dir>/axigear/icons/<fnv64 hex of url>.img`.
   - Writes go to a temp file that is then renamed.
   - A file that fails to decode is deleted and fetched again once.
 - **Memory.** About 80 icons at 64×64 RGBA is about 1.3 MB for each build seen.

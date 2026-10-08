@@ -146,7 +146,7 @@ impl World {
             });
             db.items.insert(
                 item_id(slot),
-                ItemInfo { name: format!("{} item", slot.label()), weapon_type: weapon.map(str::to_string), default_stats: stats_id },
+                ItemInfo { name: format!("{} item", slot.label()), weapon_type: weapon.map(str::to_string), default_stats: stats_id, ..Default::default() },
             );
             let upgrades = if slot.is_weapon() { e.sigils.get(slot).to_vec() } else { e.runes.get(&slot).copied().into_iter().collect() };
             let infusions = if slot == GearSlot::Head { e.infusions.clone() } else { Vec::new() };
