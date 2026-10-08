@@ -44,10 +44,12 @@ pub fn icon(ui: &Ui, t: &Tile, report: Option<&CheckReport>, style: TileStyle) -
                 draw.add_text([r.min[0] + 2.0, r.min[1] + 2.0], theme::TEXT_FAINT, label);
             }
         }
+        // A pulse wins the border over the tone: problem clicks target
+        // Danger/Warn slots, and the status chip still carries the tone.
         let border = match tone {
+            _ if style.pulse => theme::pulse(ui.time()),
             Some(Tone::Danger) => theme::DANGER,
             Some(Tone::Warn) => theme::WARN,
-            _ if style.pulse => theme::GOLD,
             _ => theme::INK_LINE,
         };
         if t.empty {
@@ -108,6 +110,19 @@ pub fn tooltip(ui: &Ui, t: &Tile, report: Option<&CheckReport>) {
             ui.text_colored(icons::ink(r.mark_tone(m)), format!("{}{you} ({source}{age})", r.label));
         }
     });
+}
+
+/// The focus ring drawn around a target that has no tile of its own
+/// (e.g. the Infusions header): the same blinking gold as a pulsing tile
+/// border, laid just outside `r`.
+pub fn pulse_ring(ui: &Ui, r: Rect) {
+    let ring = r.inset(-3.0);
+    axi::outline_on(
+        &ui.get_window_draw_list(),
+        ring,
+        theme::BORDER_CONTROL,
+        theme::pulse(ui.time()),
+    );
 }
 
 pub fn clipped_text(ui: &Ui, text: &str, w: f32, color: [f32; 4]) {

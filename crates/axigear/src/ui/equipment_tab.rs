@@ -4,6 +4,7 @@ use arcdps::imgui::Ui;
 use axigear_core::loadout::{GearRow, Loadout, Tile};
 use axigear_core::report::{CheckReport, SlotKey};
 
+use super::axi::Rect;
 use super::tile::{self, TileStyle};
 use super::{icons, theme};
 
@@ -44,9 +45,16 @@ pub fn render(ui: &Ui, l: &Loadout, report: &CheckReport, focus: Option<SlotKey>
             trinket_row(ui, &row, w, report, focus);
         }
         eyebrow(ui, "Infusions");
+        let mut ring = Rect::new(ui.item_rect_min(), ui.item_rect_max());
         if let Some(t) = report.worst(SlotKey::Infusions, &[]) {
             ui.same_line();
             icons::draw(ui, t, ui.text_line_height());
+            ring.max = ui.item_rect_max();
+        }
+        // Infusions have no tile of their own, so a problem click rings
+        // the header and its status chip instead.
+        if focus == Some(SlotKey::Infusions) {
+            tile::pulse_ring(ui, ring);
         }
         if l.infusions.is_empty() {
             ui.text_colored(theme::TEXT_FAINT, "none set");

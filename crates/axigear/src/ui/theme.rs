@@ -41,6 +41,13 @@ pub const WARN: [f32; 4]           = rgb(0xff, 0x7a, 0x2f); // --axi-warn
 pub const DANGER: [f32; 4]         = rgb(0xff, 0x52, 0x52); // --axi-danger
 pub const GOLD: [f32; 4]           = rgb(0xff, 0xc5, 0x3d); // --axi-gold
 
+/// The problem-click focus pulse: `GOLD`, its alpha breathing between
+/// 0.35 and 1.0 about once a second. `time` is `ui.time()` in seconds.
+pub fn pulse(time: f64) -> [f32; 4] {
+    let wave = 0.5 + 0.5 * (time * std::f64::consts::TAU).cos();
+    with_alpha(GOLD, 0.35 + 0.65 * wave as f32)
+}
+
 /// Icon texture tints: dim for faded/empty tiles, white for full colour.
 pub const TINT_DIM: [f32; 4]  = [0.35, 0.35, 0.35, 1.0];
 pub const TINT_FULL: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
