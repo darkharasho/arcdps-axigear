@@ -27,7 +27,7 @@ const CHIP: f32 = 14.0;
 pub fn icon(ui: &Ui, t: &Tile, report: Option<&CheckReport>, style: TileStyle) -> bool {
     let origin = ui.cursor_screen_pos();
     let r = Rect::at(origin, [style.size, style.size]);
-    ui.invisible_button(format!("##tile-{:?}-{}-{}", t.key, t.name, origin[0] as i32), [style.size, style.size]);
+    ui.invisible_button(format!("##tile-{:?}-{}-{}", t.key, origin[0] as i32, origin[1] as i32), [style.size, style.size]);
     let hovered = ui.is_item_hovered();
     let tone = report.and_then(|rep| rep.worst(t.key, style.skip));
     let tex = t.icon.as_deref().and_then(textures::get);
@@ -60,11 +60,8 @@ pub fn icon(ui: &Ui, t: &Tile, report: Option<&CheckReport>, style: TileStyle) -
         }
     }
     if let Some(tone) = tone.filter(|t| *t != Tone::Ok) {
-        let saved = ui.cursor_screen_pos();
-        ui.set_cursor_screen_pos([r.max[0] - CHIP, r.min[1]]);
         ui.get_window_draw_list().add_rect([r.max[0] - CHIP, r.min[1]], [r.max[0], r.min[1] + CHIP], theme::INK_LINE).filled(true).build();
-        icons::draw(ui, tone, CHIP);
-        ui.set_cursor_screen_pos(saved);
+        icons::draw_at(ui, [r.max[0] - CHIP, r.min[1]], tone, CHIP);
     }
     if hovered {
         tooltip(ui, t, report);

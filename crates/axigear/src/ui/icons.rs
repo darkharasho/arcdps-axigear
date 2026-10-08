@@ -17,8 +17,15 @@ pub fn ink(tone: Tone) -> [f32; 4] {
 /// Reserve a `size`×`size` cell at the cursor and draw the mark for `tone`.
 /// Takes (and drops) its own draw list: never call while holding one.
 pub fn draw(ui: &Ui, tone: Tone, size: f32) {
-    let [x, y] = ui.cursor_screen_pos();
+    let origin = ui.cursor_screen_pos();
     ui.dummy([size, size]);
+    draw_at(ui, origin, tone, size);
+}
+
+/// Draw the mark for `tone` at `origin` without reserving layout space or
+/// touching imgui's last-item state. Takes its own draw list.
+pub fn draw_at(ui: &Ui, origin: [f32; 2], tone: Tone, size: f32) {
+    let [x, y] = origin;
     let ink = ink(tone);
     let t = (size / 7.0).max(1.5);
     let p = |fx: f32, fy: f32| [x + fx * size, y + fy * size];
