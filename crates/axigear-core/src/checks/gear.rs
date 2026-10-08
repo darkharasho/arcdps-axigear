@@ -6,7 +6,7 @@ use crate::checks::Ctx;
 use crate::gamedb::GameDb;
 use crate::gw2api::ApiSnapshot;
 use crate::model::{is_two_handed, GearSlot};
-use crate::report::{Category, CheckResult, Status};
+use crate::report::{Category, CheckResult, SlotKey, Status};
 use crate::text::{norm, summarize};
 
 /// "Legendary Rune of the Scholar" and "Superior Rune of the Scholar" are the same upgrade.
@@ -45,6 +45,15 @@ fn item_label(ctx: &Ctx, id: u32) -> String {
     ctx.db.item_name(id).map(String::from).unwrap_or_else(|| format!("item {id}"))
 }
 
+type Marks = Vec<(SlotKey, Status, Option<String>)>;
+
+fn with_marks(mut r: CheckResult, marks: Marks) -> CheckResult {
+    for (k, s, d) in marks {
+        r = r.mark(k, s, d);
+    }
+    r
+}
+
 /// Fail if anything is definitely wrong, else Unknown if something is unresolved, else Pass.
 fn finish(cat: Category, id: impl Into<String>, label: impl Into<String>, expected: String, wrong: Vec<String>, unresolved: Option<u32>) -> CheckResult {
     if !wrong.is_empty() {
@@ -73,21 +82,26 @@ pub fn weapons(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
             (None, None) => unreachable!(),
         };
         let (mut wrong, mut unresolved, mut actual) = (false, None, Vec::new());
+        let mut marks: Marks = Vec::new();
         for (slot, want) in [(main_slot, main), (off_slot, off)] {
             let Some(want) = want else { continue };
             match snap.item(slot) {
                 None => {
                     wrong = true;
                     actual.push("empty".to_string());
+                    marks.push((SlotKey::Gear(slot), Status::Fail, Some("empty".into())));
                 }
                 Some(item) => match ctx.db.weapon_type(item.id) {
                     None => {
                         unresolved = unresolved.or(Some(item.id));
                         actual.push("?".to_string());
+                        marks.push((SlotKey::Gear(slot), Status::Unknown, None));
                     }
                     Some(have) => {
-                        wrong |= norm(have) != norm(want);
+                        let bad = norm(have) != norm(want);
+                        wrong |= bad;
                         actual.push(have.to_lowercase());
+                        marks.push(if bad { (SlotKey::Gear(slot), Status::Fail, Some(have.to_lowercase())) } else { (SlotKey::Gear(slot), Status::Pass, None) });
                     }
                 },
             }
@@ -98,7 +112,7 @@ pub fn weapons(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
         if let (Status::Unknown, Some(id)) = (status, unresolved) {
             r = r.with_reason(format!("couldn't resolve item {id}"));
         }
-        out.push(r);
+        out.push(with_marks(r, marks));
     }
     out
 }
@@ -136,27 +150,38 @@ pub fn stats(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
         }
     }
     let (mut wrong, mut unresolved) = (Vec::new(), None);
+    let mut marks: Marks = Vec::new();
     for (_, slots) in groups {
         // Multiset match: each worn stat may satisfy any wanted stat of its group once.
         let mut pool: Vec<String> = slots.iter().map(|s| stat_key(&want[s])).collect();
         let mut leftover = Vec::new();
         for slot in &slots {
             match snap.item(*slot) {
-                None => wrong.push(format!("{}: empty", slot.label())),
+                None => {
+                    wrong.push(format!("{}: empty", slot.label()));
+                    marks.push((SlotKey::Gear(*slot), Status::Fail, Some("empty".into())));
+                }
                 Some(item) => match ctx.db.stat_name(item) {
-                    None => unresolved = unresolved.or(Some(item.id)),
+                    None => {
+                        unresolved = unresolved.or(Some(item.id));
+                        marks.push((SlotKey::Gear(*slot), Status::Unknown, None));
+                    }
                     Some(have) => match pool.iter().position(|k| *k == stat_key(have)) {
                         Some(i) => {
                             pool.swap_remove(i);
+                            marks.push((SlotKey::Gear(*slot), Status::Pass, None));
                         }
-                        None => leftover.push(format!("{}: {have}", slot.label())),
+                        None => {
+                            leftover.push(format!("{}: {have}", slot.label()));
+                            marks.push((SlotKey::Gear(*slot), Status::Fail, Some(have.to_string())));
+                        }
                     },
                 },
             }
         }
         wrong.extend(leftover);
     }
-    vec![finish(Category::Stats, "stats", "Stats", summarize(want.values().cloned()), wrong, unresolved)]
+    vec![with_marks(finish(Category::Stats, "stats", "Stats", summarize(want.values().cloned()), wrong, unresolved), marks)]
 }
 
 pub fn runes(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
@@ -165,13 +190,26 @@ pub fn runes(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
         return Vec::new();
     }
     let (mut wrong, mut unresolved, mut good) = (Vec::new(), None, 0);
+    let mut marks: Marks = Vec::new();
     for (slot, rune) in want {
         match snap.item(*slot).and_then(|i| i.upgrades.first().copied()) {
-            None => wrong.push(format!("{}: none", slot.label())),
+            None => {
+                wrong.push(format!("{}: none", slot.label()));
+                marks.push((SlotKey::Rune(*slot), Status::Fail, Some("none".into())));
+            }
             Some(have) => match same_upgrade(ctx.db, *rune, have) {
-                Some(true) => good += 1,
-                Some(false) => wrong.push(format!("{}: {}", slot.label(), item_label(ctx, have))),
-                None => unresolved = unresolved.or(Some(have)),
+                Some(true) => {
+                    good += 1;
+                    marks.push((SlotKey::Rune(*slot), Status::Pass, None));
+                }
+                Some(false) => {
+                    wrong.push(format!("{}: {}", slot.label(), item_label(ctx, have)));
+                    marks.push((SlotKey::Rune(*slot), Status::Fail, Some(item_label(ctx, have))));
+                }
+                None => {
+                    unresolved = unresolved.or(Some(have));
+                    marks.push((SlotKey::Rune(*slot), Status::Unknown, None));
+                }
             },
         }
     }
@@ -182,33 +220,42 @@ pub fn runes(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     if failed {
         r.actual = Some(format!("{good}/{} · {detail}", want.len()));
     }
-    vec![r]
+    vec![with_marks(r, marks)]
 }
 
 pub fn sigils(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     let s = &ctx.build.equipment.sigils;
     let mut out = Vec::new();
     for (set, slots) in [("A", [GearSlot::WeaponA1, GearSlot::WeaponA2]), ("B", [GearSlot::WeaponB1, GearSlot::WeaponB2])] {
-        let want: Vec<u32> = slots.iter().flat_map(|sl| s.get(*sl).iter().copied()).collect();
+        let wanted: Vec<(GearSlot, u8, u32)> = slots.iter().flat_map(|sl| s.get(*sl).iter().enumerate().map(move |(i, id)| (*sl, i as u8, *id))).collect();
+        let want: Vec<u32> = wanted.iter().map(|(_, _, id)| *id).collect();
         if want.is_empty() {
             continue;
         }
         let have: Vec<u32> = slots.iter().filter_map(|sl| snap.item(*sl)).flat_map(|i| i.upgrades.iter().copied()).collect();
         let mut pool = have.clone();
         let (mut missing, mut unresolved) = (Vec::new(), None);
-        for w in &want {
+        let mut marks: Marks = Vec::new();
+        for (sl, idx, w) in &wanted {
             match pool.iter().position(|h| same_upgrade(ctx.db, *w, *h) == Some(true)) {
                 Some(i) => {
                     pool.swap_remove(i);
+                    marks.push((SlotKey::Sigil(*sl, *idx), Status::Pass, None));
                 }
-                None if pool.iter().any(|h| same_upgrade(ctx.db, *w, *h).is_none()) => unresolved = unresolved.or(Some(*w)),
-                None => missing.push(item_label(ctx, *w)),
+                None if pool.iter().any(|h| same_upgrade(ctx.db, *w, *h).is_none()) => {
+                    unresolved = unresolved.or(Some(*w));
+                    marks.push((SlotKey::Sigil(*sl, *idx), Status::Unknown, None));
+                }
+                None => {
+                    missing.push(item_label(ctx, *w));
+                    marks.push((SlotKey::Sigil(*sl, *idx), Status::Fail, Some("missing".into())));
+                }
             }
         }
         let expected = summarize(want.iter().map(|id| item_label(ctx, *id)));
         let actual = summarize(have.iter().map(|id| item_label(ctx, *id)));
         let wrong = if missing.is_empty() { Vec::new() } else { vec![format!("{actual}; missing {}", missing.join(", "))] };
-        out.push(finish(Category::Sigils, format!("sigils.{set}"), format!("Sigils {set}"), expected, wrong, unresolved));
+        out.push(with_marks(finish(Category::Sigils, format!("sigils.{set}"), format!("Sigils {set}"), expected, wrong, unresolved), marks));
     }
     out
 }
@@ -220,8 +267,11 @@ pub fn relic(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
         return vec![row(Status::Unknown).with_reason("the API doesn't report the relic")];
     };
     match ctx.db.item_name(item.id) {
-        None => vec![row(Status::Unknown).with_reason(format!("couldn't resolve item {}", item.id))],
-        Some(have) => vec![row(if norm(have) == norm(want) { Status::Pass } else { Status::Fail }).with_actual(have)],
+        None => vec![row(Status::Unknown).with_reason(format!("couldn't resolve item {}", item.id)).mark(SlotKey::Relic, Status::Unknown, None)],
+        Some(have) => {
+            let st = if norm(have) == norm(want) { Status::Pass } else { Status::Fail };
+            vec![row(st).with_actual(have).mark(SlotKey::Relic, st, (st == Status::Fail).then(|| have.to_string()))]
+        }
     }
 }
 
@@ -244,11 +294,11 @@ pub fn infusions(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     let actual = summarize(have.iter().map(|id| item_label(ctx, *id)));
     let row = |status| CheckResult::new(Category::Infusions, "infusions", "Infusions", status, expected.clone()).with_actual(actual.clone());
     if want_keys == have_keys {
-        return vec![row(Status::Pass)];
+        return vec![row(Status::Pass).mark(SlotKey::Infusions, Status::Pass, None)];
     }
     match want.iter().chain(&have).find(|id| ctx.db.item_name(**id).is_none()) {
-        Some(id) => vec![row(Status::Unknown).with_reason(format!("couldn't resolve item {id}"))],
-        None => vec![row(Status::Fail)],
+        Some(id) => vec![row(Status::Unknown).with_reason(format!("couldn't resolve item {id}")).mark(SlotKey::Infusions, Status::Unknown, None)],
+        None => vec![row(Status::Fail).mark(SlotKey::Infusions, Status::Fail, Some(actual.clone()))],
     }
 }
 
@@ -440,5 +490,52 @@ mod tests {
         let r = w.result("api.Weapons");
         assert_eq!(r.status, Status::Unknown);
         assert_eq!(r.actual.as_deref(), Some("seen in use: mace"));
+    }
+
+    use crate::report::SlotKey;
+
+    fn mark_of(w: &World, id: &str, key: SlotKey) -> Option<(Status, Option<String>)> {
+        w.result(id).marks.into_iter().find(|m| m.key == key).map(|m| (m.status, m.detail))
+    }
+
+    #[test]
+    fn matching_gear_marks_pass() {
+        let w = World::matching(firebrand());
+        assert_eq!(mark_of(&w, "stats", SlotKey::Gear(GearSlot::Head)).map(|m| m.0), Some(Status::Pass));
+        let rune_slot = *firebrand().equipment.runes.keys().next().unwrap();
+        assert_eq!(mark_of(&w, "runes", SlotKey::Rune(rune_slot)).map(|m| m.0), Some(Status::Pass));
+        assert_eq!(mark_of(&w, "weapons.A", SlotKey::Gear(GearSlot::WeaponA1)).map(|m| m.0), Some(Status::Pass));
+    }
+
+    #[test]
+    fn an_empty_slot_marks_that_slot_only() {
+        let mut w = World::matching(firebrand());
+        w.snap_mut().equipment.retain(|i| i.slot != "Helm");
+        assert_eq!(mark_of(&w, "stats", SlotKey::Gear(GearSlot::Head)), Some((Status::Fail, Some("empty".into()))));
+        assert_eq!(mark_of(&w, "stats", SlotKey::Gear(GearSlot::Feet)).map(|m| m.0), Some(Status::Pass));
+    }
+
+    #[test]
+    fn a_missing_rune_marks_its_slot() {
+        let mut w = World::matching(firebrand());
+        let slot = *firebrand().equipment.runes.keys().next().unwrap();
+        w.item_mut(slot).upgrades.clear();
+        assert_eq!(mark_of(&w, "runes", SlotKey::Rune(slot)), Some((Status::Fail, Some("none".into()))));
+    }
+
+    #[test]
+    fn sigils_mark_each_wanted_sigil() {
+        let w = World::matching(firebrand());
+        let r = w.result("sigils.A");
+        let n = firebrand().equipment.sigils.a1.len() + firebrand().equipment.sigils.a2.len();
+        assert_eq!(r.marks.iter().filter(|m| matches!(m.key, SlotKey::Sigil(_, _))).count(), n);
+        assert!(r.marks.iter().all(|m| m.status == Status::Pass));
+    }
+
+    #[test]
+    fn relic_and_infusions_are_marked() {
+        let w = World::matching(firebrand());
+        assert_eq!(mark_of(&w, "relic", SlotKey::Relic).map(|m| m.0), Some(Status::Pass));
+        assert_eq!(mark_of(&w, "infusions", SlotKey::Infusions).map(|m| m.0), Some(Status::Pass));
     }
 }

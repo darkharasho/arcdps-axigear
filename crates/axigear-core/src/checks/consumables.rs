@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use crate::checks::Ctx;
 use crate::consumables::ConsumableKind;
-use crate::report::{Category, CheckResult, Status};
+use crate::report::{Category, CheckResult, SlotKey, Status};
 
 pub const GRACE: Duration = Duration::from_secs(30);
 
@@ -19,9 +19,9 @@ pub fn utility(ctx: &Ctx) -> Vec<CheckResult> {
 
 fn check(ctx: &Ctx, kind: ConsumableKind, want: Option<&str>) -> Vec<CheckResult> {
     let Some(want) = want else { return Vec::new() };
-    let (cat, id, label) = match kind {
-        ConsumableKind::Food => (Category::Food, "food", "Food"),
-        ConsumableKind::Utility => (Category::Utility, "utility", "Utility"),
+    let (cat, id, label, key) = match kind {
+        ConsumableKind::Food => (Category::Food, "food", "Food", SlotKey::Food),
+        ConsumableKind::Utility => (Category::Utility, "utility", "Utility", SlotKey::Utility),
     };
     let row = |status| CheckResult::new(cat, id, label, status, want);
 
@@ -31,16 +31,16 @@ fn check(ctx: &Ctx, kind: ConsumableKind, want: Option<&str>) -> Vec<CheckResult
     }
     let active = ctx.live.active_of(kind, ctx.consumables);
     if active.iter().any(|b| ctx.consumables.matches(*b, want)) {
-        return vec![row(Status::Pass).with_actual(want)];
+        return vec![row(Status::Pass).with_actual(want).mark(key, Status::Pass, None)];
     }
     if let Some(other) = active.first() {
         let name = ctx.consumables.name_of(*other).unwrap_or("another one");
-        return vec![row(Status::Fail).with_actual(name).force_advisory()];
+        return vec![row(Status::Fail).with_actual(name).force_advisory().mark(key, Status::Fail, Some(name.into()))];
     }
     if ctx.live.knows_absence(kind) {
-        return vec![row(Status::Fail).with_actual("none")];
+        return vec![row(Status::Fail).with_actual("none").mark(key, Status::Fail, Some("none".into()))];
     }
-    vec![row(Status::Unknown).with_reason("no buff data yet - updates when arcdps reports buffs")]
+    vec![row(Status::Unknown).with_reason("no buff data yet - updates when arcdps reports buffs").mark(key, Status::Unknown, None)]
 }
 
 #[cfg(test)]
@@ -118,5 +118,16 @@ mod tests {
     fn unspecified_food_has_no_row() {
         let w = World::matching(necro());
         assert!(!w.has("food") && !w.has("utility"));
+    }
+
+    #[test]
+    fn food_and_utility_are_marked() {
+        use crate::report::SlotKey;
+        let w = World::matching(firebrand());
+        assert!(w.result("food").marks.iter().any(|m| m.key == SlotKey::Food && m.status == Status::Pass));
+        let mut w = World::matching(firebrand());
+        w.live.active.clear();
+        let r = w.result("utility");
+        assert!(r.marks.iter().any(|m| m.key == SlotKey::Utility && m.status == Status::Fail && m.detail.as_deref() == Some("none")));
     }
 }
