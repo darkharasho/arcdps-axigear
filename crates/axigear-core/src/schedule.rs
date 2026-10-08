@@ -1,5 +1,6 @@
 //! When to poll. Comps: map change or every 10 min, backoff 1→2→5→10 min.
-//! API: map/character change or every 5 min, backoff 30s→1→2→5 min.
+//! API: map/character change or every 5 min (1 min while an API check fails),
+//! backoff 30s→1→2→5 min.
 
 use std::time::{Duration, Instant};
 
@@ -10,6 +11,8 @@ const fn secs(s: u64) -> Duration {
 pub const COMP_INTERVAL: Duration = secs(600);
 pub const COMP_BACKOFF: [Duration; 4] = [secs(60), secs(120), secs(300), secs(600)];
 pub const API_INTERVAL: Duration = secs(300);
+/// While an API-sourced check fails: the player is probably fixing it now.
+pub const API_FAST_INTERVAL: Duration = secs(60);
 pub const API_BACKOFF: [Duration; 4] = [secs(30), secs(60), secs(120), secs(300)];
 pub const MANUAL_REFRESH: Duration = secs(30);
 
@@ -42,6 +45,10 @@ impl Poller {
             None => true,
             Some(t) => self.pending || now.saturating_duration_since(t) >= self.interval,
         }
+    }
+
+    pub fn set_interval(&mut self, interval: Duration) {
+        self.interval = interval;
     }
 
     pub fn note_map_change(&mut self) {
@@ -141,6 +148,21 @@ mod tests {
         assert!(!p.due(t0 + secs(10_000)) && p.stopped());
         p.reset();
         assert!(p.due(t0));
+    }
+
+    #[test]
+    fn interval_can_change_and_survives_reset() {
+        let t0 = Instant::now();
+        let mut p = Poller::new(API_INTERVAL, &API_BACKOFF);
+        p.success(t0);
+        p.set_interval(API_FAST_INTERVAL);
+        assert!(!p.due(t0 + secs(59)));
+        assert!(p.due(t0 + secs(60)));
+        p.reset();
+        p.success(t0);
+        assert!(p.due(t0 + secs(60)), "reset keeps the current interval");
+        p.set_interval(API_INTERVAL);
+        assert!(!p.due(t0 + secs(299)));
     }
 
     #[test]

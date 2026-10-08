@@ -16,8 +16,8 @@ use crate::loader::{self, Fetched, Input, LoadError, MemberCache};
 use crate::matcher;
 use crate::model::{GameMode, SlotRef};
 use crate::mumble::{self, MumbleSample};
-use crate::report::{Badge, Category, CheckReport, SeveritySetting};
-use crate::schedule::{RateLimit, Poller, API_BACKOFF, API_INTERVAL, COMP_BACKOFF, COMP_INTERVAL, MANUAL_REFRESH};
+use crate::report::{Badge, Category, CheckReport, SeveritySetting, Source, Status};
+use crate::schedule::{RateLimit, Poller, API_BACKOFF, API_FAST_INTERVAL, API_INTERVAL, COMP_BACKOFF, COMP_INTERVAL, MANUAL_REFRESH};
 use crate::session::{slot_label, Assignment, CompOrigin, LoadedComp, Session};
 use crate::settings::{BadgeSettings, Settings};
 use crate::specs::SpecDb;
@@ -86,6 +86,8 @@ pub struct UiSnapshot {
     pub flash: bool,
     /// A persistence write failed (settings, comp cache or item db).
     pub save_error: Option<String>,
+    /// Badge hover: how old the API data is, e.g. "gear as of 2m ago".
+    pub badge_tooltip: String,
 }
 
 impl UiSnapshot {
@@ -283,6 +285,8 @@ impl Driver {
         if self.subscription.is_some() && self.comp_poll.due(now) {
             self.poll_comp(now);
         }
+        let api_failing = self.report(now).is_some_and(|r| r.results.iter().any(|c| c.source == Source::Api && c.status == Status::Fail));
+        self.api_poll.set_interval(if api_failing { API_FAST_INTERVAL } else { API_INTERVAL });
         let in_combat = self.session.live.in_combat();
         if !in_combat && self.api_poll.due(now) {
             self.poll_api(now);
@@ -343,6 +347,7 @@ impl Driver {
             settings: self.settings.clone(),
             flash: self.flash_until.is_some_and(|t| now < t),
             save_error: self.save_error.clone(),
+            badge_tooltip: self.badge_tooltip(now),
         }
     }
 
@@ -512,6 +517,20 @@ impl Driver {
             Assignment::Ambiguous(_) => Some("several slots match - pick yours".into()),
             Assignment::Unassigned => Some("waiting for your character".into()),
             Assignment::Auto(_) | Assignment::Manual(_) => None,
+        }
+    }
+
+    fn badge_tooltip(&self, now: Instant) -> String {
+        let api = &self.session.api;
+        match (&api.snapshot, &api.error) {
+            (Some(s), err) if api.has_key => {
+                let age = text::ago(now.saturating_duration_since(s.fetched_at).as_secs());
+                match err {
+                    Some(e) => format!("gear as of {age} · {e}"),
+                    None => format!("gear as of {age}"),
+                }
+            }
+            _ => self.api_line(now),
         }
     }
 
@@ -687,6 +706,61 @@ mod tests {
         d.handle(Command::Live(LiveEvent::Combat { active: false }), t0);
         d.tick(t0 + Duration::from_secs(401));
         assert_eq!(calls_to(&http, &b), 2);
+    }
+
+    fn api_routes(http: &FakeHttp) -> (String, String) {
+        let b = gw2api::character_url("Tester", &["buildtabs", "active"]);
+        let e = gw2api::character_url("Tester", &["equipmenttabs", "active"]);
+        http.on(&b, 200, r#"{"build":{"profession":"Guardian","specializations":[{"id":42,"traits":[0,0,0]},{"id":46,"traits":[0,0,0]},{"id":62,"traits":[0,0,0]}],"skills":{"heal":1,"utilities":[2,3,4],"elite":5}}}"#)
+            .on(&e, 200, r#"{"equipment":[]}"#);
+        (b, e)
+    }
+
+    #[test]
+    fn failing_api_checks_poll_every_minute() {
+        let (http, dir, t0) = setup();
+        let (b, _) = api_routes(&http);
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(Command::SetApiKey("KEY".into()), t0);
+        d.handle(firebrand_in(1), t0);
+        d.tick(t0);
+        assert!(d.report(t0).unwrap().results.iter().any(|r| r.source == Source::Api && r.status == Status::Fail));
+        d.tick(t0 + Duration::from_secs(59));
+        assert_eq!(calls_to(&http, &b), 1);
+        d.tick(t0 + Duration::from_secs(60));
+        assert_eq!(calls_to(&http, &b), 2);
+    }
+
+    #[test]
+    fn passing_api_checks_keep_the_five_minute_interval() {
+        let (http, dir, t0) = setup();
+        let (b, _) = api_routes(&http);
+        let mut d = driver(&http, &dir, t0);
+        for c in Category::ALL.into_iter().filter(|c| c.source() == Source::Api) {
+            d.handle(Command::Settings(SettingsPatch::Severity(c, SeveritySetting::Off)), t0);
+        }
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(Command::SetApiKey("KEY".into()), t0);
+        d.handle(firebrand_in(1), t0);
+        d.tick(t0);
+        d.tick(t0 + Duration::from_secs(60));
+        assert_eq!(calls_to(&http, &b), 1);
+        d.tick(t0 + Duration::from_secs(300));
+        assert_eq!(calls_to(&http, &b), 2);
+    }
+
+    #[test]
+    fn badge_tooltip_says_how_old_the_gear_is() {
+        let (http, dir, t0) = setup();
+        api_routes(&http);
+        let mut d = driver(&http, &dir, t0);
+        assert_eq!(d.snapshot(t0).badge_tooltip, "API: needs key (characters, builds)");
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(Command::SetApiKey("KEY".into()), t0);
+        d.handle(firebrand_in(1), t0);
+        d.tick(t0);
+        assert_eq!(d.snapshot(t0 + Duration::from_secs(150)).badge_tooltip, "gear as of 2m ago");
     }
 
     #[test]

@@ -23,7 +23,7 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
         return;
     }
     let settings = state.badge_settings(snap);
-    draw(ui, snap.badge, snap.badge.unknown_suffix(), snap.flash, &settings, Some(state));
+    draw(ui, snap.badge, snap.badge.unknown_suffix(), snap.flash, &settings, Some((state, &snap.badge_tooltip)));
 }
 
 /// Shown after a panic disabled the plugin; needs nothing from the worker.
@@ -31,7 +31,7 @@ pub fn render_error(ui: &Ui) {
     draw(ui, Badge::Error, None, false, &BadgeSettings::default(), None);
 }
 
-fn draw(ui: &Ui, badge: Badge, suffix: Option<String>, flash: bool, settings: &BadgeSettings, mut state: Option<&mut UiState>) {
+fn draw(ui: &Ui, badge: Badge, suffix: Option<String>, flash: bool, settings: &BadgeSettings, mut state: Option<(&mut UiState, &str)>) {
     let _form = theme::push_form(ui);
     let _bg = ui.push_style_color(StyleColor::WindowBg, theme::with_alpha(theme::GROUND, theme::ALPHA_HUD));
     let flags = if settings.lock_position { FLAGS | WindowFlags::NO_MOVE } else { FLAGS };
@@ -54,7 +54,10 @@ fn draw(ui: &Ui, badge: Badge, suffix: Option<String>, flash: bool, settings: &B
             let dl = ui.get_window_draw_list();
             axi::outline_on(&dl, Rect::new(pos, [pos[0] + size[0], pos[1] + size[1]]), theme::BORDER_CONTROL, theme::DANGER);
         }
-        let Some(state) = state.as_deref_mut() else { return };
+        let Some((state, tooltip)) = state.as_mut() else { return };
+        if ui.is_window_hovered() && !ui.is_mouse_down(MouseButton::Left) {
+            ui.tooltip_text(*tooltip);
+        }
         if ui.is_window_hovered() && ui.is_mouse_clicked(MouseButton::Left) {
             state.press_pos = Some(pos);
         }
