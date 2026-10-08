@@ -202,8 +202,9 @@ pub fn bar_fill(track: Rect, frac: f32) -> Rect {
     }
 }
 
-/// Fit `text` into `avail` pixels, appending a single ellipsis when it
-/// does not. `width_of` measures a string in the caller's font —
+/// Fit `text` into `avail` pixels, appending an ASCII `...` when it
+/// does not. Not U+2026: arcdps fonts lack glyphs above U+00FF and
+/// would draw it as `?`. `width_of` measures a string in the caller's font —
 /// `|s| ui.calc_text_size(s)[0]` in the overlay, a stub on the host,
 /// which is what makes this testable off Windows.
 ///
@@ -226,7 +227,7 @@ pub fn truncate_to_width(text: &str, avail: f32, width_of: impl Fn(&str) -> f32)
     let mut base = text.to_string();
     while !base.is_empty() {
         base.pop();
-        let candidate = format!("{}\u{2026}", base.trim_end());
+        let candidate = format!("{}...", base.trim_end());
         if width_of(&candidate) <= avail {
             return candidate;
         }
@@ -567,4 +568,21 @@ pub fn rule(ui: &Ui, from: [f32; 2], to: [f32; 2]) {
         .add_line(from, to, theme::RULE)
         .thickness(theme::BORDER_HAIRLINE)
         .build();
+}
+
+#[cfg(test)]
+mod truncate_tests {
+    use super::truncate_to_width;
+
+    /// One pixel per char, so widths are char counts.
+    fn w(s: &str) -> f32 {
+        s.chars().count() as f32
+    }
+
+    #[test]
+    fn truncates_with_an_ascii_ellipsis() {
+        assert_eq!(truncate_to_width("Berserker", 20.0, w), "Berserker");
+        assert_eq!(truncate_to_width("Berserker", 6.0, w), "Ber...");
+        assert_eq!(truncate_to_width("Berserker", 2.0, w), "");
+    }
 }

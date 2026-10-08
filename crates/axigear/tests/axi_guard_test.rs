@@ -578,6 +578,19 @@ fn the_conversion_is_complete() {
 /// Skips `//` comments (including doc comments) and `/* */` blocks; handles
 /// escapes and char literals well enough for plain UI sources. Raw strings
 /// are scanned as ordinary strings, which only over-reports.
+/// Decode a `u{XXXX}` escape body (the text right after a backslash).
+/// Returns the char and how many chars the body spans, or `None` if
+/// this is not a well-formed unicode escape.
+fn unicode_escape(rest: &[char]) -> Option<(char, usize)> {
+    if rest.first() != Some(&'u') || rest.get(1) != Some(&'{') {
+        return None;
+    }
+    let close = rest.iter().take(12).position(|&c| c == '}')?;
+    let hex: String = rest[2..close].iter().filter(|&&c| c != '_').collect();
+    let ch = char::from_u32(u32::from_str_radix(&hex, 16).ok()?)?;
+    Some((ch, close + 1))
+}
+
 fn non_latin1_in_strings(text: &str) -> Vec<(usize, char)> {
     let chars: Vec<char> = text.chars().collect();
     let mut out = Vec::new();
@@ -598,6 +611,12 @@ fn non_latin1_in_strings(text: &str) -> Vec<(usize, char)> {
             if c == '\\' {
                 if chars.get(i + 1) == Some(&'\n') {
                     line += 1;
+                }
+                if let Some((esc, len)) = unicode_escape(&chars[i + 1..]) {
+                    if (esc as u32) > 0xFF {
+                        out.push((line, esc));
+                    }
+                    i += len - 1; // the shared `i += 1` below lands on the `}`
                 }
                 i += 1;
             } else if c == '"' {
@@ -650,5 +669,20 @@ fn latin_1_scanner_flags_strings_and_ignores_comments() {
     let bad = "ui.text(\"ok \\\" \u{2713} done\");\nlet x = 1;\nui.text(\"\u{2014}\");\n";
     assert_eq!(non_latin1_in_strings(bad), vec![(1, '\u{2713}'), (3, '\u{2014}')]);
     let fine = "// \u{2713} comment\n/// doc \u{2014}\n/* \u{26A0} */\nlet a = \"caf\u{e9} \u{b7} 6\u{d7}\"; let q = '\"'; // \u{2717}\n";
+    assert!(non_latin1_in_strings(fine).is_empty());
+}
+
+#[test]
+fn latin_1_scanner_decodes_unicode_escapes() {
+    // The old truncate_to_width body: an escaped U+2026 in a format string.
+    let old = "let c = format!(\"{}\\u{2026}\", base.trim_end());\n";
+    assert_eq!(non_latin1_in_strings(old), vec![(1, '\u{2026}')]);
+    let bad = "ui.text(\"a\\u{1F600}\");\nui.text(\"\\u{20_14}x\\u{2713}\");\n";
+    assert_eq!(
+        non_latin1_in_strings(bad),
+        vec![(1, '\u{1F600}'), (2, '\u{2014}'), (2, '\u{2713}')]
+    );
+    let fine =
+        "// \\u{2026}\nlet a = \"\\u{00b7} \\u{d7} \\\\u{2026} \\n\"; let c = '\\u{2026}';\n";
     assert!(non_latin1_in_strings(fine).is_empty());
 }
