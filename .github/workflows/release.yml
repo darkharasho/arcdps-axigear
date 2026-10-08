@@ -1,0 +1,104 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to re-post (e.g. v0.2.0)"
+        required: true
+        type: string
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    if: ${{ vars.DISCORD_WEBHOOK_URL != '' }}
+    steps:
+      - name: Resolve release fields
+        id: rel
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: ${{ inputs.tag }}
+          EVENT_TAG: ${{ github.event.release.tag_name }}
+          EVENT_URL: ${{ github.event.release.html_url }}
+          EVENT_BODY: ${{ github.event.release.body }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            tag="$INPUT_TAG"
+            data=$(gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json body,url)
+            body=$(echo "$data" | python3 -c "import sys,json; print(json.load(sys.stdin)['body'])")
+            url=$(echo "$data" | python3 -c "import sys,json; print(json.load(sys.stdin)['url'])")
+          else
+            tag="$EVENT_TAG"
+            body="$EVENT_BODY"
+            url="$EVENT_URL"
+          fi
+          {
+            echo "tag=$tag"
+            echo "url=$url"
+            echo "body<<NOTES_EOF"
+            echo "$body"
+            echo "NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Post to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ vars.DISCORD_WEBHOOK_URL }}
+          TAG: ${{ steps.rel.outputs.tag }}
+          RELEASE_URL: ${{ steps.rel.outputs.url }}
+          NOTES: ${{ steps.rel.outputs.body }}
+        run: |
+          payload=$(python3 <<'PYEOF'
+          import json, os
+
+          tag = os.environ['TAG']
+          release_url = os.environ['RELEASE_URL']
+          notes = os.environ.get('NOTES', '') or ''
+
+          # Strip the leading "# Release Notes\n\nVersion v... — date\n\n" header
+          # so the embed description starts with the actual content.
+          lines = notes.splitlines()
+          while lines and (lines[0].startswith('# Release Notes') or lines[0].startswith('Version ') or lines[0].strip() == ''):
+              lines.pop(0)
+          notes = '\n'.join(lines).strip()
+
+          # Unwrap hard-wrapped paragraphs: RELEASE_NOTES.md is wrapped at
+          # ~72 cols but Discord renders newlines literally. A line that
+          # starts new structure (heading, list item, blockquote, NOTE:,
+          # numbered item, or blank) stands alone; anything else is a
+          # continuation and joins the previous line — including wrapped
+          # bullet text, which joins its bullet.
+          def starts_structure(line):
+              s = line.lstrip()
+              return (not s or s.startswith(('#', '- ', '* ', '>', 'NOTE:'))
+                      or (s.split('.', 1)[0].isdigit() and '.' in s))
+
+          unwrapped = []
+          for line in notes.splitlines():
+              if (unwrapped and not starts_structure(line)
+                      and unwrapped[-1].strip() and not unwrapped[-1].lstrip().startswith('#')):
+                  unwrapped[-1] = unwrapped[-1].rstrip() + ' ' + line.strip()
+              else:
+                  unwrapped.append(line)
+          notes = '\n'.join(unwrapped)
+
+          if len(notes) > 3800:
+              notes = notes[:3800] + '\n\n*... see full notes on GitHub*'
+
+          embed = {
+              'title': f'arcdps-axigear {tag}',
+              'url': release_url,
+              'description': notes or 'A new version of arcdps-axigear is available!',
+              'color': 0x10B981,
+              'footer': {'text': 'arcdps-axigear Release'},
+          }
+
+          print(json.dumps({'embeds': [embed]}))
+          PYEOF
+          )
+
+          echo "payload preview:"
+          echo "$payload" | head -c 500
+          echo
+
+          curl -sS -H 'Content-Type: application/json' -d "$payload" "$DISCORD_WEBHOOK_URL"
