@@ -2,6 +2,7 @@
 //! tokens are pure); everything that touches `Ui` is Windows-only.
 
 pub mod axi;
+pub mod texture_rules;
 pub mod theme;
 
 /// Badge scale bounds. Hand-edited configs can carry 0 or negative values.
@@ -37,3 +38,5 @@ pub mod icons;
 pub mod settings;
 #[cfg(windows)]
 pub mod state;
+#[cfg(windows)]
+pub mod textures;

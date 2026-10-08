@@ -147,6 +147,7 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
         return;
     }
     guard("imgui", (), || {
+        crate::ui::textures::drain_pending();
         let Some(snap) = latest() else { return };
         let Ok(mut guard) = UI_STATE.try_lock() else { return };
         let Some(state) = guard.as_mut() else { return };
