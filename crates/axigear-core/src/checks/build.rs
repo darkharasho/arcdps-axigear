@@ -5,7 +5,15 @@ use crate::gw2api::ApiSnapshot;
 use crate::matcher::live_elite;
 use crate::model::TraitSel;
 use crate::mumble::{profession_name, unknown_profession};
-use crate::report::{Category, CheckResult, Status};
+use crate::report::{Category, CheckResult, SlotKey, Status};
+
+fn pass_or_fail(ok: bool) -> Status {
+    if ok {
+        Status::Pass
+    } else {
+        Status::Fail
+    }
+}
 
 const TIERS: [&str; 3] = ["Adept", "Master", "Grandmaster"];
 
@@ -49,7 +57,8 @@ pub fn spec(ctx: &Ctx) -> Vec<CheckResult> {
         .map(String::from)
         .unwrap_or_else(|| format!("{profession} (core)"));
     let ok = ctx.build.profession.eq_ignore_ascii_case(profession) && ctx.build.elite_spec(ctx.specs) == elite;
-    vec![row(if ok { Status::Pass } else { Status::Fail }).with_actual(actual)]
+    let st = pass_or_fail(ok);
+    vec![row(st).with_actual(actual.clone()).mark(SlotKey::Spec(2), st, Some(actual))]
 }
 
 pub fn specializations(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
@@ -61,19 +70,25 @@ pub fn specializations(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     let names = |ids: &[u16]| ids.iter().map(|i| spec_name(ctx, *i)).collect::<Vec<_>>().join(" · ");
     let elite_ok = ctx.build.elite_spec(ctx.specs).map_or(true, |e| snap.spec3() == e);
     let ok = want.iter().all(|w| have.contains(w)) && elite_ok;
-    vec![CheckResult::new(
-        Category::Specializations,
-        "specs",
-        "Specializations",
-        if ok { Status::Pass } else { Status::Fail },
-        names(&want),
-    )
-    .with_actual(names(&have))]
+    let mut r = CheckResult::new(Category::Specializations, "specs", "Specializations", pass_or_fail(ok), names(&want))
+        .with_actual(names(&have));
+    for (i, line) in ctx.build.specs.iter().enumerate().filter(|(_, l)| l.id != 0) {
+        let present = have.contains(&line.id) && (i != 2 || elite_ok);
+        let worn = snap
+            .build
+            .specs
+            .get(i)
+            .map(|s| s.id)
+            .filter(|id| *id != 0)
+            .map_or("empty".to_string(), |id| spec_name(ctx, id));
+        r = r.mark(SlotKey::Spec(i as u8), pass_or_fail(present), (!present).then_some(worn));
+    }
+    vec![r]
 }
 
 pub fn traits(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     let mut out = Vec::new();
-    for line in ctx.build.specs.iter().filter(|l| l.id != 0) {
+    for (i, line) in ctx.build.specs.iter().enumerate().filter(|(_, l)| l.id != 0) {
         if line.majors.iter().all(|m| *m == TraitSel::None) {
             continue;
         }
@@ -82,6 +97,7 @@ pub fn traits(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
         let name = spec_name(ctx, line.id);
         let (mut want_words, mut have_words) = (Vec::new(), Vec::new());
         let mut status = Status::Pass;
+        let mut marks = Vec::new();
         for t in 0..3 {
             let have_pos = ctx.specs.position(line.id, t + 1, api.traits[t]);
             let (want_pos, ok) = match line.majors[t] {
@@ -91,6 +107,17 @@ pub fn traits(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
             };
             want_words.push(format!("{} {}", TIERS[t], want_pos.map_or("?", position_word)));
             have_words.push(format!("{} {}", TIERS[t], have_pos.map_or("?", position_word)));
+            let st = match ok {
+                Some(true) => Status::Pass,
+                Some(false) => Status::Fail,
+                None => Status::Unknown,
+            };
+            let worn = ctx
+                .specs
+                .trait_info(line.id, api.traits[t])
+                .map(|info| info.name.clone())
+                .unwrap_or_else(|| format!("{} {}", TIERS[t], have_pos.map_or("?", position_word)));
+            marks.push((SlotKey::Trait { line: i as u8, tier: t as u8 }, st, (st == Status::Fail).then_some(worn)));
             match ok {
                 Some(true) => {}
                 Some(false) => status = Status::Fail,
@@ -102,6 +129,9 @@ pub fn traits(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
             .with_actual(have_words.join(", "));
         if status == Status::Unknown {
             r = r.with_reason(format!("no trait data for {name} - update axigear"));
+        }
+        for (k, s, d) in marks {
+            r = r.mark(k, s, d);
         }
         out.push(r);
     }
@@ -124,26 +154,44 @@ pub fn skill_bar(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     }
     let have = &snap.build.skills;
     let mut problems = Vec::new();
-    if want.heal != 0 && want.heal != have.heal {
-        problems.push(format!("heal: {}", skill_name(ctx, have.heal)));
+    let mut marks = Vec::new();
+    if want.heal != 0 {
+        let ok = want.heal == have.heal;
+        if !ok {
+            problems.push(format!("heal: {}", skill_name(ctx, have.heal)));
+        }
+        marks.push((SlotKey::Skill(0), pass_or_fail(ok), (!ok).then(|| skill_name(ctx, have.heal))));
     }
-    if want.elite != 0 && want.elite != have.elite {
-        problems.push(format!("elite: {}", skill_name(ctx, have.elite)));
+    if want.elite != 0 {
+        let ok = want.elite == have.elite;
+        if !ok {
+            problems.push(format!("elite: {}", skill_name(ctx, have.elite)));
+        }
+        marks.push((SlotKey::Skill(4), pass_or_fail(ok), (!ok).then(|| skill_name(ctx, have.elite))));
     }
     let mut pool = have.utilities.to_vec();
-    for u in want.utilities.iter().filter(|u| **u != 0) {
+    for (idx, u) in want.utilities.iter().enumerate().filter(|(_, u)| **u != 0) {
+        let key = SlotKey::Skill(1 + idx as u8);
         match pool.iter().position(|h| h == u) {
             Some(i) => {
                 pool.swap_remove(i);
+                marks.push((key, Status::Pass, None));
             }
-            None => problems.push(format!("missing {}", skill_name(ctx, *u))),
+            None => {
+                problems.push(format!("missing {}", skill_name(ctx, *u)));
+                marks.push((key, Status::Fail, Some("not slotted".to_string())));
+            }
         }
     }
-    if problems.is_empty() {
-        vec![row(Status::Pass).with_actual(expected.clone())]
+    let mut r = if problems.is_empty() {
+        row(Status::Pass).with_actual(expected.clone())
     } else {
-        vec![row(Status::Fail).with_actual(problems.join("; "))]
+        row(Status::Fail).with_actual(problems.join("; "))
+    };
+    for (k, s, d) in marks {
+        r = r.mark(k, s, d);
     }
+    vec![r]
 }
 
 pub fn skills_seen(ctx: &Ctx) -> Vec<CheckResult> {
@@ -151,14 +199,20 @@ pub fn skills_seen(ctx: &Ctx) -> Vec<CheckResult> {
     s.utilities
         .iter()
         .copied()
-        .chain([s.elite])
-        .filter(|id| *id != 0)
-        .map(|id| {
+        .enumerate()
+        .map(|(i, id)| (1 + i as u8, id))
+        .chain([(4u8, s.elite)])
+        .filter(|(_, id)| *id != 0)
+        .map(|(k, id)| {
             let name = skill_name(ctx, id);
             if ctx.live.skills_cast.contains(&id) {
-                CheckResult::new(Category::SkillsSeen, format!("seen.{id}"), name.clone(), Status::Pass, name).with_actual("cast this map")
+                CheckResult::new(Category::SkillsSeen, format!("seen.{id}"), name.clone(), Status::Pass, name)
+                    .with_actual("cast this map")
+                    .mark(SlotKey::Skill(k), Status::Pass, None)
             } else {
-                CheckResult::new(Category::SkillsSeen, format!("seen.{id}"), name.clone(), Status::Unknown, name).with_reason("not cast yet this map")
+                CheckResult::new(Category::SkillsSeen, format!("seen.{id}"), name.clone(), Status::Unknown, name)
+                    .with_reason("not cast yet this map")
+                    .mark(SlotKey::Skill(k), Status::Unknown, None)
             }
         })
         .collect()
@@ -309,5 +363,62 @@ mod tests {
         assert_eq!(w.result("specs").age_secs, Some(120));
         assert_eq!(w.result("spec").age_secs, None);
         assert!(statuses(&w, "traits.").iter().all(|(_, s)| *s == Status::Pass));
+    }
+
+    use crate::report::SlotKey;
+
+    fn mark(w: &World, id: &str, key: SlotKey) -> Option<(Status, Option<String>)> {
+        w.result(id).marks.into_iter().find(|m| m.key == key).map(|m| (m.status, m.detail))
+    }
+
+    #[test]
+    fn matching_build_marks_every_build_slot_pass() {
+        let w = World::matching(firebrand());
+        for i in 0..3 {
+            assert_eq!(mark(&w, "specs", SlotKey::Spec(i)).map(|m| m.0), Some(Status::Pass), "spec line {i}");
+        }
+        assert_eq!(mark(&w, "spec", SlotKey::Spec(2)).map(|m| m.0), Some(Status::Pass));
+        for k in 0..5 {
+            assert_eq!(mark(&w, "skills", SlotKey::Skill(k)).map(|m| m.0), Some(Status::Pass), "skill {k}");
+        }
+        assert_eq!(mark(&w, "traits.42", SlotKey::Trait { line: 0, tier: 0 }).map(|m| m.0), Some(Status::Pass));
+    }
+
+    #[test]
+    fn a_wrong_trait_marks_only_its_tier() {
+        let mut w = World::matching(firebrand());
+        let wanted = w.snap_mut().build.specs[0].traits[0];
+        let other = crate::specs::SpecDb::bundled().get(42).unwrap().majors[0].iter().copied().find(|t| *t != wanted).unwrap();
+        w.snap_mut().build.specs[0].traits[0] = other;
+        let (st, detail) = mark(&w, "traits.42", SlotKey::Trait { line: 0, tier: 0 }).unwrap();
+        assert_eq!(st, Status::Fail);
+        assert!(detail.is_some_and(|d| !d.is_empty()));
+        assert_eq!(mark(&w, "traits.42", SlotKey::Trait { line: 0, tier: 1 }).map(|m| m.0), Some(Status::Pass));
+    }
+
+    #[test]
+    fn a_missing_utility_and_wrong_heal_are_marked() {
+        let mut w = World::matching(firebrand());
+        w.snap_mut().build.skills.heal = 12345;
+        w.snap_mut().build.skills.utilities[0] = 54321;
+        assert_eq!(mark(&w, "skills", SlotKey::Skill(0)).map(|m| m.0), Some(Status::Fail));
+        let fails = w.result("skills").marks.iter().filter(|m| matches!(m.key, SlotKey::Skill(1..=3)) && m.status == Status::Fail).count();
+        assert_eq!(fails, 1);
+    }
+
+    #[test]
+    fn a_wrong_line_marks_that_spec_card() {
+        let mut w = World::matching(firebrand());
+        w.snap_mut().build.specs[1].id = 16;
+        assert_eq!(mark(&w, "specs", SlotKey::Spec(1)).map(|m| m.0), Some(Status::Fail));
+        assert_eq!(mark(&w, "specs", SlotKey::Spec(0)).map(|m| m.0), Some(Status::Pass));
+    }
+
+    #[test]
+    fn unseen_skills_mark_unknown() {
+        let mut w = World::matching(firebrand());
+        w.live.skills_cast.clear();
+        let r = w.result("seen.9153");
+        assert!(r.marks.iter().any(|m| matches!(m.key, SlotKey::Skill(_)) && m.status == Status::Unknown));
     }
 }
