@@ -6,7 +6,7 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 use crate::axicode::{decode_build_code, decode_comp_code, is_comp_code};
-use crate::http::Http;
+use crate::http::{self, Http};
 use crate::link::{self, AxiLink, LinkKind};
 use crate::model::{Build, Comp};
 use crate::publish::{self, Member, PublishError};
@@ -29,6 +29,8 @@ pub enum LoadError {
     Offline(String),
     #[error("Couldn't decrypt - check the link.")]
     Decrypt,
+    #[error("Comp file is too large - republish it from AxiForge.")]
+    TooLarge,
     #[error("Comp made with a newer AxiForge - update axigear.")]
     NewerSchema,
     #[error("Couldn't read the comp: {0}")]
@@ -191,6 +193,7 @@ pub fn fetch(http: &dyn Http, link: &AxiLink, etag: Option<&str>, members: &Memb
     for url in link.enc_urls() {
         let headers: Vec<(&str, &str)> = etag.map(|e| ("If-None-Match", e)).into_iter().collect();
         match http.get(&url, &headers) {
+            Err(e) if e == http::TOO_LARGE => return Err(LoadError::TooLarge), // the other host serves the same file
             Err(e) => last_err = e,
             Ok(r) if r.status == 304 => return Ok(Fetched::NotModified),
             Ok(r) if r.status == 200 => {
@@ -292,6 +295,16 @@ mod tests {
         let offline = FakeHttp::new();
         offline.fail(RAW, "dns").fail(PAGES, "dns");
         assert!(matches!(fetch(&offline, &comp_link(), None, &MemberCache::new()), Err(LoadError::Offline(_))));
+    }
+
+    #[test]
+    fn oversized_file_stops_without_trying_the_other_host() {
+        let http = FakeHttp::new();
+        http.fail(RAW, crate::http::TOO_LARGE).on(PAGES, 200, &fixture("comp-tuesday.enc"));
+        let err = fetch(&http, &comp_link(), None, &MemberCache::new()).unwrap_err();
+        assert_eq!(err, LoadError::TooLarge);
+        assert!(!err.retryable());
+        assert_eq!(http.calls(), vec![RAW]);
     }
 
     #[test]

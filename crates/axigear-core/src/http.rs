@@ -18,9 +18,13 @@ impl HttpResponse {
     }
 }
 
+/// The `Err` an `Http` returns when a body is over its size cap. Not a network
+/// problem, so callers stop instead of retrying.
+pub const TOO_LARGE: &str = "response too large";
+
 pub trait Http: Send + Sync {
-    /// GET `url`. `Err` is a transport failure (DNS, TLS, timeout); any HTTP
-    /// status, including 404 and 5xx, is `Ok`.
+    /// GET `url`. `Err` is a transport failure (DNS, TLS, timeout) or
+    /// [`TOO_LARGE`]; any HTTP status, including 404 and 5xx, is `Ok`.
     fn get(&self, url: &str, headers: &[(&str, &str)]) -> Result<HttpResponse, String>;
 }
 

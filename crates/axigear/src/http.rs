@@ -3,10 +3,11 @@
 use std::io::Read;
 use std::time::Duration;
 
-use axigear_core::http::{Http, HttpResponse};
+use axigear_core::http::{Http, HttpResponse, TOO_LARGE};
 
-/// Largest body we will read (published files are a few KB; this is a guard).
-const MAX_BODY: u64 = 8 * 1024 * 1024;
+/// Largest body we will read. Current AxiForge comps are gzipped and small, but
+/// older uncompressed ones that embed skill catalogs can reach ~20 MB.
+const MAX_BODY: u64 = 32 * 1024 * 1024;
 
 pub struct UreqHttp {
     agent: ureq::Agent,
@@ -16,7 +17,9 @@ impl UreqHttp {
     pub fn new() -> Self {
         let agent = ureq::AgentBuilder::new()
             .timeout_connect(Duration::from_secs(5))
-            .timeout(Duration::from_secs(8))
+            // A stalled read fails fast; a big download that keeps moving gets a minute.
+            .timeout_read(Duration::from_secs(8))
+            .timeout(Duration::from_secs(60))
             .user_agent(concat!("arcdps_axigear/", env!("CARGO_PKG_VERSION")))
             .build();
         UreqHttp { agent }
@@ -45,7 +48,7 @@ impl Http for UreqHttp {
         let mut body = Vec::new();
         resp.into_reader().take(MAX_BODY + 1).read_to_end(&mut body).map_err(|e| e.to_string())?;
         if body.len() as u64 > MAX_BODY {
-            return Err("response too large".into());
+            return Err(TOO_LARGE.into());
         }
         Ok(HttpResponse { status, body, etag })
     }
