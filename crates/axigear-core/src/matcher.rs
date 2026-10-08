@@ -34,7 +34,8 @@ pub fn match_slot(comp: &Comp, identity: &Identity, specs: &SpecDb) -> MatchOutc
     let distinct: BTreeSet<usize> = fitting.iter().map(|r| r.build).collect();
     match (fitting.first(), distinct.len()) {
         (None, _) => MatchOutcome::NoMatch,
-        (Some(first), 1) => MatchOutcome::Auto(*first),
+        // A linked build that failed to load may be the real match; make the player pick.
+        (Some(first), 1) if comp.missing_members == 0 => MatchOutcome::Auto(*first),
         _ => MatchOutcome::Ambiguous(fitting),
     }
 }
@@ -69,6 +70,18 @@ mod tests {
     fn core_builds_match_core_characters() {
         // Core necro: spec 53 (Spite) in line 3, which is not an elite.
         assert_eq!(match_slot(&comp(), &who(8, 53), SpecDb::bundled()), MatchOutcome::Auto(slot(0, 2, 2)));
+    }
+
+    #[test]
+    fn missing_members_downgrade_auto_to_a_pick() {
+        let mut c = comp();
+        c.missing_members = 1;
+        match match_slot(&c, &who(1, 62), SpecDb::bundled()) {
+            MatchOutcome::Ambiguous(slots) => assert_eq!(slots, vec![slot(0, 0, 0), slot(1, 0, 0)]),
+            other => panic!("{other:?}"),
+        }
+        // No candidates at all is still NoMatch.
+        assert_eq!(match_slot(&c, &who(0, 0), SpecDb::bundled()), MatchOutcome::NoMatch);
     }
 
     #[test]

@@ -126,7 +126,7 @@ pub fn decode_comp_code(code: &str) -> Result<Comp, DecodeError> {
         Some("wvw") => Some(GameMode::Wvw),
         _ => None,
     };
-    Ok(Comp { name, game_mode, builds, lines })
+    Ok(Comp { name, game_mode, builds, lines, missing_members: 0 })
 }
 
 #[cfg(test)]

@@ -109,7 +109,7 @@ fn resolve(http: &dyn Http, link: &AxiLink) -> Result<AxiLink, LoadError> {
 }
 
 fn valid_part(s: &str, max: usize) -> bool {
-    (1..=max).contains(&s.len()) && s.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'.' | b'-'))
+    (1..=max).contains(&s.len()) && !s.starts_with('.') && s.bytes().all(|b| b.is_ascii_alphanumeric() || matches!(b, b'_' | b'.' | b'-'))
 }
 
 /// Fetch one linked member build. `Ok(None)` = unusable (404, undecryptable, unparsable);
@@ -125,27 +125,16 @@ fn fetch_member(http: &dyn Http, m: &Member) -> Result<Option<Build>, String> {
 }
 
 /// v1 comps embed their builds; v2 comps link to member files, fetched here. Members that
-/// are missing or unusable are left out; if every one was unreachable the load is retryable.
+/// are gone or unusable are left out (and counted in `Comp::missing_members`). The first
+/// member that can't be reached fails the whole load as `Offline`, so a retry replaces the
+/// comp instead of committing (and ETag-pinning) a partial one.
 fn parse_comp_loading_members(http: &dyn Http, plain: &[u8]) -> Result<Comp, LoadError> {
     let members = publish::comp_members(plain)?;
     let mut builds = BTreeMap::new();
-    let (mut tried, mut unreachable) = (0, 0);
-    let mut last_err = String::new();
     for m in members.iter().filter(|m| valid_part(&m.owner, 100) && valid_part(&m.file_id, 64)) {
-        tried += 1;
-        match fetch_member(http, m) {
-            Ok(Some(build)) => {
-                builds.insert(m.build_id.clone(), build);
-            }
-            Ok(None) => {}
-            Err(e) => {
-                unreachable += 1;
-                last_err = e;
-            }
+        if let Some(build) = fetch_member(http, m).map_err(LoadError::Offline)? {
+            builds.insert(m.build_id.clone(), build);
         }
-    }
-    if tried > 0 && unreachable == tried {
-        return Err(LoadError::Offline(last_err));
     }
     Ok(publish::parse_comp_with(plain, &builds)?)
 }
@@ -353,31 +342,34 @@ mod tests {
     }
 
     #[test]
-    fn all_members_failing_to_transport_is_offline() {
-        let http = FakeHttp::new();
-        http.on_bytes(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"));
-        http.fail(&format!("{MEMBER_BASE}aaaa0001.enc"), "dns").on(&format!("{MEMBER_BASE}bbbb0002.enc"), 503, "");
-        http.fail(&format!("{MEMBER_BASE}cccc0003.enc"), "dns");
-        assert!(matches!(fetch(&http, &comp_link(), None), Err(LoadError::Offline(_))));
+    fn any_unreachable_member_makes_the_load_offline() {
+        for failure in [Err("dns"), Ok(503)] {
+            let http = v2_http_without("bbbb0002");
+            match failure {
+                Err(e) => http.fail(&format!("{MEMBER_BASE}bbbb0002.enc"), e),
+                Ok(status) => http.on(&format!("{MEMBER_BASE}bbbb0002.enc"), status, ""),
+            };
+            assert!(matches!(fetch(&http, &comp_link(), None), Err(LoadError::Offline(_))));
+        }
     }
 
     #[test]
-    fn a_404_among_transport_failures_still_loads() {
-        let http = FakeHttp::new();
-        http.on_bytes(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"));
-        http.fail(&format!("{MEMBER_BASE}aaaa0001.enc"), "dns").on(&format!("{MEMBER_BASE}bbbb0002.enc"), 404, "");
-        http.fail(&format!("{MEMBER_BASE}cccc0003.enc"), "dns");
-        let comp = fresh_comp(fetch(&http, &comp_link(), None));
-        assert!(comp.builds.is_empty());
+    fn a_404_member_is_counted_as_missing() {
+        let comp = fresh_comp(fetch(&v2_http_without("aaaa0001"), &comp_link(), None));
+        assert_eq!(comp.missing_members, 1);
+        let all = fresh_comp(fetch(&v2_http(), &comp_link(), None));
+        assert_eq!(all.missing_members, 0);
     }
 
     #[test]
     fn invalid_owner_or_file_id_never_reaches_the_network() {
-        let comp = br#"{"v":2,"name":"Bad","partyLines":[{"slots":["a","b","c","d"]}],"members":{
+        let comp = br#"{"v":2,"name":"Bad","partyLines":[{"slots":["a","b","c","d","e","f"]}],"members":{
             "a":{"fileId":"f1","key":"k","owner":"../x"},
             "b":{"fileId":"../f","key":"k","owner":"ok"},
             "c":{"fileId":"","key":"k","owner":"ok"},
-            "d":{"fileId":"f4","key":"k","owner":"o/p"}}}"#;
+            "d":{"fileId":"f4","key":"k","owner":"o/p"},
+            "e":{"fileId":".hidden","key":"k","owner":"ok"},
+            "f":{"fileId":"f6","key":"k","owner":".."}}}"#;
         let http = FakeHttp::new();
         http.on_bytes(RAW, 200, &seal_v2(comp, &fixture("fixture.key")));
         let loaded = fresh_comp(fetch(&http, &comp_link(), None));

@@ -259,7 +259,11 @@ pub fn parse_comp_with(plain: &[u8], fetched: &BTreeMap<String, Build>) -> Resul
         Some("wvw") => Some(GameMode::Wvw),
         _ => None,
     };
-    Ok(Comp { name, game_mode, builds, lines })
+    let missing_members = reference_order(&pc, |id| pc.members.contains_key(id))
+        .iter()
+        .filter(|id| !fetched.contains_key(id.as_str()))
+        .count() as u32;
+    Ok(Comp { name, game_mode, builds, lines, missing_members })
 }
 
 pub fn parse_build(plain: &[u8]) -> Result<Build, PublishError> {

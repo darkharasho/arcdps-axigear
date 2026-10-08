@@ -43,7 +43,10 @@ impl Http for UreqHttp {
         let status = resp.status();
         let etag = resp.header("ETag").map(str::to_owned);
         let mut body = Vec::new();
-        resp.into_reader().take(MAX_BODY).read_to_end(&mut body).map_err(|e| e.to_string())?;
+        resp.into_reader().take(MAX_BODY + 1).read_to_end(&mut body).map_err(|e| e.to_string())?;
+        if body.len() as u64 > MAX_BODY {
+            return Err("response too large".into());
+        }
         Ok(HttpResponse { status, body, etag })
     }
 }

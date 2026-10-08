@@ -335,6 +335,10 @@ pub struct Comp {
     pub game_mode: Option<GameMode>,
     pub builds: Vec<Build>,
     pub lines: Vec<PartyLine>,
+    /// Linked (v2) member builds that were gone or unreadable. Their slots are absent, so
+    /// the matcher must not auto-assign a sibling build with the same elite.
+    #[serde(default)]
+    pub missing_members: u32,
 }
 
 impl Comp {
@@ -345,6 +349,7 @@ impl Comp {
             game_mode: Some(build.game_mode),
             builds: vec![build],
             lines: vec![PartyLine { capacity: 1, slots: vec![SlotEntry::Build(0)] }],
+            missing_members: 0,
         }
     }
 
@@ -476,6 +481,7 @@ mod tests {
                     SlotEntry::Tag { name: "DPS".into(), builds: vec![1, 2] },
                 ],
             }],
+            missing_members: 0,
         };
         assert_eq!(
             comp.candidates(),

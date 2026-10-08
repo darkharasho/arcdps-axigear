@@ -223,6 +223,21 @@ mod tests {
     }
 
     #[test]
+    fn missing_members_force_a_pick_but_a_remembered_pick_stands() {
+        let now = Instant::now();
+        let mut lc = loaded();
+        lc.comp.missing_members = 1;
+        let mut s = Session::new(GameDb::default());
+        s.live.set_identity(identity_for(&firebrand()), now);
+        s.set_comp(Some(lc.clone()), &BTreeMap::new(), SpecDb::bundled(), now);
+        assert!(matches!(s.assignment, Assignment::Ambiguous(_)), "{:?}", s.assignment);
+
+        let picks = BTreeMap::from([("code:test|Tester".to_string(), slot(1, 0, 0))]);
+        s.set_comp(Some(lc), &picks, SpecDb::bundled(), now);
+        assert_eq!(s.assignment, Assignment::Manual(slot(1, 0, 0)));
+    }
+
+    #[test]
     fn respec_drops_a_pick_that_no_longer_fits() {
         let now = Instant::now();
         let mut picks = BTreeMap::new();
