@@ -10,9 +10,9 @@ use crate::consumables::Consumables;
 use crate::gamedb::GameDb;
 use crate::gw2api::{self, ApiError};
 use crate::http::Http;
-use crate::link::AxiLink;
+use crate::link::{AxiLink, LinkKind};
 use crate::live::{IdentityChange, LiveEvent};
-use crate::loader::{self, Fetched, Input, LoadError};
+use crate::loader::{self, Fetched, Input, LoadError, MemberCache};
 use crate::matcher;
 use crate::model::{GameMode, SlotRef};
 use crate::mumble::{self, MumbleSample};
@@ -122,6 +122,10 @@ pub struct Driver {
     session: Session,
     /// The link being polled (resolved after the first fetch).
     subscription: Option<AxiLink>,
+    /// Decrypted plaintext of the subscribed comp, in memory only: lets a comp that answers
+    /// 304 still re-poll its v2 members. Until it is known (after a restart) the comp is
+    /// fetched without `If-None-Match`.
+    comp_plain: Option<Vec<u8>>,
     comp_poll: Poller,
     api_poll: Poller,
     db_poll: Poller,
@@ -167,6 +171,7 @@ impl Driver {
             settings,
             session,
             subscription,
+            comp_plain: None,
             comp_poll: Poller::new(COMP_INTERVAL, &COMP_BACKOFF),
             api_poll: Poller::new(API_INTERVAL, &API_BACKOFF),
             db_poll: Poller::new(API_INTERVAL, &API_BACKOFF),
@@ -196,6 +201,7 @@ impl Driver {
             Command::LoadInput(text) => self.load_input(text, now),
             Command::Unsubscribe => {
                 self.subscription = None;
+                self.comp_plain = None;
                 self.comp_error = None;
                 self.load_error = None;
                 self.settings.comp_input.clear();
@@ -382,17 +388,19 @@ impl Driver {
             Err(e) => self.load_error = Some(e.to_string()),
             Ok(Input::Comp { comp, key }) => {
                 self.subscription = None;
+                self.comp_plain = None;
                 self.comp_error = None;
                 self.commit(LoadedComp { comp, key, input: text, origin: CompOrigin::Code }, now);
             }
-            Ok(Input::Link(link)) => match loader::fetch(&*self.http, &link, None) {
-                Ok(Fetched::Fresh { comp, etag, link }) => {
+            Ok(Input::Link(link)) => match loader::fetch(&*self.http, &link, None, &MemberCache::new()) {
+                Ok(Fetched::Fresh { comp, etag, link, plain, members }) => {
                     self.subscription = Some(link.clone());
+                    self.comp_plain = plain;
                     self.comp_error = None;
                     self.comp_poll.reset();
                     self.comp_poll.success(now);
                     let key = loader::link_key(&link);
-                    self.commit(LoadedComp { comp, key, input: text, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now() } }, now);
+                    self.commit(LoadedComp { comp, key, input: text, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now(), members } }, now);
                 }
                 Ok(Fetched::NotModified) => self.load_error = Some("unexpected 304 on first fetch".into()),
                 Err(e) => self.load_error = Some(e.to_string()),
@@ -402,25 +410,38 @@ impl Driver {
 
     fn poll_comp(&mut self, now: Instant) {
         let Some(link) = self.subscription.clone() else { return };
-        let etag = match &self.session.comp {
-            Some(LoadedComp { origin: CompOrigin::Link { etag, .. }, .. }) => etag.clone(),
-            _ => None,
+        let (etag, members) = match &self.session.comp {
+            Some(LoadedComp { origin: CompOrigin::Link { etag, members, .. }, .. }) => (etag.clone(), members.clone()),
+            _ => (None, MemberCache::new()),
         };
-        match loader::fetch(&*self.http, &link, etag.as_deref()) {
-            Ok(Fetched::NotModified) => {
+        // A comp link's 304 is only usable when the plaintext is at hand to re-poll members.
+        let etag = etag.filter(|_| link.kind == LinkKind::Build || self.comp_plain.is_some());
+        let result = loader::fetch(&*self.http, &link, etag.as_deref(), &members).and_then(|fetched| match (fetched, &self.comp_plain) {
+            (Fetched::NotModified, Some(plain)) => Ok(loader::refresh_members(&*self.http, plain, &members)?.map(|(comp, members)| (comp, members, None))),
+            (Fetched::NotModified, None) => Ok(None),
+            (Fetched::Fresh { comp, etag, link, plain, members }, _) => Ok(Some((comp, members, Some((etag, link, plain))))),
+        });
+        match result {
+            Ok(update) => {
                 self.comp_poll.success(now);
                 self.comp_error = None;
-                if let Some(LoadedComp { origin: CompOrigin::Link { fetched_at_unix, .. }, .. }) = &mut self.session.comp {
-                    *fetched_at_unix = unix_now();
-                }
-            }
-            Ok(Fetched::Fresh { comp, etag, link }) => {
-                self.comp_poll.success(now);
-                self.comp_error = None;
+                let Some((comp, members, fresh)) = update else {
+                    if let Some(LoadedComp { origin: CompOrigin::Link { fetched_at_unix, .. }, .. }) = &mut self.session.comp {
+                        *fetched_at_unix = unix_now();
+                    }
+                    return;
+                };
+                let (etag, link) = match fresh {
+                    Some((etag, link, plain)) => {
+                        self.comp_plain = plain;
+                        (etag, link)
+                    }
+                    None => (etag, link), // the comp itself was 304: keep its ETag
+                };
                 self.subscription = Some(link.clone());
                 let key = loader::link_key(&link);
                 let input = self.settings.comp_input.clone();
-                self.commit(LoadedComp { comp, key, input, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now() } }, now);
+                self.commit(LoadedComp { comp, key, input, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now(), members } }, now);
             }
             Err(e) => {
                 if e.retryable() {
@@ -513,7 +534,7 @@ impl Driver {
 mod tests {
     use super::*;
     use crate::http::fake::FakeHttp;
-    use crate::testutil::fixture;
+    use crate::testutil::{fixture, fixture_bytes, reseal_member};
 
     const RAW: &str = "https://raw.githubusercontent.com/someone/axibuilds/main/site/comps/e4369a53.enc";
     const PAGES: &str = "https://someone.github.io/axibuilds/comps/e4369a53.enc";
@@ -766,5 +787,120 @@ mod tests {
         assert!(!d.snapshot(t0).badge_visible(), "hidden in combat by default");
         d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings { hide_in_combat: false, ..Default::default() })), t0);
         assert!(d.snapshot(t0).badge_visible());
+    }
+
+    const MEMBER_BASE: &str = "https://raw.githubusercontent.com/teammate/axibuilds/main/site/builds/";
+    const MEMBERS: [(&str, &str); 3] =
+        [("aaaa0001", "member-firebrand.enc"), ("bbbb0002", "member-berserker.enc.v2"), ("cccc0003", "member-necro.enc.v2")];
+    const FIREBRAND_KEY: &str = "AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI";
+
+    fn member(id: &str) -> String {
+        format!("{MEMBER_BASE}{id}.enc")
+    }
+
+    /// The v2 comp (200 "c1", then 304) and its members (200 "m1", then whatever `then` queues).
+    fn v2_routes(http: &FakeHttp, then: impl Fn(&FakeHttp, &str)) {
+        http.on_bytes_etag(RAW, 200, &fixture_bytes("comp-tuesday.v2.enc.v2"), "\"c1\"").on(RAW, 304, "");
+        for (id, file) in MEMBERS {
+            http.on_bytes_etag(&member(id), 200, &fixture_bytes(file), "\"m1\"");
+            then(http, id);
+        }
+    }
+
+    fn guardian_relic(d: &Driver) -> Option<String> {
+        let comp = &d.session().comp.as_ref().unwrap().comp;
+        comp.builds.iter().find(|b| b.profession == "Guardian").unwrap().equipment.relic.clone()
+    }
+
+    fn header_for(http: &FakeHttp, url: &str, name: &str) -> Vec<Option<String>> {
+        let calls = http.calls();
+        (0..calls.len()).filter(|i| calls[*i] == url).map(|i| http.header(i, name)).collect()
+    }
+
+    #[test]
+    fn a_v2_comp_answering_304_still_picks_up_member_edits() {
+        let (http, dir, t0) = setup();
+        let edited = reseal_member("member-firebrand.enc", FIREBRAND_KEY, |b| b["equipment"]["relic"] = "Relic of the Monk".into());
+        v2_routes(&http, |http, id| {
+            if id == "aaaa0001" {
+                http.on_bytes_etag(&member(id), 200, &edited, "\"m2\"");
+            } else {
+                http.on(&member(id), 304, "");
+            }
+        });
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        assert_eq!(guardian_relic(&d).as_deref(), Some("Relic of the Flock"));
+
+        d.tick(t0 + Duration::from_secs(601));
+        assert_eq!(header_for(&http, RAW, "If-None-Match").last().cloned().flatten().as_deref(), Some("\"c1\""));
+        assert_eq!(header_for(&http, &member("aaaa0001"), "If-None-Match"), [None, Some("\"m1\"".into())]);
+        assert_eq!(guardian_relic(&d).as_deref(), Some("Relic of the Monk"), "member edit picked up behind a comp 304");
+        assert_eq!(d.session().comp.as_ref().unwrap().comp.builds.len(), 3);
+
+        // The next poll revalidates the edited member with its new ETag; the comp keeps "c1".
+        d.tick(t0 + Duration::from_secs(1202));
+        assert_eq!(header_for(&http, RAW, "If-None-Match").last().cloned().flatten().as_deref(), Some("\"c1\""));
+        assert_eq!(header_for(&http, &member("aaaa0001"), "If-None-Match").last().cloned().flatten().as_deref(), Some("\"m2\""));
+
+        // Manual refresh takes the same path.
+        let mut again = driver(&http, &dir, t0);
+        assert_eq!(guardian_relic(&again).as_deref(), Some("Relic of the Monk"), "persisted");
+        again.handle(Command::RefreshComp, t0);
+        assert_eq!(header_for(&http, RAW, "If-None-Match").last().cloned().flatten(), None, "no plaintext after restart: full comp fetch");
+        assert_eq!(guardian_relic(&again).as_deref(), Some("Relic of the Monk"));
+    }
+
+    #[test]
+    fn a_v2_comp_and_members_all_304_change_nothing() {
+        let (http, dir, t0) = setup();
+        v2_routes(&http, |http, id| {
+            http.on(&member(id), 304, "");
+        });
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        let before = d.session().comp.clone().unwrap();
+        let cache = dir.path().join("comp_cache.json");
+        std::fs::remove_file(&cache).unwrap();
+
+        d.tick(t0 + Duration::from_secs(601));
+        for (id, _) in MEMBERS {
+            assert_eq!(header_for(&http, &member(id), "If-None-Match"), [None, Some("\"m1\"".into())]);
+        }
+        assert!(!cache.exists(), "no rebuild, no rewrite");
+        assert_eq!(d.session().comp.as_ref().unwrap().comp, before.comp);
+        assert!(!d.snapshot(t0).header.offline);
+    }
+
+    #[test]
+    fn a_v2_member_unreachable_behind_a_comp_304_keeps_the_comp_and_backs_off() {
+        let (http, dir, t0) = setup();
+        v2_routes(&http, |http, id| {
+            if id == "bbbb0002" {
+                http.fail(&member(id), "dns");
+            } else {
+                http.on(&member(id), 304, "");
+            }
+        });
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        let before = d.session().comp.clone().unwrap();
+        let t1 = t0 + Duration::from_secs(601);
+        d.tick(t1);
+        assert!(d.snapshot(t1).header.offline);
+        assert_eq!(d.session().comp.as_ref().unwrap().comp, before.comp);
+    }
+
+    #[test]
+    fn a_comp_cache_without_member_states_still_loads() {
+        let (http, dir, t0) = setup();
+        v2_routes(&http, |_, _| {});
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        let path = dir.path().join("comp_cache.json");
+        let mut json: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+        json["origin"]["Link"].as_object_mut().unwrap().remove("members").expect("members persisted");
+        std::fs::write(&path, json.to_string()).unwrap();
+        assert_eq!(driver(&http, &dir, t0).session().comp.as_ref().unwrap().comp.name, "Tuesday Zerg");
     }
 }

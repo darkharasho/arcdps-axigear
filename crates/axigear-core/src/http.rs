@@ -62,6 +62,10 @@ pub(crate) mod fake {
             self.push(url, Ok(HttpResponse { status, body: body.as_bytes().to_vec(), etag: Some(etag.into()) }))
         }
 
+        pub fn on_bytes_etag(&self, url: &str, status: u16, body: &[u8], etag: &str) -> &Self {
+            self.push(url, Ok(HttpResponse { status, body: body.to_vec(), etag: Some(etag.into()) }))
+        }
+
         pub fn fail(&self, url: &str, err: &str) -> &Self {
             self.push(url, Err(err.into()))
         }

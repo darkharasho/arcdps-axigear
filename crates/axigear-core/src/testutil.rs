@@ -33,6 +33,14 @@ pub fn seal_v2(plain: &[u8], key: &str) -> Vec<u8> {
     [&[0u8, 0x41, 0x58, 2][..], &iv, &sealed].concat()
 }
 
+/// A published member fixture, decrypted, edited as JSON and sealed again (v2) with the same key.
+pub fn reseal_member(file: &str, key: &str, edit: impl FnOnce(&mut serde_json::Value)) -> Vec<u8> {
+    let plain = crate::publish::decrypt(&fixture_bytes(file), key).unwrap();
+    let mut json: serde_json::Value = serde_json::from_slice(&plain).unwrap();
+    edit(&mut json);
+    seal_v2(&serde_json::to_vec(&json).unwrap(), key)
+}
+
 /// The Tuesday comp: builds [Firebrand, Berserker, core Necro];
 /// party 1 = [Firebrand, Berserker, DPS tag(Berserker, Necro)], party 2 = [Firebrand, Necro].
 pub fn comp() -> Comp {

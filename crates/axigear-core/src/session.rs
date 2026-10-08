@@ -11,6 +11,7 @@ use crate::consumables::Consumables;
 use crate::gamedb::GameDb;
 use crate::link::AxiLink;
 use crate::live::LiveState;
+use crate::loader::MemberCache;
 use crate::matcher::{self, MatchOutcome};
 use crate::model::{Build, Comp, SlotEntry, SlotRef};
 use crate::report::{Badge, CheckReport, Severities};
@@ -19,7 +20,14 @@ use crate::specs::SpecDb;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum CompOrigin {
     Code,
-    Link { link: AxiLink, etag: Option<String>, fetched_at_unix: u64 },
+    Link {
+        link: AxiLink,
+        etag: Option<String>,
+        fetched_at_unix: u64,
+        /// v2 member files as last fetched (absent in caches written before v2 refresh).
+        #[serde(default)]
+        members: MemberCache,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
