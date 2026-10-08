@@ -1,15 +1,13 @@
 # Release Notes
 
-Version v0.1.2 — October 8, 2026
+Version v0.1.3 — October 8, 2026
 
-## Large comps load again
+## Update checks no longer hit GitHub's rate limit
 
-- Comps published by older AxiForge versions can be much bigger than
-  current ones, and some showed "offline (response too large)". axigear
-  now accepts comp files up to 32 MB.
-- A big download is no longer cut off after 8 seconds. It now fails
-  only if the connection stalls for 8 seconds, or after 60 seconds in
-  total.
-- A comp file that is still too large shows "Comp file is too large -
-  republish it from AxiForge." instead of retrying over and over.
-  Republishing from current AxiForge makes the file much smaller.
+The update check could fail with "status code 403". It used GitHub's
+API, which allows only 60 requests an hour from one connection, and
+every plugin in every game client shares that limit. The check now
+asks GitHub's release page directly, which has no such limit.
+
+If GitHub does turn the check away, the message now says it is
+rate-limiting the connection instead of showing a bare status code.
