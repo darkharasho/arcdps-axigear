@@ -58,7 +58,7 @@ fn eyebrow(ui: &Ui, s: &str) {
 
 fn spec_card(ui: &Ui, c: &SpecCard, report: &CheckReport, focus: Option<SlotKey>) {
     let o = ui.cursor_screen_pos();
-    let w = ui.content_region_avail()[0].max(500.0);
+    let w = ui.content_region_avail()[0].max(320.0);
     let r = Rect::at(o, [w, CARD_H]);
     axi::card(ui, r, theme::SURFACE, false);
     {

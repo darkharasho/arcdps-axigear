@@ -22,7 +22,9 @@ pub fn render(ui: &Ui, report: &CheckReport, state: &mut UiState) {
         .iter()
         .filter(|r| r.status == Status::Unknown)
         .collect();
-    if problems.is_empty() {
+    // Nothing decided yet (no key, no live data): "All 0 checks pass" would
+    // sit oddly above "N waiting for data", so say nothing.
+    if problems.is_empty() && report.summary().decided() > 0 {
         icons::draw(ui, Tone::Ok, line);
         ui.same_line();
         ui.text_colored(
