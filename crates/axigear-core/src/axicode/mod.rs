@@ -2,6 +2,7 @@
 //! comp codes are `<AxiForge:Comp:base64url(zlib(json))>`.
 
 pub mod bits;
+pub mod tables;
 pub mod z85;
 
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
