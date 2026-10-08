@@ -1,6 +1,7 @@
 //! The check engine: expected build + live state + API snapshot → results.
 
 pub mod build;
+pub mod gear;
 
 use std::time::Instant;
 
@@ -74,8 +75,13 @@ pub fn run(ctx: &Ctx, severities: &Severities) -> Vec<CheckResult> {
     match api_gate(ctx) {
         Some(reason) => {
             for cat in API_CATEGORIES.into_iter().filter(|c| expects(ctx.build, *c)) {
-                let row = CheckResult::new(cat, format!("api.{}", cat.label()), cat.label(), Status::Unknown, "")
+                let mut row = CheckResult::new(cat, format!("api.{}", cat.label()), cat.label(), Status::Unknown, "")
                     .with_reason(reason.clone());
+                if cat == Category::Weapons {
+                    if let Some(seen) = gear::weapon_evidence(ctx) {
+                        row = row.with_actual(seen);
+                    }
+                }
                 out.push(row);
             }
         }
@@ -85,6 +91,12 @@ pub fn run(ctx: &Ctx, severities: &Severities) -> Vec<CheckResult> {
             api.extend(build::specializations(ctx, snap));
             api.extend(build::traits(ctx, snap));
             api.extend(build::skill_bar(ctx, snap));
+            api.extend(gear::weapons(ctx, snap));
+            api.extend(gear::stats(ctx, snap));
+            api.extend(gear::runes(ctx, snap));
+            api.extend(gear::sigils(ctx, snap));
+            api.extend(gear::relic(ctx, snap));
+            api.extend(gear::infusions(ctx, snap));
             let age = ctx.now.saturating_duration_since(snap.fetched_at).as_secs();
             for r in &mut api {
                 r.age_secs = Some(age);

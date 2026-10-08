@@ -21,7 +21,6 @@ pub fn firebrand() -> Build {
     comp().builds[0].clone()
 }
 
-#[allow(dead_code)]
 pub fn berserker() -> Build {
     comp().builds[1].clone()
 }
@@ -180,7 +179,6 @@ impl World {
         self.api.snapshot.as_mut().unwrap()
     }
 
-    #[allow(dead_code)]
     pub fn item_mut(&mut self, slot: GearSlot) -> &mut ApiItem {
         let name = api_slot(slot);
         self.snap_mut().equipment.iter_mut().find(|i| i.slot == name).unwrap()
