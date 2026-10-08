@@ -43,7 +43,17 @@ fn vk_from_key(s: &str) -> Option<u32> {
             return Some(v);
         }
     }
-    Some(match s.to_ascii_uppercase().as_str() {
+    let upper = s.to_ascii_uppercase();
+    // Numpad digits, as vk_label writes them ("Num0".."Num9").
+    if let Some(d) = upper.strip_prefix("NUM").and_then(|d| d.parse::<u32>().ok()).filter(|d| *d <= 9 && upper.len() == 4) {
+        return Some(0x60 + d);
+    }
+    Some(match upper.as_str() {
+        "NUMMULTIPLY" => 0x6A,
+        "NUMADD" => 0x6B,
+        "NUMSUBTRACT" => 0x6D,
+        "NUMDECIMAL" => 0x6E,
+        "NUMDIVIDE" => 0x6F,
         "F1"  => 0x70, "F2"  => 0x71, "F3"  => 0x72, "F4"  => 0x73,
         "F5"  => 0x74, "F6"  => 0x75, "F7"  => 0x76, "F8"  => 0x77,
         "F9"  => 0x78, "F10" => 0x79, "F11" => 0x7A, "F12" => 0x7B,
@@ -203,6 +213,18 @@ mod tests {
             assert_eq!(formatted, expected);
             let parsed = Hotkey::parse(&formatted).unwrap();
             assert!(matches(&parsed, vk, ctrl, shift, alt));
+        }
+    }
+
+    #[test]
+    fn every_vk_label_parses_back_to_its_vk() {
+        // VK 0 isn't a key; everything else format_keypress can emit must bind.
+        for vk in 1..=0xFFu32 {
+            let Some(label) = vk_label(vk) else { continue };
+            let parsed = Hotkey::parse(&label).unwrap_or_else(|| panic!("{label:?} (VK 0x{vk:02X}) doesn't parse"));
+            assert_eq!(parsed.vk, vk, "{label:?}");
+            let combo = format_keypress(vk, true, false, true).unwrap();
+            assert!(matches(&Hotkey::parse(&combo).unwrap(), vk, true, false, true), "{combo:?}");
         }
     }
 
