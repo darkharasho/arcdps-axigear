@@ -21,6 +21,18 @@ pub fn upgrade_key(name: &str) -> String {
     norm(n)
 }
 
+/// Stat-combo key: AxiForge and the GW2 API disagree on the possessive
+/// ("Marauder's" vs "Marauder", "Demolisher" vs "Demolisher's").
+/// Dropping one trailing `s` after `norm` keeps every bundled API itemstat name distinct
+/// (`every_axiforge_stat_matches_exactly_one_api_itemstat`).
+pub fn stat_key(name: &str) -> String {
+    let mut n = norm(name);
+    if n.ends_with('s') {
+        n.pop();
+    }
+    n
+}
+
 /// `None` when either name isn't resolved yet.
 pub fn same_upgrade(db: &GameDb, want: u32, have: u32) -> Option<bool> {
     if want == have {
@@ -102,21 +114,47 @@ pub fn weapon_evidence(ctx: &Ctx) -> Option<String> {
     (!seen.is_empty()).then(|| format!("seen in use: {}", seen.into_iter().collect::<Vec<_>>().join(", ")))
 }
 
+/// Rings and accessories are interchangeable within their pair; every other slot stands alone.
+fn stat_group(slot: GearSlot) -> GearSlot {
+    match slot {
+        GearSlot::Ring2 => GearSlot::Ring1,
+        GearSlot::Accessory2 => GearSlot::Accessory1,
+        s => s,
+    }
+}
+
 pub fn stats(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     let want = &ctx.build.equipment.stats;
     if want.is_empty() {
         return Vec::new();
     }
-    let (mut wrong, mut unresolved) = (Vec::new(), None);
-    for (slot, stat) in want {
-        match snap.item(*slot) {
-            None => wrong.push(format!("{}: empty", slot.label())),
-            Some(item) => match ctx.db.stat_name(item) {
-                None => unresolved = unresolved.or(Some(item.id)),
-                Some(have) if norm(have) != norm(stat) => wrong.push(format!("{}: {have}", slot.label())),
-                Some(_) => {}
-            },
+    let mut groups: Vec<(GearSlot, Vec<GearSlot>)> = Vec::new();
+    for slot in want.keys() {
+        match groups.iter_mut().find(|(g, _)| *g == stat_group(*slot)) {
+            Some((_, slots)) => slots.push(*slot),
+            None => groups.push((stat_group(*slot), vec![*slot])),
         }
+    }
+    let (mut wrong, mut unresolved) = (Vec::new(), None);
+    for (_, slots) in groups {
+        // Multiset match: each worn stat may satisfy any wanted stat of its group once.
+        let mut pool: Vec<String> = slots.iter().map(|s| stat_key(&want[s])).collect();
+        let mut leftover = Vec::new();
+        for slot in &slots {
+            match snap.item(*slot) {
+                None => wrong.push(format!("{}: empty", slot.label())),
+                Some(item) => match ctx.db.stat_name(item) {
+                    None => unresolved = unresolved.or(Some(item.id)),
+                    Some(have) => match pool.iter().position(|k| *k == stat_key(have)) {
+                        Some(i) => {
+                            pool.swap_remove(i);
+                        }
+                        None => leftover.push(format!("{}: {have}", slot.label())),
+                    },
+                },
+            }
+        }
+        wrong.extend(leftover);
     }
     vec![finish(Category::Stats, "stats", "Stats", summarize(want.values().cloned()), wrong, unresolved)]
 }
@@ -266,6 +304,72 @@ mod tests {
         let mut w = World::matching(firebrand());
         w.snap_mut().equipment.retain(|i| i.slot != "Ring2");
         assert!(w.result("stats").actual.unwrap().contains("Ring 2: empty"));
+    }
+
+    fn set_stat(w: &mut World, slot: GearSlot, want: &str, have: &str) {
+        w.build.equipment.stats.insert(slot, want.into());
+        let id = 3000 + slot as u32;
+        w.db.itemstats.insert(id, have.into());
+        w.item_mut(slot).stats_id = Some(id);
+    }
+
+    #[test]
+    fn every_axiforge_stat_matches_exactly_one_api_itemstat() {
+        let raw = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../../fixtures/gw2-itemstat-names.json")).unwrap();
+        let api: Vec<String> = serde_json::from_str(&raw).unwrap();
+        let labels: Vec<&str> = (1..).map(crate::axicode::tables::stat).take_while(|s| !s.is_empty()).collect();
+        assert_eq!(labels.len(), 40);
+        for label in &labels {
+            let hits: Vec<&String> = api.iter().filter(|n| super::stat_key(n) == super::stat_key(label)).collect();
+            assert_eq!(hits.len(), 1, "{label:?} matches {hits:?}");
+        }
+        // The key must not merge two distinct stat combos on either side.
+        let mut keys: Vec<String> = api.iter().map(|n| super::stat_key(n)).collect();
+        keys.sort();
+        keys.dedup();
+        assert_eq!(keys.len(), api.len());
+        let mut keys: Vec<String> = labels.iter().map(|n| super::stat_key(n)).collect();
+        keys.sort();
+        keys.dedup();
+        assert_eq!(keys.len(), labels.len());
+    }
+
+    #[test]
+    fn axiforge_and_api_possessives_match() {
+        let mut w = World::matching(firebrand());
+        set_stat(&mut w, GearSlot::Head, "Marauder's", "Marauder");
+        set_stat(&mut w, GearSlot::Chest, "Demolisher", "Demolisher's");
+        assert_eq!(w.result("stats").status, Status::Pass, "{:?}", w.result("stats"));
+        set_stat(&mut w, GearSlot::Head, "Marauder's", "Berserker's");
+        assert_eq!(w.result("stats").actual.as_deref(), Some("Head: Berserker's"));
+    }
+
+    #[test]
+    fn rings_and_accessories_are_unordered_pairs() {
+        let mut w = World::matching(firebrand());
+        set_stat(&mut w, GearSlot::Ring1, "Assassin's", "Berserker's");
+        set_stat(&mut w, GearSlot::Ring2, "Berserker's", "Assassin's");
+        set_stat(&mut w, GearSlot::Accessory1, "Harrier's", "Cleric's");
+        set_stat(&mut w, GearSlot::Accessory2, "Cleric's", "Harrier's");
+        assert_eq!(w.result("stats").status, Status::Pass, "{:?}", w.result("stats"));
+
+        // A genuinely wrong ring still fails, naming the slot that holds it.
+        set_stat(&mut w, GearSlot::Ring2, "Berserker's", "Viper's");
+        let r = w.result("stats");
+        assert_eq!((r.status, r.actual.as_deref()), (Status::Fail, Some("Ring 2: Viper's")));
+
+        // Two of the same where the build wants two different ones fails too.
+        set_stat(&mut w, GearSlot::Ring2, "Berserker's", "Berserker's");
+        let r = w.result("stats");
+        assert_eq!(r.status, Status::Fail);
+
+        // An unresolved ring partner is Unknown, not a guess.
+        let mut w = World::matching(firebrand());
+        set_stat(&mut w, GearSlot::Ring1, "Assassin's", "Berserker's");
+        set_stat(&mut w, GearSlot::Ring2, "Berserker's", "Assassin's");
+        w.item_mut(GearSlot::Ring2).stats_id = Some(77_777);
+        w.db.items.remove(&item_id(GearSlot::Ring2));
+        assert_eq!(w.result("stats").status, Status::Unknown, "{:?}", w.result("stats"));
     }
 
     #[test]
