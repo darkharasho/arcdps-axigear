@@ -4,6 +4,7 @@
 pub mod axicode;
 pub mod checks;
 pub mod consumables;
+pub mod driver;
 pub mod fsutil;
 pub mod gamedb;
 pub mod gw2api;
