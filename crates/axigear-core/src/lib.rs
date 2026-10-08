@@ -3,6 +3,7 @@
 
 pub mod axicode;
 pub mod consumables;
+pub mod gw2api;
 pub mod http;
 pub mod link;
 pub mod live;
