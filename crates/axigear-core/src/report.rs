@@ -1,0 +1,351 @@
+//! What a check run produces, and how it rolls up into the badge.
+
+use std::collections::BTreeMap;
+
+use serde::{Deserialize, Serialize};
+
+use crate::model::SlotRef;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum Category {
+    Spec,
+    Specializations,
+    Traits,
+    SkillBar,
+    SkillsSeen,
+    Weapons,
+    Stats,
+    Runes,
+    Sigils,
+    Relic,
+    Infusions,
+    Food,
+    Utility,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Severity {
+    Required,
+    Advisory,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SeveritySetting {
+    Required,
+    Advisory,
+    Off,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Status {
+    Pass,
+    Fail,
+    Unknown,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Source {
+    Live,
+    Api,
+}
+
+/// Colour role; the UI maps it to theme tokens.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Tone {
+    Neutral,
+    Ok,
+    Warn,
+    Danger,
+}
+
+impl Category {
+    pub const ALL: [Category; 13] = [
+        Category::Spec, Category::Specializations, Category::Traits, Category::SkillBar,
+        Category::SkillsSeen, Category::Weapons, Category::Stats, Category::Runes,
+        Category::Sigils, Category::Relic, Category::Infusions, Category::Food, Category::Utility,
+    ];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            Category::Spec => "Spec",
+            Category::Specializations => "Specializations",
+            Category::Traits => "Traits",
+            Category::SkillBar => "Skill bar",
+            Category::SkillsSeen => "Skills seen",
+            Category::Weapons => "Weapons",
+            Category::Stats => "Stats",
+            Category::Runes => "Runes",
+            Category::Sigils => "Sigils",
+            Category::Relic => "Relic",
+            Category::Infusions => "Infusions",
+            Category::Food => "Food",
+            Category::Utility => "Utility",
+        }
+    }
+
+    pub fn source(self) -> Source {
+        match self {
+            Category::Spec | Category::SkillsSeen | Category::Food | Category::Utility => Source::Live,
+            _ => Source::Api,
+        }
+    }
+
+    pub fn default_setting(self) -> SeveritySetting {
+        match self {
+            Category::SkillsSeen | Category::Infusions => SeveritySetting::Advisory,
+            _ => SeveritySetting::Required,
+        }
+    }
+}
+
+impl SeveritySetting {
+    pub const ALL: [SeveritySetting; 3] = [SeveritySetting::Required, SeveritySetting::Advisory, SeveritySetting::Off];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            SeveritySetting::Required => "Required",
+            SeveritySetting::Advisory => "Advisory",
+            SeveritySetting::Off => "Off",
+        }
+    }
+
+    pub fn severity(self) -> Option<Severity> {
+        match self {
+            SeveritySetting::Required => Some(Severity::Required),
+            SeveritySetting::Advisory => Some(Severity::Advisory),
+            SeveritySetting::Off => None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CheckResult {
+    pub id: String,
+    pub category: Category,
+    /// Row title, e.g. "Sigils A" or "Traits: Zeal".
+    pub label: String,
+    pub severity: Severity,
+    pub status: Status,
+    pub expected: String,
+    pub actual: Option<String>,
+    /// Why the result is Unknown.
+    pub reason: Option<String>,
+    pub source: Source,
+    /// Age of the data behind an API result.
+    pub age_secs: Option<u64>,
+    /// Shown as ⚠ whatever the category's severity (wrong food/utility).
+    #[serde(skip)]
+    pub forced_advisory: bool,
+}
+
+impl CheckResult {
+    pub fn new(category: Category, id: impl Into<String>, label: impl Into<String>, status: Status, expected: impl Into<String>) -> Self {
+        CheckResult {
+            id: id.into(),
+            category,
+            label: label.into(),
+            severity: Severity::Required,
+            status,
+            expected: expected.into(),
+            actual: None,
+            reason: None,
+            source: category.source(),
+            age_secs: None,
+            forced_advisory: false,
+        }
+    }
+
+    pub fn with_actual(mut self, actual: impl Into<String>) -> Self {
+        self.actual = Some(actual.into());
+        self
+    }
+
+    pub fn with_reason(mut self, reason: impl Into<String>) -> Self {
+        self.reason = Some(reason.into());
+        self
+    }
+
+    pub fn force_advisory(mut self) -> Self {
+        self.forced_advisory = true;
+        self
+    }
+
+    pub fn tone(&self) -> Tone {
+        match (self.status, self.severity) {
+            (Status::Pass, _) => Tone::Ok,
+            (Status::Fail, Severity::Required) => Tone::Danger,
+            (Status::Fail, Severity::Advisory) => Tone::Warn,
+            (Status::Unknown, _) => Tone::Neutral,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct Summary {
+    pub pass: usize,
+    pub fail_required: usize,
+    pub fail_advisory: usize,
+    pub unknown: usize,
+}
+
+impl Summary {
+    pub fn of(results: &[CheckResult]) -> Summary {
+        let mut s = Summary::default();
+        for r in results {
+            match (r.status, r.severity) {
+                (Status::Pass, _) => s.pass += 1,
+                (Status::Fail, Severity::Required) => s.fail_required += 1,
+                (Status::Fail, Severity::Advisory) => s.fail_advisory += 1,
+                (Status::Unknown, _) => s.unknown += 1,
+            }
+        }
+        s
+    }
+
+    pub fn fails(&self) -> usize {
+        self.fail_required + self.fail_advisory
+    }
+
+    /// Checks with an answer; Unknowns are neither pass nor fail.
+    pub fn decided(&self) -> usize {
+        self.pass + self.fails()
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CheckReport {
+    pub comp_key: String,
+    pub comp_name: String,
+    pub slot: SlotRef,
+    pub slot_label: String,
+    pub results: Vec<CheckResult>,
+}
+
+impl CheckReport {
+    pub fn summary(&self) -> Summary {
+        Summary::of(&self.results)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Badge {
+    NoComp,
+    PickSlot,
+    Checked(Summary),
+    Error,
+}
+
+impl Badge {
+    pub fn tone(&self) -> Tone {
+        match self {
+            Badge::NoComp => Tone::Neutral,
+            Badge::PickSlot => Tone::Warn,
+            Badge::Error => Tone::Danger,
+            Badge::Checked(s) if s.fail_required > 0 => Tone::Danger,
+            Badge::Checked(s) if s.fail_advisory > 0 => Tone::Warn,
+            Badge::Checked(s) if s.decided() == 0 => Tone::Neutral,
+            Badge::Checked(_) => Tone::Ok,
+        }
+    }
+
+    /// Latin-1 only; the UI draws the ✓/⚠/✗ icon next to it from `tone()`.
+    pub fn text(&self) -> String {
+        match self {
+            Badge::NoComp => "axigear: no comp".into(),
+            Badge::PickSlot => "axigear: pick slot".into(),
+            Badge::Error => "axigear: error (see log)".into(),
+            Badge::Checked(s) if s.fails() > 0 => format!("axigear {}", if s.fail_required > 0 { s.fails() } else { s.fail_advisory }),
+            Badge::Checked(s) if s.decided() == 0 => "axigear: checking".into(),
+            Badge::Checked(s) => format!("axigear {}/{}", s.pass, s.decided()),
+        }
+    }
+
+    pub fn unknown_suffix(&self) -> Option<String> {
+        match self {
+            Badge::Checked(s) if s.unknown > 0 => Some(format!(" · {}?", s.unknown)),
+            _ => None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(transparent)]
+pub struct Severities(pub BTreeMap<Category, SeveritySetting>);
+
+impl Default for Severities {
+    fn default() -> Self {
+        Severities(Category::ALL.iter().map(|c| (*c, c.default_setting())).collect())
+    }
+}
+
+impl Severities {
+    pub fn get(&self, c: Category) -> SeveritySetting {
+        self.0.get(&c).copied().unwrap_or(c.default_setting())
+    }
+
+    pub fn set(&mut self, c: Category, s: SeveritySetting) {
+        self.0.insert(c, s);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn r(status: Status, severity: Severity) -> CheckResult {
+        CheckResult { severity, ..CheckResult::new(Category::Runes, "x", "x", status, "") }
+    }
+
+    #[test]
+    fn badge_states() {
+        let pass = Summary { pass: 14, ..Default::default() };
+        assert_eq!((Badge::Checked(pass).text(), Badge::Checked(pass).tone()), ("axigear 14/14".into(), Tone::Ok));
+        let warn = Summary { pass: 12, fail_advisory: 2, unknown: 2, ..Default::default() };
+        assert_eq!((Badge::Checked(warn).text(), Badge::Checked(warn).tone()), ("axigear 2".into(), Tone::Warn));
+        assert_eq!(Badge::Checked(warn).unknown_suffix().as_deref(), Some(" · 2?"));
+        let fail = Summary { pass: 10, fail_required: 2, fail_advisory: 1, ..Default::default() };
+        assert_eq!((Badge::Checked(fail).text(), Badge::Checked(fail).tone()), ("axigear 3".into(), Tone::Danger));
+        let none = Summary { unknown: 5, ..Default::default() };
+        assert_eq!((Badge::Checked(none).text(), Badge::Checked(none).tone()), ("axigear: checking".into(), Tone::Neutral));
+        assert_eq!(Badge::NoComp.text(), "axigear: no comp");
+        assert_eq!(Badge::PickSlot.tone(), Tone::Warn);
+        assert_eq!(Badge::Error.text(), "axigear: error (see log)");
+    }
+
+    #[test]
+    fn summary_counts_and_tones() {
+        let results = [
+            r(Status::Pass, Severity::Required),
+            r(Status::Fail, Severity::Required),
+            r(Status::Fail, Severity::Advisory),
+            r(Status::Unknown, Severity::Required),
+        ];
+        let s = Summary::of(&results);
+        assert_eq!((s.pass, s.fail_required, s.fail_advisory, s.unknown, s.decided()), (1, 1, 1, 1, 3));
+        assert_eq!(results.map(|r| r.tone()), [Tone::Ok, Tone::Danger, Tone::Warn, Tone::Neutral]);
+    }
+
+    #[test]
+    fn severity_defaults_and_serde() {
+        let s = Severities::default();
+        assert_eq!(s.get(Category::Runes), SeveritySetting::Required);
+        assert_eq!(s.get(Category::SkillsSeen), SeveritySetting::Advisory);
+        assert_eq!(s.get(Category::Infusions), SeveritySetting::Advisory);
+        let partial: Severities = serde_json::from_str(r#"{"Food":"Off"}"#).unwrap();
+        assert_eq!(partial.get(Category::Food), SeveritySetting::Off);
+        assert_eq!(partial.get(Category::Runes), SeveritySetting::Required);
+    }
+
+    #[test]
+    fn report_round_trips_for_v2_commander_reporting() {
+        let report = CheckReport {
+            comp_key: "link:e4369a53".into(),
+            comp_name: "Tuesday Zerg".into(),
+            slot: SlotRef { line: 0, slot: 0, build: 0 },
+            slot_label: "Party 1 · Quickbrand".into(),
+            results: vec![r(Status::Fail, Severity::Required).with_actual("4/6")],
+        };
+        let json = serde_json::to_string(&report).unwrap();
+        assert_eq!(serde_json::from_str::<CheckReport>(&json).unwrap(), report);
+    }
+}

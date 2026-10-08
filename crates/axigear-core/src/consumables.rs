@@ -59,6 +59,11 @@ impl Consumables {
         have == want || have == format!("mistsinfused{want}")
     }
 
+    /// Lowest buff ID that `matches` this AxiForge label (deterministic).
+    pub fn find_label(&self, label: &str) -> Option<u32> {
+        self.by_id.keys().copied().filter(|id| self.matches(*id, label)).min()
+    }
+
     /// Buff ID with exactly this (normalized) name.
     pub fn find(&self, name: &str) -> Option<u32> {
         let want = norm(name);

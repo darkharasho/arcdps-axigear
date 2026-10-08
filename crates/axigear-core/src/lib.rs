@@ -2,6 +2,7 @@
 //! Nothing here touches Windows, arcdps or the game; the plugin crate feeds it.
 
 pub mod axicode;
+pub mod checks;
 pub mod consumables;
 pub mod fsutil;
 pub mod gamedb;
@@ -15,6 +16,7 @@ pub mod model;
 pub mod mumble;
 pub mod publish;
 pub mod raw;
+pub mod report;
 pub mod specs;
 pub mod text;
 
