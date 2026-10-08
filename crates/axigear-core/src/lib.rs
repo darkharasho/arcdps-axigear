@@ -7,6 +7,7 @@ pub mod http;
 pub mod link;
 pub mod live;
 pub mod loader;
+pub mod matcher;
 pub mod model;
 pub mod mumble;
 pub mod publish;
