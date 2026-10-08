@@ -45,6 +45,11 @@ pub fn profession_name(id: u8) -> Option<&'static str> {
     PROFESSIONS.get((id as usize).checked_sub(1)?).copied()
 }
 
+/// Shown when MumbleLink reports a profession this build doesn't know (a new one).
+pub fn unknown_profession(id: u8) -> String {
+    format!("unknown profession id {id} - update axigear")
+}
+
 pub fn profession_id(name: &str) -> u8 {
     PROFESSIONS.iter().position(|p| p.eq_ignore_ascii_case(name)).map_or(0, |i| i as u8 + 1)
 }

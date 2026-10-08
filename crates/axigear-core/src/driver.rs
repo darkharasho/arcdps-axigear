@@ -505,7 +505,10 @@ impl Driver {
             return self.subscription.as_ref().map(|_| "loading comp...".into());
         }
         match &self.session.assignment {
-            Assignment::NoMatch => Some("no slot in this comp matches your spec".into()),
+            Assignment::NoMatch => match self.session.live.identity.as_ref().map(|id| id.profession) {
+                Some(p) if mumble::profession_name(p).is_none() => Some(mumble::unknown_profession(p)),
+                _ => Some("no slot in this comp matches your spec".into()),
+            },
             Assignment::Ambiguous(_) => Some("several slots match - pick yours".into()),
             Assignment::Unassigned => Some("waiting for your character".into()),
             Assignment::Auto(_) | Assignment::Manual(_) => None,
@@ -902,5 +905,16 @@ mod tests {
         json["origin"]["Link"].as_object_mut().unwrap().remove("members").expect("members persisted");
         std::fs::write(&path, json.to_string()).unwrap();
         assert_eq!(driver(&http, &dir, t0).session().comp.as_ref().unwrap().comp.name, "Tuesday Zerg");
+    }
+
+    #[test]
+    fn an_unknown_profession_says_so_instead_of_no_slot_matches() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(mumble("Tester", 12, 0, 1), t0);
+        assert_eq!(d.snapshot(t0).header.note.as_deref(), Some("unknown profession id 12 - update axigear"));
+        d.handle(mumble("Tester", 2, 0, 1), t0); // a known profession with no slot: unchanged
+        assert_eq!(d.snapshot(t0).header.note.as_deref(), Some("no slot in this comp matches your spec"));
     }
 }

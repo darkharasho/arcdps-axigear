@@ -4,7 +4,7 @@ use crate::checks::Ctx;
 use crate::gw2api::ApiSnapshot;
 use crate::matcher::live_elite;
 use crate::model::TraitSel;
-use crate::mumble::profession_name;
+use crate::mumble::{profession_name, unknown_profession};
 use crate::report::{Category, CheckResult, Status};
 
 const TIERS: [&str; 3] = ["Adept", "Master", "Grandmaster"];
@@ -40,7 +40,9 @@ pub fn spec(ctx: &Ctx) -> Vec<CheckResult> {
     let Some(id) = &ctx.live.identity else {
         return vec![row(Status::Unknown).with_reason("waiting for MumbleLink")];
     };
-    let profession = profession_name(id.profession).unwrap_or("unknown profession");
+    let Some(profession) = profession_name(id.profession) else {
+        return vec![row(Status::Unknown).with_reason(unknown_profession(id.profession))];
+    };
     let elite = live_elite(id, ctx.specs);
     let actual = elite
         .and_then(|e| ctx.specs.name(e))
@@ -187,6 +189,14 @@ mod tests {
         w.live.identity.as_mut().unwrap().spec = 27; // Dragonhunter
         let r = w.result("spec");
         assert_eq!((r.status, r.actual.as_deref()), (Status::Fail, Some("Dragonhunter")));
+    }
+
+    #[test]
+    fn an_unknown_profession_id_is_unknown_not_a_fail() {
+        let mut w = World::matching(firebrand());
+        w.live.identity.as_mut().unwrap().profession = 12;
+        let r = w.result("spec");
+        assert_eq!((r.status, r.reason.as_deref()), (Status::Unknown, Some("unknown profession id 12 - update axigear")));
     }
 
     #[test]
