@@ -2,6 +2,7 @@
 //! tokens are pure); everything that touches `Ui` is Windows-only.
 
 pub mod axi;
+pub mod focus;
 pub mod texture_rules;
 pub mod theme;
 
@@ -31,9 +32,15 @@ mod tests {
 #[cfg(windows)]
 pub mod badge;
 #[cfg(windows)]
+pub mod build_tab;
+#[cfg(windows)]
 pub mod checklist;
 #[cfg(windows)]
+pub mod equipment_tab;
+#[cfg(windows)]
 pub mod icons;
+#[cfg(windows)]
+pub mod problems;
 #[cfg(windows)]
 pub mod settings;
 #[cfg(windows)]

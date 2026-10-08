@@ -19,6 +19,10 @@ pub struct UiState {
     pub scale_edit: Option<f32>,
     pub hotkey_seen: Option<String>,
     pub update_kicked: bool,
+    /// Slot pulsing after a problem click.
+    pub focus: Option<super::focus::Focus>,
+    /// Tab chosen locally until the snapshot echoes the setting back.
+    pub tab: Option<axigear_core::report::Tab>,
 }
 
 impl UiState {
@@ -31,6 +35,9 @@ impl UiState {
         }
         if self.badge_edit.as_ref() == Some(&snap.settings.badge) {
             self.badge_edit = None;
+        }
+        if self.tab == Some(snap.settings.loadout_tab) {
+            self.tab = None;
         }
         if self.hotkey_seen.as_deref() != Some(snap.settings.hotkey.as_str()) {
             if crate::keys::set_hotkey(&snap.settings.hotkey) {

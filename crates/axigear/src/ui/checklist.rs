@@ -1,13 +1,12 @@
-//! The checklist: comp/slot/API header, then results grouped by category,
-//! failures first and expanded; all-passing categories fold into one line.
+//! The checklist window: comp/slot/API header, problems panel, then the
+//! Build and Equipment tabs.
 
-use arcdps::imgui::{Condition, StyleColor, TreeNodeFlags, Ui, WindowFlags};
-use axigear_core::driver::{Command, UiSnapshot};
-use axigear_core::report::{CheckReport, CheckResult, Source, Tone};
-use axigear_core::text;
+use arcdps::imgui::{Condition, StyleColor, Ui, WindowFlags};
+use axigear_core::driver::{Command, SettingsPatch, UiSnapshot};
+use axigear_core::report::Tab;
 
 use super::state::UiState;
-use super::{icons, theme};
+use super::theme;
 use crate::plugin::send;
 
 const PICKER: &str = "axigear-slot-picker";
@@ -22,17 +21,54 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
     let mut open = true;
     ui.window("axigear")
         .opened(&mut open)
-        .size([480.0, 0.0], Condition::FirstUseEver)
-        .flags(WindowFlags::NO_COLLAPSE | WindowFlags::ALWAYS_AUTO_RESIZE)
+        .size([540.0, 640.0], Condition::FirstUseEver)
+        .size_constraints([520.0, 200.0], [f32::MAX, f32::MAX])
+        .flags(WindowFlags::NO_COLLAPSE)
         .build(|| {
             header(ui, snap);
             ui.separator();
-            match &snap.report {
-                Some(report) => results(ui, report),
-                None => ui.text_colored(
+            let (Some(report), Some(loadout)) = (&snap.report, &snap.loadout) else {
+                ui.text_colored(
                     theme::TEXT_DIM,
-                    snap.header.note.as_deref().unwrap_or("Load a comp in arcdps options (Alt+Shift+T) > Extensions > axigear."),
-                ),
+                    snap.header.note.as_deref().unwrap_or(
+                        "Load a comp in arcdps options (Alt+Shift+T) > Extensions > axigear.",
+                    ),
+                );
+                return;
+            };
+            super::problems::render(ui, report, state);
+            ui.separator();
+            let tab = state.tab.unwrap_or(snap.settings.loadout_tab);
+            let origin = ui.cursor_screen_pos();
+            let (build_clicked, w) = super::axi::chip(
+                ui,
+                origin,
+                "tab-build",
+                "BUILD",
+                tab == Tab::Build,
+                theme::GOLD,
+                [10.0, 4.0],
+            );
+            let (equip_clicked, _) = super::axi::chip(
+                ui,
+                [origin[0] + w + 6.0, origin[1]],
+                "tab-equip",
+                "EQUIPMENT",
+                tab == Tab::Equipment,
+                theme::GOLD,
+                [10.0, 4.0],
+            );
+            for (clicked, t) in [(build_clicked, Tab::Build), (equip_clicked, Tab::Equipment)] {
+                if clicked && t != tab {
+                    state.tab = Some(t);
+                    send(Command::Settings(SettingsPatch::LoadoutTab(t)));
+                }
+            }
+            ui.dummy([0.0, 8.0]);
+            let focus = state.focus.filter(|f| f.active(ui.time())).map(|f| f.key);
+            match state.tab.unwrap_or(snap.settings.loadout_tab) {
+                Tab::Build => super::build_tab::render(ui, loadout, report, focus),
+                Tab::Equipment => super::equipment_tab::render(ui, loadout, report, focus),
             }
         });
     state.checklist_open = open;
@@ -64,12 +100,23 @@ fn header(ui: &Ui, snap: &UiSnapshot) {
     }
     if !snap.picker.is_empty() {
         ui.same_line();
-        if ui.small_button(if h.slot_label.is_some() { "Change slot" } else { "Pick slot" }) {
+        if ui.small_button(if h.slot_label.is_some() {
+            "Change slot"
+        } else {
+            "Pick slot"
+        }) {
             ui.open_popup(PICKER);
         }
         ui.popup(PICKER, || {
             for opt in &snap.picker {
-                let label = format!("{}{}##{}-{}-{}", if opt.current { "> " } else { "" }, opt.label, opt.slot.line, opt.slot.slot, opt.slot.build);
+                let label = format!(
+                    "{}{}##{}-{}-{}",
+                    if opt.current { "> " } else { "" },
+                    opt.label,
+                    opt.slot.line,
+                    opt.slot.slot,
+                    opt.slot.build
+                );
                 if opt.enabled {
                     if ui.selectable(&label) {
                         send(Command::Pick(opt.slot));
@@ -81,54 +128,12 @@ fn header(ui: &Ui, snap: &UiSnapshot) {
         });
     }
 
+    if h.slot_label.is_some() || h.note.is_some() || !snap.picker.is_empty() {
+        ui.same_line();
+    }
     ui.text_colored(theme::TEXT_DIM, &h.api_line);
     ui.same_line();
     if ui.small_button("Refresh API") {
         send(Command::RefreshApi);
     }
-}
-
-fn results(ui: &Ui, report: &CheckReport) {
-    let line = ui.text_line_height();
-    let mut passing = Vec::new();
-    for group in report.groups() {
-        if group.tone == Tone::Ok {
-            passing.push((group.category.label(), group.results.len()));
-            continue;
-        }
-        icons::draw(ui, group.tone, line);
-        ui.same_line();
-        let title = format!("{} ({})##{:?}", group.category.label(), group.results.len(), group.category);
-        let flags = if group.tone == Tone::Neutral { TreeNodeFlags::empty() } else { TreeNodeFlags::DEFAULT_OPEN };
-        if ui.collapsing_header(title, flags) {
-            for r in &group.results {
-                row(ui, r);
-            }
-        }
-    }
-    if !passing.is_empty() {
-        icons::draw(ui, Tone::Ok, line);
-        ui.same_line();
-        let n: usize = passing.iter().map(|(_, n)| n).sum();
-        let names: Vec<&str> = passing.iter().map(|(name, _)| *name).collect();
-        ui.text_colored(theme::TEXT_DIM, format!("{} ({n})", names.join(" · ")));
-    }
-}
-
-fn row(ui: &Ui, r: &CheckResult) {
-    ui.indent();
-    icons::draw(ui, r.tone(), ui.text_line_height());
-    ui.same_line();
-    ui.text(&r.label);
-    ui.same_line();
-    ui.text_colored(theme::TEXT_DIM, r.detail());
-    if ui.is_item_hovered() {
-        let source = match r.source {
-            Source::Live => "live (arcdps/MumbleLink)",
-            Source::Api => "GW2 API",
-        };
-        let age = r.age_secs.map(|s| format!(" · {}", text::ago(s))).unwrap_or_default();
-        ui.tooltip_text(format!("{source}{age}"));
-    }
-    ui.unindent();
 }
