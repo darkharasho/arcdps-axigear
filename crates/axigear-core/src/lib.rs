@@ -9,6 +9,7 @@ pub mod fsutil;
 pub mod gamedb;
 pub mod gw2api;
 pub mod http;
+pub mod icons;
 pub mod link;
 pub mod live;
 pub mod loader;
