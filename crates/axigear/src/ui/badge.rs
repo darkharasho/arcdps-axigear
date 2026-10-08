@@ -40,7 +40,7 @@ fn draw(ui: &Ui, badge: Badge, suffix: Option<String>, flash: bool, settings: &B
         window = window.position(pos, Condition::FirstUseEver);
     }
     window.build(|| {
-        ui.set_window_font_scale(settings.scale);
+        ui.set_window_font_scale(super::clamp_scale(settings.scale));
         icons::draw(ui, badge.tone(), ui.text_line_height());
         ui.same_line();
         ui.text_colored(icons::ink(badge.tone()), badge.text());

@@ -82,6 +82,9 @@ pub(crate) fn latest() -> Option<Arc<UiSnapshot>> {
 
 pub fn init() -> Result<(), Option<String>> {
     let dir = crate::paths::data_dir();
+    if let Some(dll) = crate::paths::dll_dir() {
+        crate::updater::cleanup_stale_old(&dll);
+    }
     let mut reader = Reader::new();
     let worker = Worker::spawn(Arc::new(UreqHttp::new()), dir, move || reader.sample())
         .map_err(|e| Some(format!("axigear: couldn't start worker thread: {e}")))?;
@@ -151,4 +154,32 @@ pub fn imgui(ui: &Ui, not_loading: bool) {
         crate::ui::badge::render(ui, &snap, state);
         crate::ui::checklist::render(ui, &snap, state);
     })
+}
+
+pub fn options_end(ui: &Ui) {
+    guard("options_end", (), || {
+        let Some(snap) = latest() else { return };
+        let Ok(mut guard) = UI_STATE.try_lock() else { return };
+        if let Some(state) = guard.as_mut() {
+            crate::ui::settings::render(ui, &snap, state);
+        }
+    })
+}
+
+/// Adds "axigear" to arcdps's window list (toggles the checklist).
+pub fn options_windows(ui: &Ui, window_name: Option<&str>) -> bool {
+    if window_name.is_none() {
+        guard("options_windows", (), || {
+            if let Ok(mut guard) = UI_STATE.try_lock() {
+                if let Some(state) = guard.as_mut() {
+                    ui.checkbox("axigear", &mut state.checklist_open);
+                }
+            }
+        });
+    }
+    false
+}
+
+pub fn wnd_nofilter(key: usize, key_down: bool, prev_key_down: bool) -> bool {
+    guard("wnd_nofilter", true, || crate::keys::on_key(key, key_down, prev_key_down))
 }

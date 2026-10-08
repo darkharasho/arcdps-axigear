@@ -5,10 +5,14 @@
 #[global_allocator]
 static GLOBAL_ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
+pub mod hotkey;
 pub mod http;
 pub mod ui;
+pub mod updater;
 pub mod worker;
 
+#[cfg(windows)]
+mod keys;
 #[cfg(windows)]
 mod mumble;
 #[cfg(windows)]
@@ -26,4 +30,7 @@ arcdps::export! {
     release: plugin::release,
     combat: plugin::combat,
     imgui: plugin::imgui,
+    options_end: plugin::options_end,
+    options_windows: plugin::options_windows,
+    wnd_nofilter: plugin::wnd_nofilter,
 }

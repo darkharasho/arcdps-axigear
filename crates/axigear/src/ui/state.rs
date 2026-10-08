@@ -32,6 +32,20 @@ impl UiState {
         if self.badge_edit.as_ref() == Some(&snap.settings.badge) {
             self.badge_edit = None;
         }
+        if self.hotkey_seen.as_deref() != Some(snap.settings.hotkey.as_str()) {
+            crate::keys::set_hotkey(&snap.settings.hotkey);
+            self.hotkey_seen = Some(snap.settings.hotkey.clone());
+        }
+        if crate::keys::take_toggle() {
+            self.checklist_open = !self.checklist_open;
+        }
+        if let Some(hotkey) = crate::keys::take_bound() {
+            crate::plugin::send(Command::Settings(SettingsPatch::Hotkey(hotkey)));
+        }
+        if !self.update_kicked {
+            self.update_kicked = true;
+            crate::updater::kick_check_on_load(snap.settings.auto_update_check);
+        }
     }
 
     /// The badge settings to show: a pending edit wins over the snapshot.
