@@ -4,35 +4,24 @@
 
 #[derive(Debug, PartialEq)]
 pub enum ParseOutcome {
-    Newer { tag: String, body: String, asset_url: String },
+    Newer { tag: String, asset_url: String },
     Current,
     ParseError(String),
 }
 
-/// Parse a GitHub `/releases/latest` JSON body and decide whether it
-/// represents a version newer than `current` (e.g. "0.1.1"). Pure;
-/// no IO. The `tag_name` is expected to look like `vX.Y.Z`.
-pub fn parse_latest(json: &str, current: &str) -> ParseOutcome {
-    use serde_json::Value;
-    let v: Value = match serde_json::from_str(json) {
-        Ok(v) => v,
-        Err(e) => return ParseOutcome::ParseError(format!("json: {e}")),
+const LATEST_URL: &str = "https://github.com/darkharasho/arcdps-axigear/releases/latest";
+const DOWNLOAD_URL: &str = "https://github.com/darkharasho/arcdps-axigear/releases/download";
+const DLL_NAME: &str = "arcdps_axigear.dll";
+
+/// Parse where `/releases/latest` redirects to (`.../releases/tag/vX.Y.Z`)
+/// and decide whether that release is newer than `current` (e.g. "0.1.1").
+/// Pure; no IO.
+pub fn parse_latest(location: &str, current: &str) -> ParseOutcome {
+    let tag = match location.split_once("/releases/tag/") {
+        Some((_, t)) if !t.trim_end_matches('/').is_empty() => t.trim_end_matches('/').to_string(),
+        _ => return ParseOutcome::ParseError(format!("no release tag in {location}")),
     };
-    let tag = match v.get("tag_name").and_then(|x| x.as_str()) {
-        Some(t) => t.to_string(),
-        None => return ParseOutcome::ParseError("missing tag_name".into()),
-    };
-    let body = v.get("body").and_then(|x| x.as_str()).unwrap_or("").to_string();
-    let asset_url = v.get("assets").and_then(|a| a.as_array())
-        .and_then(|arr| arr.iter().find(|a|
-            a.get("name").and_then(|n| n.as_str()) == Some("arcdps_axigear.dll")
-        ))
-        .and_then(|a| a.get("browser_download_url").and_then(|u| u.as_str()))
-        .map(|s| s.to_string());
-    let asset_url = match asset_url {
-        Some(u) => u,
-        None => return ParseOutcome::ParseError("missing arcdps_axigear.dll asset".into()),
-    };
+    let asset_url = format!("{DOWNLOAD_URL}/{tag}/{DLL_NAME}");
 
     let strip = |s: &str| s.strip_prefix('v').unwrap_or(s).to_string();
     let remote = match semver::Version::parse(&strip(&tag)) {
@@ -44,7 +33,7 @@ pub fn parse_latest(json: &str, current: &str) -> ParseOutcome {
         Err(e) => return ParseOutcome::ParseError(format!("current semver: {e}")),
     };
     if remote > local {
-        ParseOutcome::Newer { tag, body, asset_url }
+        ParseOutcome::Newer { tag, asset_url }
     } else {
         ParseOutcome::Current
     }
@@ -57,7 +46,7 @@ pub enum UpdateState {
     Idle,
     Checking,
     UpToDate,
-    Available    { tag: String, body: String, asset_url: String },
+    Available    { tag: String, asset_url: String },
     Downloading  { tag: String, pct: f32 },
     Installed    { tag: String },
     Failed       { msg: String },
@@ -88,11 +77,8 @@ pub fn set_failed(msg: &str) {
 use std::thread;
 use std::time::Duration;
 
-const RELEASES_URL: &str =
-    "https://api.github.com/repos/darkharasho/arcdps-axigear/releases/latest";
-
 /// Called once on plugin init. If `enabled`, spawns a short-lived
-/// background thread that hits the GitHub `latest release` endpoint
+/// background thread that asks GitHub for the latest release
 /// and updates `STATE` accordingly. Cheap to call when disabled.
 pub fn kick_check_on_load(enabled: bool) {
     if !enabled {
@@ -105,9 +91,9 @@ pub fn kick_check_on_load(enabled: bool) {
         .name("axigear-update-check".into())
         .spawn(move || {
             match http_fetch_latest() {
-                Ok(body) => match parse_latest(&body, &current) {
-                    ParseOutcome::Newer { tag, body, asset_url } =>
-                        set_state(UpdateState::Available { tag, body, asset_url }),
+                Ok(location) => match parse_latest(&location, &current) {
+                    ParseOutcome::Newer { tag, asset_url } =>
+                        set_state(UpdateState::Available { tag, asset_url }),
                     ParseOutcome::Current =>
                         set_state(UpdateState::UpToDate),
                     ParseOutcome::ParseError(msg) =>
@@ -119,15 +105,32 @@ pub fn kick_check_on_load(enabled: bool) {
         .ok();
 }
 
+/// Returns where `/releases/latest` redirects to. This is the website, not
+/// api.github.com: the API allows only 60 unauthenticated calls an hour per
+/// IP, shared by every plugin in every game client on the connection.
 fn http_fetch_latest() -> Result<String, String> {
     let ua = format!("arcdps_axigear/{}", env!("CARGO_PKG_VERSION"));
-    let resp = ureq::get(RELEASES_URL)
-        .set("User-Agent", &ua)
-        .set("Accept", "application/vnd.github+json")
+    let agent = ureq::AgentBuilder::new()
+        .redirects(0)
         .timeout(Duration::from_secs(15))
+        .build();
+    let resp = agent.get(LATEST_URL)
+        .set("User-Agent", &ua)
         .call()
-        .map_err(|e| format!("http: {e}"))?;
-    resp.into_string().map_err(|e| format!("read body: {e}"))
+        .map_err(|e| http_error("http", e))?;
+    match resp.header("Location") {
+        Some(loc) => Ok(loc.to_string()),
+        None => Err(format!("http: no redirect (status {})", resp.status())),
+    }
+}
+
+/// GitHub answers 403 or 429 when it rate-limits a connection.
+fn http_error(what: &str, e: ureq::Error) -> String {
+    match e {
+        ureq::Error::Status(403 | 429, _) =>
+            "GitHub is rate-limiting this connection, try again later".to_string(),
+        e => format!("{what}: {e}"),
+    }
 }
 
 use std::io::{Read, Write};
@@ -171,7 +174,7 @@ fn download_and_swap(dll_dir: &Path, asset_url: &str, tag: &str) -> Result<(), S
         .set("User-Agent", &ua)
         .timeout(Duration::from_secs(120))
         .call()
-        .map_err(|e| format!("download: {e}"))?;
+        .map_err(|e| http_error("download", e))?;
     let total: Option<u64> = resp.header("Content-Length")
         .and_then(|s| s.parse().ok());
     let mut reader = resp.into_reader();
@@ -233,7 +236,6 @@ pub fn cleanup_stale_old(dll_dir: &Path) {
 mod tests {
     use super::*;
 
-    const DLL: &str = "arcdps_axigear.dll";
 
     #[test]
     fn dll_validation_requires_mz() {
@@ -243,26 +245,19 @@ mod tests {
         assert!(!looks_like_dll(b"<html>"));
     }
 
-    fn release_json(tag: &str, body: &str, asset_name: &str) -> String {
-        format!(
-            r#"{{
-                "tag_name": "{tag}",
-                "body": "{body}",
-                "assets": [
-                    {{ "name": "{asset_name}", "browser_download_url": "https://example/{asset_name}" }}
-                ]
-            }}"#
-        )
+    fn location(tag: &str) -> String {
+        format!("https://github.com/darkharasho/arcdps-axigear/releases/tag/{tag}")
     }
 
     #[test]
     fn newer_release_is_detected() {
-        let json = release_json("v0.1.2", "changelog", DLL);
-        match parse_latest(&json, "0.1.1") {
-            ParseOutcome::Newer { tag, body, asset_url } => {
+        match parse_latest(&location("v0.1.2"), "0.1.1") {
+            ParseOutcome::Newer { tag, asset_url } => {
                 assert_eq!(tag, "v0.1.2");
-                assert_eq!(body, "changelog");
-                assert_eq!(asset_url, "https://example/arcdps_axigear.dll");
+                assert_eq!(
+                    asset_url,
+                    "https://github.com/darkharasho/arcdps-axigear/releases/download/v0.1.2/arcdps_axigear.dll"
+                );
             }
             other => panic!("expected Newer, got {other:?}"),
         }
@@ -270,31 +265,30 @@ mod tests {
 
     #[test]
     fn same_version_is_current() {
-        let json = release_json("v0.1.1", "x", DLL);
-        assert_eq!(parse_latest(&json, "0.1.1"), ParseOutcome::Current);
+        assert_eq!(parse_latest(&location("v0.1.1"), "0.1.1"), ParseOutcome::Current);
     }
 
     #[test]
     fn older_release_is_current() {
-        let json = release_json("v0.1.0", "x", DLL);
-        assert_eq!(parse_latest(&json, "0.1.1"), ParseOutcome::Current);
+        assert_eq!(parse_latest(&location("v0.1.0"), "0.1.1"), ParseOutcome::Current);
     }
 
     #[test]
-    fn missing_dll_asset_is_parse_error() {
-        let json = release_json("v0.1.2", "x", "arcdps_other.dll");
-        assert!(matches!(parse_latest(&json, "0.1.1"), ParseOutcome::ParseError(_)));
+    fn redirect_without_a_tag_is_parse_error() {
+        // With no releases, /releases/latest redirects to /releases.
+        let loc = "https://github.com/darkharasho/arcdps-axigear/releases";
+        assert!(matches!(parse_latest(loc, "0.1.1"), ParseOutcome::ParseError(_)));
+        assert!(matches!(parse_latest(&location(""), "0.1.1"), ParseOutcome::ParseError(_)));
     }
 
     #[test]
-    fn malformed_json_is_parse_error() {
-        assert!(matches!(parse_latest("not json", "0.1.1"), ParseOutcome::ParseError(_)));
+    fn non_semver_tag_is_parse_error() {
+        assert!(matches!(parse_latest(&location("nightly"), "0.1.1"), ParseOutcome::ParseError(_)));
     }
 
     #[test]
     fn tag_without_v_prefix_still_parses() {
-        let json = release_json("0.1.2", "x", DLL);
-        match parse_latest(&json, "0.1.1") {
+        match parse_latest(&location("0.1.2"), "0.1.1") {
             ParseOutcome::Newer { tag, .. } => assert_eq!(tag, "0.1.2"),
             other => panic!("expected Newer, got {other:?}"),
         }
