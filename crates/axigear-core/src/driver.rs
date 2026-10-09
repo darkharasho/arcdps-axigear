@@ -78,11 +78,31 @@ pub struct Header {
     pub api_line: String,
 }
 
+/// One saved comp in the library list.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CompRow {
+    pub input: String,
+    pub name: String,
+    /// "code", "link · fetched 2m ago" or "not loaded".
+    pub source: String,
+    pub active: bool,
+    /// Last failed refresh of this (inactive) comp.
+    pub error: Option<String>,
+}
+
+fn source_text(origin: &CompOrigin) -> String {
+    match origin {
+        CompOrigin::Code => "code".into(),
+        CompOrigin::Link { fetched_at_unix, .. } => format!("link · fetched {}", text::ago(unix_now().saturating_sub(*fetched_at_unix))),
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct UiSnapshot {
     pub badge: Badge,
     pub report: Option<CheckReport>,
     pub header: Header,
+    pub comps: Vec<CompRow>,
     pub picker: Vec<PickOption>,
     pub load_error: Option<String>,
     pub key_test: Option<String>,
@@ -323,18 +343,27 @@ impl Driver {
         let identity = self.session.live.identity.as_ref();
         let header = Header {
             comp_name: lc.map(|c| c.comp.name.clone()),
-            source: match lc.map(|c| &c.origin) {
-                None => String::new(),
-                Some(CompOrigin::Code) => "code".into(),
-                Some(CompOrigin::Link { fetched_at_unix, .. }) => {
-                    format!("link · fetched {}", text::ago(unix_now().saturating_sub(*fetched_at_unix)))
-                }
-            },
+            source: lc.map(|c| source_text(&c.origin)).unwrap_or_default(),
             offline: self.comp_error.as_ref().is_some_and(LoadError::retryable),
             slot_label: report.as_ref().map(|r| r.slot_label.clone()),
             note: self.note(),
             api_line: self.api_line(now),
         };
+        let comps = self
+            .settings
+            .comps
+            .iter()
+            .map(|s| {
+                let cached = self.library.iter().find(|c| c.input == s.input);
+                CompRow {
+                    input: s.input.clone(),
+                    name: s.display_name(),
+                    source: cached.map_or_else(|| "not loaded".into(), |c| source_text(&c.origin)),
+                    active: self.is_active(&s.input),
+                    error: self.refresh_errors.get(&s.input).cloned(),
+                }
+            })
+            .collect();
         let picker = lc
             .map(|c| {
                 c.comp
@@ -353,6 +382,7 @@ impl Driver {
             badge: self.session.badge(report.as_ref()),
             report,
             header,
+            comps,
             picker,
             load_error: self.load_error.clone(),
             key_test: self.key_test.clone(),
@@ -420,6 +450,7 @@ impl Driver {
     fn commit(&mut self, lc: LoadedComp, now: Instant) {
         self.load_error = None;
         self.store(&lc);
+        self.refresh_errors.remove(&lc.input);
         self.settings.active_comp = Some(lc.input.clone());
         self.session.set_comp(Some(lc), &self.settings.picks, SpecDb::bundled(), now);
         self.db_dirty = true;
@@ -438,6 +469,7 @@ impl Driver {
         self.load_error = None;
         self.comp_poll.reset();
         self.comp_poll.success(now);
+        self.refresh_errors.remove(&lc.input);
         self.settings.active_comp = Some(lc.input.clone());
         self.session.set_comp(Some(lc), &self.settings.picks, SpecDb::bundled(), now);
         self.db_dirty = true;
@@ -1279,5 +1311,48 @@ mod tests {
         assert_eq!(again.settings().active_comp, Some(code_a()));
         assert_eq!(again.settings().comps[0].name, "Tuesday Zerg", "name filled from cache");
         assert!(again.session().comp.is_some());
+    }
+
+    #[test]
+    fn snapshot_lists_saved_comps() {
+        let (http, dir, t0) = setup();
+        http.on(RAW, 200, &fixture("comp-tuesday.enc")).fail(RAW, "dns");
+        http.fail(PAGES, "dns");
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::RefreshComp(link()), t0);
+        let rows = d.snapshot(t0).comps;
+        assert_eq!(rows.len(), 2);
+        assert!(rows[0].active && rows[0].source == "code" && rows[0].input == code_b());
+        assert!(!rows[1].active && rows[1].name == "Tuesday Zerg");
+        assert!(rows[1].source.starts_with("link · fetched"), "{}", rows[1].source);
+        assert!(rows[1].error.is_some(), "failed refresh shows on its row");
+    }
+
+    #[test]
+    fn an_uncached_saved_comp_says_not_loaded() {
+        let (http, dir, t0) = setup();
+        std::fs::write(dir.path().join("config.json"), r#"{"comps":[{"input":"https://x.invalid/?c=1","name":""}]}"#).unwrap();
+        let d = driver(&http, &dir, t0);
+        let rows = d.snapshot(t0).comps;
+        assert_eq!(rows[0].source, "not loaded");
+        assert_eq!(rows[0].name, "https://x.invalid/?c=1");
+    }
+
+    #[test]
+    fn activating_a_comp_clears_its_stale_refresh_error() {
+        let (http, dir, t0) = setup();
+        http.on(RAW, 200, &fixture("comp-tuesday.enc")).fail(RAW, "dns");
+        http.fail(PAGES, "dns");
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::RefreshComp(link()), t0);
+        assert!(d.snapshot(t0).comps[1].error.is_some());
+        d.handle(Command::UseComp(link()), t0);
+        let rows = d.snapshot(t0).comps;
+        assert!(rows[1].active);
+        assert_eq!(rows[1].error, None);
     }
 }
