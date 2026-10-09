@@ -5,7 +5,10 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
+use std::collections::BTreeMap;
+
 use crate::checks::ApiState;
+use crate::comp_library;
 use crate::consumables::Consumables;
 use crate::gamedb::GameDb;
 use crate::gw2api::{self, ApiError};
@@ -19,7 +22,7 @@ use crate::mumble::{self, MumbleSample};
 use crate::report::{Badge, Category, CheckReport, SeveritySetting, Source, Status};
 use crate::schedule::{RateLimit, Poller, API_BACKOFF, API_FAST_INTERVAL, API_INTERVAL, COMP_BACKOFF, COMP_INTERVAL, MANUAL_REFRESH};
 use crate::session::{slot_label, Assignment, CompOrigin, LoadedComp, Session};
-use crate::settings::{BadgeSettings, Settings};
+use crate::settings::{BadgeSettings, SavedComp, Settings};
 use crate::specs::SpecDb;
 use crate::text;
 
@@ -28,9 +31,13 @@ const FLASH: Duration = Duration::from_secs(3);
 #[derive(Debug, Clone, PartialEq)]
 pub enum Command {
     LoadInput(String),
-    Unsubscribe,
+    /// Switch to a saved comp (by `input`), from its cached copy.
+    UseComp(String),
+    /// Drop a saved comp (by `input`) and its cache and picks.
+    Unsubscribe(String),
     Pick(SlotRef),
-    RefreshComp,
+    /// Re-fetch or re-decode a saved comp (by `input`).
+    RefreshComp(String),
     RefreshApi,
     SetApiKey(String),
     TestKey,
@@ -125,6 +132,10 @@ pub struct Driver {
     paths: Paths,
     settings: Settings,
     session: Session,
+    /// Cached copy of each saved comp (same order not guaranteed).
+    library: Vec<LoadedComp>,
+    /// Last refresh error per saved comp that is not active.
+    refresh_errors: BTreeMap<String, String>,
     /// The link being polled (resolved after the first fetch).
     subscription: Option<AxiLink>,
     /// Decrypted plaintext of the subscribed comp, in memory only: lets a comp that answers
@@ -148,20 +159,27 @@ pub struct Driver {
 impl Driver {
     pub fn new(http: Arc<dyn Http>, dir: &Path, _now: Instant) -> Driver {
         let paths = Paths::in_dir(dir);
-        let settings = Settings::load(&paths.config);
+        let mut settings = Settings::load(&paths.config);
         let mut session = Session::new(GameDb::load(&paths.itemdb));
         session.api.has_key = !settings.api_key.trim().is_empty();
 
-        let cached: Option<LoadedComp> = std::fs::read_to_string(&paths.comp_cache)
-            .ok()
-            .and_then(|s| serde_json::from_str(&s).ok())
-            .filter(|c: &LoadedComp| !settings.comp_input.is_empty() && c.input == settings.comp_input);
+        let library: Vec<LoadedComp> = comp_library::load(&paths.comp_cache)
+            .into_iter()
+            .filter(|c| settings.comps.iter().any(|s| s.input == c.input))
+            .collect();
+        for s in settings.comps.iter_mut().filter(|s| s.name.is_empty()) {
+            if let Some(c) = library.iter().find(|c| c.input == s.input) {
+                s.name = c.comp.name.clone();
+            }
+        }
+        let active = settings.active_comp.clone().unwrap_or_default();
+        let cached: Option<LoadedComp> = library.iter().find(|c| !active.is_empty() && c.input == active).cloned();
         let mut subscription = None;
-        match (&cached, loader::detect(&settings.comp_input)) {
+        match (&cached, loader::detect(&active)) {
             (Some(LoadedComp { origin: CompOrigin::Link { link, .. }, .. }), _) => subscription = Some(link.clone()),
             (Some(_), _) => {}
             (None, Ok(Input::Comp { comp, key })) => {
-                session.comp = Some(LoadedComp { comp, key, input: settings.comp_input.clone(), origin: CompOrigin::Code })
+                session.comp = Some(LoadedComp { comp, key, input: active.clone(), origin: CompOrigin::Code })
             }
             (None, Ok(Input::Link(link))) => subscription = Some(link),
             (None, Err(_)) => {}
@@ -175,6 +193,8 @@ impl Driver {
             paths,
             settings,
             session,
+            library,
+            refresh_errors: BTreeMap::new(),
             subscription,
             comp_plain: None,
             comp_poll: Poller::new(COMP_INTERVAL, &COMP_BACKOFF),
@@ -204,25 +224,16 @@ impl Driver {
         let specs = SpecDb::bundled();
         match cmd {
             Command::LoadInput(text) => self.load_input(text, now),
-            Command::Unsubscribe => {
-                self.subscription = None;
-                self.comp_plain = None;
-                self.comp_error = None;
-                self.load_error = None;
-                self.settings.comp_input.clear();
-                self.session.set_comp(None, &self.settings.picks, specs, now);
-                let _ = std::fs::remove_file(&self.paths.comp_cache);
-                self.save_settings();
-            }
+            Command::UseComp(input) => self.use_comp(input, now),
+            Command::Unsubscribe(input) => self.unsubscribe(&input, now),
             Command::Pick(slot) => {
                 if self.session.pick(slot, &mut self.settings.picks, specs, now) {
                     self.save_settings();
                 }
             }
-            Command::RefreshComp => {
-                if self.subscription.is_some() && self.comp_manual.try_acquire(now) {
-                    self.comp_poll.reset();
-                    self.poll_comp(now);
+            Command::RefreshComp(input) => {
+                if self.comp_manual.try_acquire(now) {
+                    self.refresh(input, now);
                 }
             }
             Command::RefreshApi => {
@@ -381,40 +392,148 @@ impl Driver {
         self.record_save("itemdb.json", result);
     }
 
+    fn is_active(&self, input: &str) -> bool {
+        self.settings.active_comp.as_deref() == Some(input)
+    }
+
+    /// Save `lc` in the library and the settings list without switching to it.
+    fn store(&mut self, lc: &LoadedComp) {
+        match self.library.iter_mut().find(|c| c.input == lc.input) {
+            Some(c) => *c = lc.clone(),
+            None => self.library.push(lc.clone()),
+        }
+        match self.settings.comps.iter_mut().find(|s| s.input == lc.input) {
+            Some(s) => s.name = lc.comp.name.clone(),
+            None => self.settings.comps.insert(0, SavedComp { input: lc.input.clone(), name: lc.comp.name.clone() }),
+        }
+        self.save_library();
+    }
+
+    fn save_library(&mut self) {
+        let keep: Vec<String> = self.settings.comps.iter().map(|s| s.input.clone()).collect();
+        self.library.retain(|c| keep.contains(&c.input));
+        let result = comp_library::save(&self.paths.comp_cache, &self.library);
+        self.record_save("comp_cache.json", result);
+    }
+
+    /// Store `lc` and make it the active comp.
     fn commit(&mut self, lc: LoadedComp, now: Instant) {
         self.load_error = None;
-        self.settings.comp_input = lc.input.clone();
-        let cached = serde_json::to_vec(&lc).map_err(std::io::Error::other).and_then(|json| crate::fsutil::write_atomic(&self.paths.comp_cache, &json));
-        self.record_save("comp_cache.json", cached);
+        self.store(&lc);
+        self.settings.active_comp = Some(lc.input.clone());
         self.session.set_comp(Some(lc), &self.settings.picks, SpecDb::bundled(), now);
         self.db_dirty = true;
         self.db_poll.reset();
         self.save_settings();
     }
 
+    /// Switch to a cached comp: no network. Its link (if any) polls on the normal interval.
+    fn activate(&mut self, lc: LoadedComp, now: Instant) {
+        self.subscription = match &lc.origin {
+            CompOrigin::Link { link, .. } => Some(link.clone()),
+            CompOrigin::Code => None,
+        };
+        self.comp_plain = None;
+        self.comp_error = None;
+        self.load_error = None;
+        self.comp_poll.reset();
+        self.comp_poll.success(now);
+        self.settings.active_comp = Some(lc.input.clone());
+        self.session.set_comp(Some(lc), &self.settings.picks, SpecDb::bundled(), now);
+        self.db_dirty = true;
+        self.db_poll.reset();
+        self.save_settings();
+    }
+
+    fn use_comp(&mut self, input: String, now: Instant) {
+        if self.is_active(&input) && self.session.comp.is_some() {
+            return;
+        }
+        match self.library.iter().find(|c| c.input == input).cloned() {
+            Some(lc) => self.activate(lc, now),
+            None if self.settings.comps.iter().any(|s| s.input == input) => self.load_input(input, now),
+            None => {}
+        }
+    }
+
+    fn unsubscribe(&mut self, input: &str, now: Instant) {
+        let Some(idx) = self.settings.comps.iter().position(|s| s.input == input) else { return };
+        self.settings.comps.remove(idx);
+        if let Some(prefix) = self.library.iter().find(|c| c.input == input).map(|c| format!("{}|", c.key)) {
+            self.settings.picks.retain(|k, _| !k.starts_with(&prefix));
+        }
+        self.refresh_errors.remove(input);
+        self.save_library();
+        if self.is_active(input) {
+            self.subscription = None;
+            self.comp_plain = None;
+            self.comp_error = None;
+            self.load_error = None;
+            self.settings.active_comp = None;
+            self.session.set_comp(None, &self.settings.picks, SpecDb::bundled(), now);
+            let next = self.settings.comps.get(idx).or(self.settings.comps.last()).map(|s| s.input.clone());
+            if let Some(next) = next {
+                self.use_comp(next, now);
+            }
+        }
+        self.save_settings();
+    }
+
+    fn refresh(&mut self, input: String, now: Instant) {
+        if self.is_active(&input) {
+            if self.subscription.is_some() {
+                self.comp_poll.reset();
+                self.poll_comp(now);
+            } else {
+                self.load_input(input, now);
+            }
+            return;
+        }
+        if !self.settings.comps.iter().any(|s| s.input == input) {
+            return;
+        }
+        match self.fetch_input(&input) {
+            Ok((lc, _)) => {
+                self.refresh_errors.remove(&input);
+                self.store(&lc);
+                self.save_settings();
+            }
+            Err(e) => {
+                self.refresh_errors.insert(input, e);
+            }
+        }
+    }
+
+    /// Decode or fetch `text` without touching the active comp. A link's
+    /// first fetch never sends `If-None-Match`; `Some(plain)` is a comp link's plaintext.
+    fn fetch_input(&self, text: &str) -> Result<(LoadedComp, Option<Vec<u8>>), String> {
+        match loader::detect(text).map_err(|e| e.to_string())? {
+            Input::Comp { comp, key } => Ok((LoadedComp { comp, key, input: text.to_string(), origin: CompOrigin::Code }, None)),
+            Input::Link(link) => match loader::fetch(&*self.http, &link, None, &MemberCache::new()).map_err(|e| e.to_string())? {
+                Fetched::Fresh { comp, etag, link, plain, members } => {
+                    let key = loader::link_key(&link);
+                    Ok((LoadedComp { comp, key, input: text.to_string(), origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now(), members } }, plain))
+                }
+                Fetched::NotModified => Err("unexpected 304 on first fetch".into()),
+            },
+        }
+    }
+
     fn load_input(&mut self, text: String, now: Instant) {
         let text = text.trim().to_string();
-        match loader::detect(&text) {
-            Err(e) => self.load_error = Some(e.to_string()),
-            Ok(Input::Comp { comp, key }) => {
-                self.subscription = None;
-                self.comp_plain = None;
+        match self.fetch_input(&text) {
+            Err(e) => self.load_error = Some(e),
+            Ok((lc, plain)) => {
+                self.subscription = match &lc.origin {
+                    CompOrigin::Link { link, .. } => Some(link.clone()),
+                    CompOrigin::Code => None,
+                };
+                self.comp_plain = plain;
                 self.comp_error = None;
-                self.commit(LoadedComp { comp, key, input: text, origin: CompOrigin::Code }, now);
+                self.comp_poll.reset();
+                self.comp_poll.success(now);
+                self.commit(lc, now);
             }
-            Ok(Input::Link(link)) => match loader::fetch(&*self.http, &link, None, &MemberCache::new()) {
-                Ok(Fetched::Fresh { comp, etag, link, plain, members }) => {
-                    self.subscription = Some(link.clone());
-                    self.comp_plain = plain;
-                    self.comp_error = None;
-                    self.comp_poll.reset();
-                    self.comp_poll.success(now);
-                    let key = loader::link_key(&link);
-                    self.commit(LoadedComp { comp, key, input: text, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now(), members } }, now);
-                }
-                Ok(Fetched::NotModified) => self.load_error = Some("unexpected 304 on first fetch".into()),
-                Err(e) => self.load_error = Some(e.to_string()),
-            },
         }
     }
 
@@ -450,7 +569,7 @@ impl Driver {
                 };
                 self.subscription = Some(link.clone());
                 let key = loader::link_key(&link);
-                let input = self.settings.comp_input.clone();
+                let input = self.settings.active_comp.clone().unwrap_or_default();
                 self.commit(LoadedComp { comp, key, input, origin: CompOrigin::Link { link, etag, fetched_at_unix: unix_now(), members } }, now);
             }
             Err(e) => {
@@ -595,7 +714,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "re-enabled in Task 3"]
     fn a_pasted_code_assigns_a_slot_and_survives_restart() {
         let (http, dir, t0) = setup();
         let mut d = driver(&http, &dir, t0);
@@ -606,7 +724,7 @@ mod tests {
         assert_eq!(snap.header.source, "code");
         assert_eq!(snap.header.slot_label.as_deref(), Some("Party 1 · Firebrand"));
         assert!(snap.report.is_some());
-        assert_eq!(d.settings().comp_input, fixture("comp-tuesday.txt"));
+        assert_eq!(d.settings().active_comp, Some(fixture("comp-tuesday.txt")));
 
         let mut again = driver(&http, &dir, t0);
         again.handle(firebrand_in(1), t0);
@@ -770,7 +888,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "re-enabled in Task 3"]
     fn manual_picks_persist() {
         let (http, dir, t0) = setup();
         let mut d = driver(&http, &dir, t0);
@@ -838,9 +955,9 @@ mod tests {
         let (http, dir, t0) = setup();
         let mut d = driver(&http, &dir, t0);
         d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
-        d.handle(Command::Unsubscribe, t0);
+        d.handle(Command::Unsubscribe(fixture("comp-tuesday.txt")), t0);
         assert_eq!(d.snapshot(t0).badge, Badge::NoComp);
-        assert!(!dir.path().join("comp_cache.json").exists());
+        assert!(crate::comp_library::load(&dir.path().join("comp_cache.json")).is_empty());
         assert!(driver(&http, &dir, t0).session().comp.is_none());
     }
 
@@ -924,7 +1041,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "re-enabled in Task 3"]
     fn a_v2_comp_answering_304_still_picks_up_member_edits() {
         let (http, dir, t0) = setup();
         let edited = reseal_member("member-firebrand.enc", FIREBRAND_KEY, |b| b["equipment"]["relic"] = "Relic of the Monk".into());
@@ -953,7 +1069,7 @@ mod tests {
         // Manual refresh takes the same path.
         let mut again = driver(&http, &dir, t0);
         assert_eq!(guardian_relic(&again).as_deref(), Some("Relic of the Monk"), "persisted");
-        again.handle(Command::RefreshComp, t0);
+        again.handle(Command::RefreshComp(link()), t0);
         assert_eq!(header_for(&http, RAW, "If-None-Match").last().cloned().flatten(), None, "no plaintext after restart: full comp fetch");
         assert_eq!(guardian_relic(&again).as_deref(), Some("Relic of the Monk"));
     }
@@ -999,7 +1115,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "re-enabled in Task 3"]
     fn a_comp_cache_without_member_states_still_loads() {
         let (http, dir, t0) = setup();
         v2_routes(&http, |_, _| {});
@@ -1007,7 +1122,7 @@ mod tests {
         d.handle(Command::LoadInput(link()), t0);
         let path = dir.path().join("comp_cache.json");
         let mut json: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
-        json["origin"]["Link"].as_object_mut().unwrap().remove("members").expect("members persisted");
+        json["comps"][0]["origin"]["Link"].as_object_mut().unwrap().remove("members").expect("members persisted");
         std::fs::write(&path, json.to_string()).unwrap();
         assert_eq!(driver(&http, &dir, t0).session().comp.as_ref().unwrap().comp.name, "Tuesday Zerg");
     }
@@ -1021,5 +1136,148 @@ mod tests {
         assert_eq!(d.snapshot(t0).header.note.as_deref(), Some("unknown profession id 12 - update axigear"));
         d.handle(mumble("Tester", 2, 0, 1), t0); // a known profession with no slot: unchanged
         assert_eq!(d.snapshot(t0).header.note.as_deref(), Some("no slot in this comp matches your spec"));
+    }
+
+    fn code_a() -> String { fixture("comp-tuesday.txt") }
+    fn code_b() -> String { fixture("build-firebrand.txt") }
+
+    #[test]
+    fn loading_two_comps_keeps_both_newest_active() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        let inputs: Vec<&str> = d.settings().comps.iter().map(|c| c.input.as_str()).collect();
+        assert_eq!(inputs, [code_b().as_str(), code_a().as_str()]);
+        assert_eq!(d.settings().active_comp, Some(code_b()));
+        assert_eq!(d.settings().comps[1].name, "Tuesday Zerg");
+    }
+
+    #[test]
+    fn reloading_the_same_input_refreshes_without_duplicating() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::LoadInput(format!("{}\n  ", code_a())), t0);
+        assert_eq!(d.settings().comps.len(), 2);
+        assert_eq!(d.settings().active_comp, Some(code_a()));
+    }
+
+    #[test]
+    fn use_comp_switches_from_cache_without_network() {
+        let (http, dir, t0) = setup();
+        http.on(RAW, 200, &fixture("comp-tuesday.enc"));
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        let calls = http.calls().len();
+        d.handle(Command::UseComp(link()), t0);
+        assert_eq!(http.calls().len(), calls, "switching needs no fetch");
+        assert_eq!(d.settings().active_comp, Some(link()));
+        assert_eq!(d.snapshot(t0).header.comp_name.as_deref(), Some("Tuesday Zerg"));
+        assert!(d.snapshot(t0).header.source.starts_with("link"));
+    }
+
+    #[test]
+    fn picks_survive_switching_comps() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        d.handle(firebrand_in(1), t0);
+        let pick = d.snapshot(t0).picker.iter().find(|p| p.enabled && !p.current).map(|p| p.slot);
+        if let Some(slot) = pick {
+            d.handle(Command::Pick(slot), t0);
+        }
+        let before = d.snapshot(t0).header.slot_label.clone();
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::UseComp(code_a()), t0);
+        assert_eq!(d.snapshot(t0).header.slot_label, before);
+    }
+
+    #[test]
+    fn unsubscribing_the_active_comp_activates_the_next() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::Unsubscribe(code_b()), t0);
+        assert_eq!(d.settings().active_comp, Some(code_a()));
+        assert_eq!(d.snapshot(t0).header.comp_name.as_deref(), Some("Tuesday Zerg"));
+        d.handle(Command::Unsubscribe(code_a()), t0);
+        assert!(d.settings().comps.is_empty() && d.settings().active_comp.is_none());
+        assert_eq!(d.snapshot(t0).badge, Badge::NoComp);
+        assert!(crate::comp_library::load(&dir.path().join("comp_cache.json")).is_empty());
+        assert!(driver(&http, &dir, t0).session().comp.is_none());
+    }
+
+    #[test]
+    fn unsubscribing_another_comp_keeps_the_active_one() {
+        let (http, dir, t0) = setup();
+        http.on_etag(RAW, 200, &fixture("comp-tuesday.enc"), "\"v1\"").on(RAW, 304, "");
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::Unsubscribe(code_b()), t0);
+        assert_eq!(d.settings().active_comp, Some(link()));
+        d.tick(t0 + Duration::from_secs(601));
+        assert_eq!(calls_to(&http, RAW), 2, "still polling the active link");
+    }
+
+    #[test]
+    fn unsubscribe_drops_that_comps_picks_only() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        let key_a = d.session().comp.as_ref().unwrap().key.clone();
+        d.handle(Command::LoadInput(code_b()), t0);
+        let key_b = d.session().comp.as_ref().unwrap().key.clone();
+        d.settings.picks.insert(format!("{key_a}|Tester"), SlotRef { line: 0, slot: 0, build: 0 });
+        d.settings.picks.insert(format!("{key_b}|Tester"), SlotRef { line: 0, slot: 0, build: 0 });
+        d.handle(Command::Unsubscribe(code_a()), t0);
+        assert!(!d.settings().picks.contains_key(&format!("{key_a}|Tester")));
+        assert!(d.settings().picks.contains_key(&format!("{key_b}|Tester")));
+    }
+
+    #[test]
+    fn refreshing_an_inactive_comp_does_not_switch() {
+        let (http, dir, t0) = setup();
+        http.on(RAW, 200, &fixture("comp-tuesday.enc"));
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        d.handle(Command::RefreshComp(link()), t0);
+        assert_eq!(calls_to(&http, RAW), 2);
+        assert_eq!(d.settings().active_comp, Some(code_b()));
+    }
+
+    #[test]
+    fn restart_resumes_the_active_link_only() {
+        let (http, dir, t0) = setup();
+        http.on(RAW, 200, &fixture("comp-tuesday.enc"));
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        d.handle(Command::LoadInput(code_b()), t0);
+        let mut again = driver(&http, &dir, t0);
+        assert_eq!(again.settings().active_comp, Some(code_b()));
+        let calls = calls_to(&http, RAW);
+        again.tick(t0 + Duration::from_secs(5000));
+        assert_eq!(calls_to(&http, RAW), calls, "a code comp is active: no link polling");
+        again.handle(Command::UseComp(link()), t0);
+        assert_eq!(again.snapshot(t0).header.comp_name.as_deref(), Some("Tuesday Zerg"));
+    }
+
+    #[test]
+    fn a_v01_config_and_cache_still_load() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(code_a()), t0);
+        let lc = d.session().comp.clone().unwrap();
+        std::fs::write(dir.path().join("comp_cache.json"), serde_json::to_vec(&lc).unwrap()).unwrap();
+        std::fs::write(dir.path().join("config.json"), serde_json::json!({ "comp_input": code_a() }).to_string()).unwrap();
+        let again = driver(&http, &dir, t0);
+        assert_eq!(again.settings().active_comp, Some(code_a()));
+        assert_eq!(again.settings().comps[0].name, "Tuesday Zerg", "name filled from cache");
+        assert!(again.session().comp.is_some());
     }
 }

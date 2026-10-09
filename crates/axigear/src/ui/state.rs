@@ -28,7 +28,7 @@ pub struct UiState {
 impl UiState {
     pub fn sync(&mut self, snap: &UiSnapshot) {
         if !self.loaded {
-            self.comp_input = snap.settings.comp_input.clone();
+            self.comp_input.clear();
             self.api_key = snap.settings.api_key.clone();
             self.badge_pos = snap.settings.badge.pos;
             self.loaded = true;

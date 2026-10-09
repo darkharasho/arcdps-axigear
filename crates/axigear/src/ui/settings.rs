@@ -29,7 +29,9 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
     ui.same_line();
     if ui.button("Unsubscribe") {
         state.comp_input.clear();
-        send(Command::Unsubscribe);
+        if let Some(active) = &s.active_comp {
+            send(Command::Unsubscribe(active.clone()));
+        }
     }
     if let Some(e) = &snap.load_error {
         ui.text_colored(theme::DANGER, e);

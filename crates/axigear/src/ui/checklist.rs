@@ -86,7 +86,9 @@ fn header(ui: &Ui, snap: &UiSnapshot) {
             if h.source.starts_with("link") {
                 ui.same_line();
                 if ui.small_button("Refresh##comp") {
-                    send(Command::RefreshComp);
+                    if let Some(active) = &snap.settings.active_comp {
+                        send(Command::RefreshComp(active.clone()));
+                    }
                 }
             }
         }
