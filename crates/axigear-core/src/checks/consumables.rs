@@ -19,6 +19,23 @@ pub fn utility(ctx: &Ctx) -> Vec<CheckResult> {
 
 fn check(ctx: &Ctx, kind: ConsumableKind, want: Option<&str>) -> Vec<CheckResult> {
     let Some(want) = want else { return Vec::new() };
+    let resolved;
+    let want = match crate::model::consumable_item_id(want) {
+        None => want,
+        Some(id) => match ctx.db.item_name(id) {
+            Some(name) => {
+                resolved = name.to_string();
+                resolved.as_str()
+            }
+            None => {
+                let (cat, id_s, label) = match kind {
+                    ConsumableKind::Food => (Category::Food, "food", "Food"),
+                    ConsumableKind::Utility => (Category::Utility, "utility", "Utility"),
+                };
+                return vec![CheckResult::new(cat, id_s, label, Status::Unknown, format!("Item {id}")).with_reason("looking up item name")];
+            }
+        },
+    };
     let (cat, id, label, key) = match kind {
         ConsumableKind::Food => (Category::Food, "food", "Food", SlotKey::Food),
         ConsumableKind::Utility => (Category::Utility, "utility", "Utility", SlotKey::Utility),
@@ -49,6 +66,27 @@ mod tests {
     use crate::consumables::Consumables;
     use crate::report::{Severity, Status};
     use crate::testutil::{firebrand, necro, World};
+
+    #[test]
+    fn numeric_food_passes_once_its_name_is_known() {
+        let label = firebrand().equipment.food.clone().unwrap();
+        let mut w = World::matching(firebrand());
+        w.build.equipment.food = Some("91835".into());
+        assert_eq!(w.result("food").status, Status::Unknown);
+        assert_eq!(w.result("food").reason.as_deref(), Some("looking up item name"));
+        w.db.items.insert(91835, crate::gamedb::ItemInfo { name: label, ..Default::default() });
+        assert_eq!(w.result("food").status, Status::Pass);
+    }
+
+    #[test]
+    fn numeric_food_matches_mists_infused_variant() {
+        let mut w = World::matching(firebrand());
+        w.build.equipment.food = Some("91835".into());
+        w.db.items.insert(91835, crate::gamedb::ItemInfo { name: "Peppercorn-Crusted Sous-Vide Steak".into(), ..Default::default() });
+        w.live.active.clear();
+        w.live.active.insert(Consumables::bundled().find("Mists-Infused Peppercorn-Crusted Sous-Vide Steak").unwrap());
+        assert_eq!(w.result("food").status, Status::Pass);
+    }
 
     fn rendang() -> u32 {
         Consumables::bundled().find("Plate of Beef Rendang").unwrap()

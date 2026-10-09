@@ -105,6 +105,7 @@ impl GameDb {
                 w.items.extend(s.iter().copied());
             }
             w.items.extend(e.infusions.iter().copied());
+            w.items.extend([&e.food, &e.utility].into_iter().flatten().filter_map(|l| crate::model::consumable_item_id(l)));
             let skills = [b.skills.heal, b.skills.elite].into_iter().chain(b.skills.utilities);
             w.skills.extend(skills.filter(|id| *id != 0));
         }
@@ -193,6 +194,15 @@ mod tests {
     use crate::model::GearSlot;
     use crate::testutil::firebrand;
     use std::time::Instant;
+
+    #[test]
+    fn numeric_food_and_utility_are_wanted() {
+        let mut b = crate::testutil::firebrand();
+        b.equipment.food = Some("91835".into());
+        b.equipment.utility = Some("Superior Sharpening Stone".into());
+        let w = GameDb::default().wanted(Some(&b), None, &BTreeSet::new());
+        assert!(w.items.contains(&91835));
+    }
 
     fn snap(items: Vec<ApiItem>) -> ApiSnapshot {
         ApiSnapshot {

@@ -127,6 +127,12 @@ impl GearSlot {
     }
 }
 
+/// AxiForge links can give food/utility as an item ID ("91835") instead of a name.
+pub fn consumable_item_id(label: &str) -> Option<u32> {
+    let t = label.trim();
+    (!t.is_empty() && t.bytes().all(|b| b.is_ascii_digit())).then(|| t.parse::<u32>().ok()).flatten().filter(|v| *v != 0)
+}
+
 /// AxiForge weapon types that occupy both hands.
 pub fn is_two_handed(weapon: &str) -> bool {
     matches!(
@@ -383,6 +389,16 @@ impl Comp {
 mod tests {
     use super::*;
     use crate::raw::OneOrMany;
+
+    #[test]
+    fn consumable_labels_that_are_item_ids() {
+        assert_eq!(consumable_item_id("91835"), Some(91835));
+        assert_eq!(consumable_item_id(" 91835 "), Some(91835));
+        assert_eq!(consumable_item_id("0"), None);
+        assert_eq!(consumable_item_id("Plate of Beef Rendang"), None);
+        assert_eq!(consumable_item_id("12a"), None);
+        assert_eq!(consumable_item_id(""), None);
+    }
 
     fn map(pairs: &[(&str, &str)]) -> BTreeMap<String, String> {
         pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
