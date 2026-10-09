@@ -61,7 +61,8 @@ pub fn icon(ui: &Ui, t: &Tile, report: Option<&CheckReport>, style: TileStyle) -
             draw.add_rect([r.min[0], r.max[1] + 2.0], [r.max[0], r.max[1] + 5.0], theme::GOLD).filled(true).build();
         }
     }
-    if let Some(tone) = tone.filter(|t| *t != Tone::Ok) {
+    // Too small for the corner chip (it would cover the icon); the border carries the tone.
+    if let Some(tone) = tone.filter(|t| *t != Tone::Ok && style.size >= 24.0) {
         ui.get_window_draw_list().add_rect([r.max[0] - CHIP, r.min[1]], [r.max[0], r.min[1] + CHIP], theme::INK_LINE).filled(true).build();
         icons::draw_at(ui, [r.max[0] - CHIP, r.min[1]], tone, CHIP);
     }
@@ -110,19 +111,6 @@ pub fn tooltip(ui: &Ui, t: &Tile, report: Option<&CheckReport>) {
             ui.text_colored(icons::ink(r.mark_tone(m)), format!("{}{you} ({source}{age})", r.label));
         }
     });
-}
-
-/// The focus ring drawn around a target that has no tile of its own
-/// (e.g. the Infusions header): the same blinking gold as a pulsing tile
-/// border, laid just outside `r`.
-pub fn pulse_ring(ui: &Ui, r: Rect) {
-    let ring = r.inset(-3.0);
-    axi::outline_on(
-        &ui.get_window_draw_list(),
-        ring,
-        theme::BORDER_CONTROL,
-        theme::pulse(ui.time()),
-    );
 }
 
 pub fn clipped_text(ui: &Ui, text: &str, w: f32, color: [f32; 4]) {

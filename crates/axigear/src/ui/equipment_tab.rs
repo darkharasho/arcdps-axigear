@@ -91,7 +91,8 @@ fn infusion_chips(ui: &Ui, row: &GearRow, o: [f32; 2], mid: f32, report: &CheckR
 fn gear_row(ui: &Ui, row: &GearRow, report: &CheckReport, focus: Option<SlotKey>, tag: Option<&str>) {
     let o = ui.cursor_screen_pos();
     let line = ui.text_line_height();
-    let lines = 1 + row.upgrades.len().max(row.tile.sub.is_some() as usize);
+    let inline_stat = !row.upgrades.is_empty() && row.tile.sub.is_some();
+    let lines = 1 + row.upgrades.len().max((row.tile.sub.is_some() && !inline_stat) as usize);
     let h = ROW_ICON.max(lines as f32 * (line + 2.0));
     ui.set_cursor_screen_pos([o[0], o[1] + (h - ROW_ICON) / 2.0]);
     tile::icon(ui, &row.tile, Some(report), TileStyle { pulse: pulse(focus, row.tile.key), ..TileStyle::new(ROW_ICON) });
@@ -100,7 +101,7 @@ fn gear_row(ui: &Ui, row: &GearRow, report: &CheckReport, focus: Option<SlotKey>
     let text_w = (COL_W - ROW_ICON - 8.0 - chips_w - 6.0).max(40.0);
     let top = o[1] + (h - lines as f32 * (line + 2.0)) / 2.0;
     ui.set_cursor_screen_pos([text_x, top]);
-    let name = if row.tile.empty { "-".to_string() } else { match tag { Some(t) => format!("{} · {t}", row.tile.name), None => row.tile.name.clone() } };
+    let name = row.name_line(tag);
     tile::clipped_text(ui, &name, text_w, if row.tile.empty { theme::TEXT_FAINT } else { theme::TEXT });
     for (i, u) in row.upgrades.iter().enumerate() {
         let y = top + (i + 1) as f32 * (line + 2.0);

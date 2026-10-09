@@ -30,6 +30,24 @@ impl Default for Tile {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GearRow { pub tile: Tile, pub upgrades: Vec<Tile>, pub infusions: Vec<Tile> }
 
+impl GearRow {
+    /// Name-line text: "-" when empty; otherwise the name, the stat inline when
+    /// the row has upgrades (they take its sub-line), then the optional tag.
+    pub fn name_line(&self, tag: Option<&str>) -> String {
+        if self.tile.empty {
+            return "-".into();
+        }
+        let mut s = self.tile.name.clone();
+        if let (false, Some(stat)) = (self.upgrades.is_empty(), &self.tile.sub) {
+            s = format!("{s} · {stat}");
+        }
+        if let Some(t) = tag {
+            s = format!("{s} · {t}");
+        }
+        s
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct WeaponSet { pub label: &'static str, pub main: GearRow, pub off: Option<GearRow>, pub two_handed: bool }
 
@@ -331,5 +349,15 @@ mod tests {
         let l = Loadout::of(&b, &db, SpecDb::bundled());
         assert_eq!(l.food.name, "Plate of Beef Rendang");
         assert!(l.food.icon.is_some());
+    }
+
+    #[test]
+    fn stat_is_inline_only_when_upgrades_take_the_sub_line() {
+        let t = |name: &str| Tile { name: name.into(), empty: false, ..Tile::default() };
+        let row = |sub: Option<&str>, n: usize| GearRow { tile: Tile { sub: sub.map(String::from), ..t("Greatsword") }, upgrades: (0..n).map(|_| t("Sigil")).collect(), infusions: vec![] };
+        assert_eq!(row(Some("Berserker's"), 1).name_line(Some("two-handed")), "Greatsword · Berserker's · two-handed");
+        assert_eq!(row(Some("Berserker's"), 0).name_line(None), "Greatsword");
+        assert_eq!(row(None, 2).name_line(None), "Greatsword");
+        assert_eq!(GearRow { tile: Tile::default(), upgrades: vec![], infusions: vec![] }.name_line(Some("x")), "-");
     }
 }
