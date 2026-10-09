@@ -28,7 +28,7 @@ impl Default for Tile {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct GearRow { pub tile: Tile, pub upgrades: Vec<Tile> }
+pub struct GearRow { pub tile: Tile, pub upgrades: Vec<Tile>, pub infusions: Vec<Tile> }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct WeaponSet { pub label: &'static str, pub main: GearRow, pub off: Option<GearRow>, pub two_handed: bool }
@@ -53,9 +53,8 @@ pub struct Loadout {
     pub specs: Vec<SpecCard>,      // lines with id != 0
     pub armor: Vec<GearRow>,       // always 6, GearSlot::ARMOR order; upgrades = [rune] when set
     pub weapons: Vec<WeaponSet>,   // sets the build defines (A, then B)
-    pub trinkets: Vec<Tile>,       // Back, Acc1, Acc2, Amulet, Ring1, Ring2
+    pub trinkets: Vec<GearRow>,    // Back, Acc1, Acc2, Amulet, Ring1, Ring2
     pub relic: Tile,
-    pub infusions: Vec<Tile>,      // one per wanted infusion, key Infusions
     pub food: Tile,
     pub utility: Tile,
 }
@@ -92,12 +91,16 @@ impl Loadout {
             skill(4, "Elite", s.elite),
         ];
         let item = |key: SlotKey, label: &str, id: u32| {
-            tile(key, label, Some(db.item_name(id).map(String::from).unwrap_or_else(|| format!("item {id}"))), db.item_icon(id).map(String::from))
+            tile(key, label, Some(db.item_name(id).map(String::from).unwrap_or_else(|| format!("Item {id}"))), db.item_icon(id).map(String::from))
+        };
+        let infs = |slot: GearSlot| -> Vec<Tile> {
+            e.infusions_by_slot.get(&slot).map(|v| v.iter().map(|id| item(SlotKey::Infusion(*id), "Infusion", *id)).collect()).unwrap_or_default()
         };
         let gear = |slot: GearSlot| tile(SlotKey::Gear(slot), short_label(slot), e.stats.get(&slot).cloned(), gear_icon(slot, weight).map(String::from));
         let armor = GearSlot::ARMOR.iter().map(|&slot| GearRow {
             tile: gear(slot),
             upgrades: e.runes.get(&slot).map(|id| vec![item(SlotKey::Rune(slot), "Rune", *id)]).unwrap_or_default(),
+            infusions: infs(slot),
         }).collect();
         let weapon_row = |slot: GearSlot, w: &str| {
             let mut t = tile(SlotKey::Gear(slot), short_label(slot), Some(w.to_string()), weapon_icon(w).map(String::from));
@@ -105,7 +108,7 @@ impl Loadout {
                 t.sub = Some(stat.clone());
             }
             let upgrades = e.sigils.get(slot).iter().enumerate().map(|(i, id)| item(SlotKey::Sigil(slot, i as u8), "Sigil", *id)).collect();
-            GearRow { tile: t, upgrades }
+            GearRow { tile: t, upgrades, infusions: infs(slot) }
         };
         let mut weapons = Vec::new();
         for (label, main_slot, off_slot) in [("A", GearSlot::WeaponA1, GearSlot::WeaponA2), ("B", GearSlot::WeaponB1, GearSlot::WeaponB2)] {
@@ -116,21 +119,31 @@ impl Loadout {
             let two_handed = main.is_some_and(is_two_handed);
             let main_row = match main {
                 Some(w) => weapon_row(main_slot, w),
-                None => GearRow { tile: tile(SlotKey::Gear(main_slot), "Main", None, None), upgrades: vec![] },
+                None => GearRow { tile: tile(SlotKey::Gear(main_slot), "Main", None, None), upgrades: vec![], infusions: vec![] },
             };
             let off_row = if two_handed { None } else { off.map(|w| weapon_row(off_slot, w)) };
             weapons.push(WeaponSet { label, main: main_row, off: off_row, two_handed });
         }
-        let trinkets = [GearSlot::Back, GearSlot::Accessory1, GearSlot::Accessory2, GearSlot::Amulet, GearSlot::Ring1, GearSlot::Ring2].map(gear).to_vec();
+        let trinkets = [GearSlot::Back, GearSlot::Accessory1, GearSlot::Accessory2, GearSlot::Amulet, GearSlot::Ring1, GearSlot::Ring2].map(|slot| GearRow { tile: gear(slot), upgrades: vec![], infusions: infs(slot) }).to_vec();
         let named_tile = |key: SlotKey, label: &str, kind: NamedKind, want: &Option<String>| {
             let hit = want.as_deref().and_then(|n| named(kind, n));
             let mut t = tile(key, label, want.clone(), hit.map(|h| h.icon.clone()));
             t.sub = hit.map(|h| h.buff.clone()).filter(|b| !b.is_empty());
             t
         };
+        let consumable = |key: SlotKey, label: &str, kind: NamedKind, want: &Option<String>| {
+            let name: Option<String> = want.as_ref().map(|w| match crate::model::consumable_item_id(w) {
+                Some(id) => db.item_name(id).map(String::from).unwrap_or_else(|| format!("Item {id}")),
+                None => w.clone(),
+            });
+            let hit = name.as_deref().and_then(|n| named(kind, n));
+            let icon = hit.map(|h| h.icon.clone()).or_else(|| want.as_deref().and_then(crate::model::consumable_item_id).and_then(|id| db.item_icon(id)).map(String::from));
+            let mut t = tile(key, label, name, icon);
+            t.sub = hit.map(|h| h.buff.clone()).filter(|b| !b.is_empty());
+            t
+        };
         let mut relic = named_tile(SlotKey::Relic, "Relic", NamedKind::Relic, &e.relic);
         relic.name = relic.name.trim_start_matches("Relic of the ").trim_start_matches("Relic of ").to_string();
-        let infusions = e.infusions.iter().map(|id| item(SlotKey::Infusions, "Infusion", *id)).collect();
         let specs_cards = build.specs.iter().enumerate().filter(|(_, l)| l.id != 0).map(|(i, line)| {
             let info = specs.get(line.id);
             let tinfo = |t: u32| specs.trait_info(line.id, t);
@@ -167,9 +180,8 @@ impl Loadout {
             weapons,
             trinkets,
             relic,
-            infusions,
-            food: named_tile(SlotKey::Food, "Food", NamedKind::Food, &e.food),
-            utility: named_tile(SlotKey::Utility, "Utility", NamedKind::Utility, &e.utility),
+            food: consumable(SlotKey::Food, "Food", NamedKind::Food, &e.food),
+            utility: consumable(SlotKey::Utility, "Utility", NamedKind::Utility, &e.utility),
         }
     }
 }
@@ -264,7 +276,7 @@ mod tests {
         b.equipment.stats.remove(&GearSlot::Back);
         let l = Loadout::of(&b, &GameDb::default(), SpecDb::bundled());
         assert!(l.relic.empty && l.food.empty);
-        assert!(l.trinkets[0].empty, "Back first");
+        assert!(l.trinkets[0].tile.empty, "Back first");
     }
 
     #[test]
@@ -278,5 +290,46 @@ mod tests {
         if b.equipment.relic.is_some() {
             assert!(l.relic.icon.is_some(), "relic {:?}", b.equipment.relic);
         }
+    }
+
+    #[test]
+    fn rows_carry_their_own_infusions() {
+        let b = firebrand();
+        let l = Loadout::of(&b, &db_with_icons(&b), SpecDb::bundled());
+        let all_rows = l.armor.iter().chain(l.trinkets.iter()).chain(l.weapons.iter().flat_map(|s| std::iter::once(&s.main).chain(s.off.iter())));
+        let mut ids: Vec<u32> = all_rows.flat_map(|r| r.infusions.iter()).map(|t| match t.key { SlotKey::Infusion(id) => id, k => panic!("{k:?}") }).collect();
+        ids.sort_unstable();
+        assert_eq!(ids, b.equipment.infusions);
+        assert!(l.trinkets.iter().find(|r| r.tile.key == SlotKey::Gear(GearSlot::Amulet)).unwrap().infusions.is_empty());
+    }
+
+    #[test]
+    fn trinkets_are_rows_in_slot_order() {
+        let b = firebrand();
+        let l = Loadout::of(&b, &GameDb::default(), SpecDb::bundled());
+        let keys: Vec<SlotKey> = l.trinkets.iter().map(|r| r.tile.key).collect();
+        assert_eq!(keys, [GearSlot::Back, GearSlot::Accessory1, GearSlot::Accessory2, GearSlot::Amulet, GearSlot::Ring1, GearSlot::Ring2].map(SlotKey::Gear));
+    }
+
+    #[test]
+    fn empty_set_b_has_no_rows() {
+        let mut b = firebrand();
+        b.equipment.weapons.b1 = None;
+        b.equipment.weapons.b2 = None;
+        let l = Loadout::of(&b, &GameDb::default(), SpecDb::bundled());
+        assert!(l.weapons.iter().all(|s| s.label != "B"));
+    }
+
+    #[test]
+    fn numeric_food_tile_shows_the_item_name() {
+        let mut b = firebrand();
+        b.equipment.food = Some("91835".into());
+        let mut db = GameDb::default();
+        let l = Loadout::of(&b, &db, SpecDb::bundled());
+        assert_eq!(l.food.name, "Item 91835");
+        db.items.insert(91835, ItemInfo { name: "Plate of Beef Rendang".into(), icon: Some("https://render.guildwars2.com/i/91835.png".into()), icon_checked: true, ..Default::default() });
+        let l = Loadout::of(&b, &db, SpecDb::bundled());
+        assert_eq!(l.food.name, "Plate of Beef Rendang");
+        assert!(l.food.icon.is_some());
     }
 }
