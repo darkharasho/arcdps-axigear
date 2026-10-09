@@ -82,10 +82,12 @@ fn header(ui: &Ui, snap: &UiSnapshot) {
         ui.text("Comp:");
         ui.same_line();
         let names: Vec<&str> = snap.comps.iter().map(|r| r.name.as_str()).collect();
-        let mut idx = snap.comps.iter().position(|r| r.active).unwrap_or(0);
+        let mut idx = snap.comps.iter().position(|r| r.active);
         ui.set_next_item_width(220.0);
-        if super::axi::combo(ui, "##axigear-comp-pick", &names, &mut idx, theme::GOLD) && !snap.comps[idx].active {
-            send(Command::UseComp(snap.comps[idx].input.clone()));
+        if super::axi::combo(ui, "##axigear-comp-pick", &names, &mut idx, theme::GOLD) {
+            if let Some(i) = idx.filter(|&i| !snap.comps[i].active) {
+                send(Command::UseComp(snap.comps[i].input.clone()));
+            }
         }
         if h.offline {
             ui.same_line();

@@ -590,6 +590,12 @@ impl Driver {
                     if let Some(LoadedComp { origin: CompOrigin::Link { fetched_at_unix, .. }, .. }) = &mut self.session.comp {
                         *fetched_at_unix = unix_now();
                     }
+                    // The options row reads the library copy, so keep its age in step.
+                    if let Some(active) = self.settings.active_comp.clone() {
+                        if let Some(LoadedComp { origin: CompOrigin::Link { fetched_at_unix, .. }, .. }) = self.library.iter_mut().find(|c| c.input == active) {
+                            *fetched_at_unix = unix_now();
+                        }
+                    }
                     return;
                 };
                 let (etag, link) = match fresh {
@@ -794,6 +800,26 @@ mod tests {
         d.handle(firebrand_in(2), t0 + Duration::from_secs(603));
         d.tick(t0 + Duration::from_secs(604));
         assert_eq!(calls_to(&http, RAW), 3, "map change polls");
+    }
+
+    #[test]
+    fn a_304_refreshes_the_active_rows_fetched_age() {
+        let (http, dir, t0) = setup();
+        http.on_etag(RAW, 200, &fixture("comp-tuesday.enc"), "\"v1\"").on(RAW, 304, "");
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(link()), t0);
+        // Pretend the fetch happened long ago, in both copies.
+        for c in d.library.iter_mut().chain(d.session.comp.iter_mut()) {
+            if let CompOrigin::Link { fetched_at_unix, .. } = &mut c.origin {
+                *fetched_at_unix = 1000;
+            }
+        }
+        d.tick(t0 + Duration::from_secs(601));
+        assert_eq!(calls_to(&http, RAW), 2);
+        let snap = d.snapshot(t0 + Duration::from_secs(601));
+        let row = snap.comps.iter().find(|r| r.active).unwrap();
+        assert_eq!(row.source, snap.header.source);
+        assert!(!row.source.contains("fetched 2"), "{}", row.source);
     }
 
     #[test]
@@ -1216,15 +1242,15 @@ mod tests {
         let (http, dir, t0) = setup();
         let mut d = driver(&http, &dir, t0);
         d.handle(Command::LoadInput(code_a()), t0);
-        d.handle(firebrand_in(1), t0);
-        let pick = d.snapshot(t0).picker.iter().find(|p| p.enabled && !p.current).map(|p| p.slot);
-        if let Some(slot) = pick {
-            d.handle(Command::Pick(slot), t0);
-        }
+        d.handle(mumble("Tester", 8, 53, 1), t0);
+        let slot = SlotRef { line: 1, slot: 1, build: 2 };
+        d.handle(Command::Pick(slot), t0);
+        assert_eq!(d.session().assignment, Assignment::Manual(slot), "pick took effect");
         let before = d.snapshot(t0).header.slot_label.clone();
         d.handle(Command::LoadInput(code_b()), t0);
         d.handle(Command::UseComp(code_a()), t0);
         assert_eq!(d.snapshot(t0).header.slot_label, before);
+        assert_eq!(d.session().assignment, Assignment::Manual(slot), "pick survived the round trip");
     }
 
     #[test]

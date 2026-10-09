@@ -28,11 +28,11 @@ fn check(ctx: &Ctx, kind: ConsumableKind, want: Option<&str>) -> Vec<CheckResult
                 resolved.as_str()
             }
             None => {
-                let (cat, id_s, label) = match kind {
-                    ConsumableKind::Food => (Category::Food, "food", "Food"),
-                    ConsumableKind::Utility => (Category::Utility, "utility", "Utility"),
+                let (cat, id_s, label, key) = match kind {
+                    ConsumableKind::Food => (Category::Food, "food", "Food", SlotKey::Food),
+                    ConsumableKind::Utility => (Category::Utility, "utility", "Utility", SlotKey::Utility),
                 };
-                return vec![CheckResult::new(cat, id_s, label, Status::Unknown, format!("Item {id}")).with_reason("looking up item name")];
+                return vec![CheckResult::new(cat, id_s, label, Status::Unknown, format!("Item {id}")).with_reason("looking up item name").mark(key, Status::Unknown, None)];
             }
         },
     };
@@ -74,6 +74,7 @@ mod tests {
         w.build.equipment.food = Some("91835".into());
         assert_eq!(w.result("food").status, Status::Unknown);
         assert_eq!(w.result("food").reason.as_deref(), Some("looking up item name"));
+        assert!(w.result("food").marks.iter().any(|m| m.key == SlotKey::Food && m.status == Status::Unknown));
         w.db.items.insert(91835, crate::gamedb::ItemInfo { name: label, ..Default::default() });
         assert_eq!(w.result("food").status, Status::Pass);
     }

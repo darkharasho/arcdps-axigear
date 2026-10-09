@@ -349,7 +349,10 @@ pub fn chip(
 /// hover, and a popup that is a blocked panel rather than a bare fill.
 ///
 /// Returns true when the selection changed, and writes the new index to
-/// `current`, so it drops in where `combo_simple_string` was.
+/// `current`, so it drops in where `combo_simple_string` was. `current`
+/// is `None` when nothing is selected: the preview then reads `none` and
+/// no row is highlighted. Labels may repeat; each row carries its index
+/// as its id.
 ///
 /// imgui's own combo is a flat `FrameBg` rectangle and its popup a flat
 /// `PopupBg` one — no outline, no block, which is rule 3's exception
@@ -363,9 +366,9 @@ pub fn chip(
 /// and a lift that arrives a frame late reads as lag on a control the
 /// cursor is resting on.
 #[cfg(windows)]
-pub fn combo(ui: &Ui, id: &str, items: &[&str], current: &mut usize, accent: [f32; 4]) -> bool {
+pub fn combo(ui: &Ui, id: &str, items: &[&str], current: &mut Option<usize>, accent: [f32; 4]) -> bool {
     if items.is_empty() { return false; }
-    let idx = (*current).min(items.len() - 1);
+    let idx = current.map(|c| c.min(items.len() - 1));
 
     let control = Rect::at(ui.cursor_screen_pos(), [ui.calc_item_width(), ui.frame_height()]);
     card(ui, control, theme::SURFACE, ui.is_mouse_hovering_rect(control.min, control.max));
@@ -387,14 +390,14 @@ pub fn combo(ui: &Ui, id: &str, items: &[&str], current: &mut usize, accent: [f3
     ];
 
     let mut changed = false;
-    if let Some(popup) = ui.begin_combo(id, items[idx]) {
+    if let Some(popup) = ui.begin_combo(id, idx.map_or("none", |i| items[i])) {
         // The popup is its own imgui window with its own draw list, so
         // this is the same inward panel the top-level windows draw, for
         // the same reason: a block outside the window is clipped away.
         panel_inward(ui, Rect::at(ui.window_pos(), ui.window_size()), theme::SURFACE);
 
         for (i, item) in items.iter().enumerate() {
-            let selected = i == idx;
+            let selected = idx == Some(i);
             // Near-black on the accent, for the same reason a bar label
             // over its fill is: the accent is a full-strength ink and
             // TEXT does not survive on it.
@@ -402,10 +405,12 @@ pub fn combo(ui: &Ui, id: &str, items: &[&str], current: &mut usize, accent: [f3
                 StyleColor::Text,
                 if selected { theme::ACCENT_INK } else { theme::TEXT },
             );
+            let row_id = ui.push_id_usize(i);
             if ui.selectable_config(item).selected(selected).build() {
-                *current = i;
+                *current = Some(i);
                 changed = true;
             }
+            row_id.end();
             ink.end();
         }
 
