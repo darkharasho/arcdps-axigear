@@ -64,7 +64,10 @@ fn spec_card(ui: &Ui, c: &SpecCard, report: &CheckReport, focus: Option<SlotKey>
     {
         let draw = ui.get_window_draw_list();
         if let Some(bg) = c.background.as_deref().and_then(textures::get) {
+            let (uv_min, uv_max) = super::texture_rules::spec_background_uv([w, CARD_H]);
             draw.add_image(bg.tex, r.min, r.max)
+                .uv_min(uv_min)
+                .uv_max(uv_max)
                 .col(theme::with_alpha(theme::TINT_DIM, 0.35))
                 .build();
         }
