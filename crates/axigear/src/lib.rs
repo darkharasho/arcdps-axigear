@@ -3,10 +3,12 @@
 
 #[cfg(windows)]
 #[global_allocator]
-static GLOBAL_ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+static GLOBAL_ALLOC: private_heap::PrivateHeap = private_heap::PrivateHeap;
 
 pub mod hotkey;
 pub mod http;
+#[cfg(windows)]
+mod private_heap;
 pub mod ui;
 pub mod updater;
 pub mod worker;
