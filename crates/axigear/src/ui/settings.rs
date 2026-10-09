@@ -25,37 +25,60 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
     ui.input_text_multiline("##axigear-comp", &mut state.comp_input, [420.0, 60.0]).build();
     if ui.button("Load") {
         send(Command::LoadInput(state.comp_input.clone()));
-    }
-    ui.same_line();
-    if ui.button("Unsubscribe") {
         state.comp_input.clear();
-        if let Some(active) = &s.active_comp {
-            send(Command::Unsubscribe(active.clone()));
-        }
     }
     if let Some(e) = &snap.load_error {
         ui.text_colored(theme::DANGER, e);
     }
-    if let Some(name) = &snap.header.comp_name {
-        ui.text_colored(theme::TEXT_DIM, format!("Current: {name} ({})", snap.header.source));
-    }
     ui.text_colored(theme::TEXT_FAINT, "Paste an AxiForge comp or build code, or a published comp link.");
+    if snap.comps.is_empty() {
+        ui.text_colored(theme::TEXT_FAINT, "No saved comps.");
+    }
+    for row in &snap.comps {
+        let _id = ui.push_id(row.input.as_str());
+        ui.text_colored(if row.active { theme::GOLD } else { theme::TEXT }, &row.name);
+        ui.same_line();
+        ui.text_colored(theme::TEXT_FAINT, &row.source);
+        if row.active {
+            ui.same_line();
+            ui.text_colored(theme::GOLD, "· in use");
+        } else {
+            ui.same_line();
+            if ui.small_button("Use") {
+                send(Command::UseComp(row.input.clone()));
+            }
+        }
+        ui.same_line();
+        if ui.small_button("Refresh") {
+            send(Command::RefreshComp(row.input.clone()));
+        }
+        ui.same_line();
+        if ui.small_button("Unsubscribe") {
+            send(Command::Unsubscribe(row.input.clone()));
+        }
+        if let Some(e) = &row.error {
+            ui.text_colored(theme::WARN, e);
+        }
+    }
 
     heading(ui, "GW2 API KEY");
     ui.set_next_item_width(320.0);
     ui.input_text("##axigear-key", &mut state.api_key).password(true).build();
-    ui.same_line();
-    if ui.button("Save##key") {
-        send(Command::SetApiKey(state.api_key.clone()));
+    if ui.is_item_deactivated_after_edit() {
+        for c in super::key_edit::commit_commands(&state.api_key, &s.api_key, false) {
+            send(c);
+        }
     }
     ui.same_line();
     if ui.button("Test##key") {
-        send(Command::TestKey);
+        for c in super::key_edit::commit_commands(&state.api_key, &s.api_key, true) {
+            send(c);
+        }
     }
-    if let Some(result) = &snap.key_test {
-        ui.text_colored(if result.starts_with("key ok") { theme::OK } else { theme::WARN }, result);
+    if let Some((line, ok)) = super::key_edit::status(&state.api_key, &s.api_key, snap.key_test.as_deref()) {
+        ui.text_colored(if ok { theme::OK } else { theme::WARN }, line);
     }
-    ui.text_colored(theme::TEXT_FAINT, "Needs the characters and builds permissions. Stored in plain text in addons/axigear/config.json.");
+    ui.text_colored(theme::TEXT_FAINT, "Saved when you leave the field. Needs the characters and builds permissions. Stored in plain text in addons/axigear/config.json.");
 
     heading(ui, "SEVERITY");
     let labels: Vec<&str> = SeveritySetting::ALL.iter().map(|x| x.label()).collect();

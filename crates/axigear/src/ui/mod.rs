@@ -3,6 +3,7 @@
 
 pub mod axi;
 pub mod focus;
+pub mod key_edit;
 pub mod texture_rules;
 pub mod theme;
 

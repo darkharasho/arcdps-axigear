@@ -76,23 +76,29 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
 
 fn header(ui: &Ui, snap: &UiSnapshot) {
     let h = &snap.header;
-    match &h.comp_name {
-        Some(name) => {
-            ui.text(format!("Comp: \"{name}\" ({})", h.source));
-            if h.offline {
-                ui.same_line();
-                ui.text_colored(theme::WARN, "offline");
-            }
-            if h.source.starts_with("link") {
-                ui.same_line();
-                if ui.small_button("Refresh##comp") {
-                    if let Some(active) = &snap.settings.active_comp {
-                        send(Command::RefreshComp(active.clone()));
-                    }
+    if snap.comps.is_empty() {
+        ui.text_colored(theme::TEXT_FAINT, "Comp: none");
+    } else {
+        ui.text("Comp:");
+        ui.same_line();
+        let names: Vec<&str> = snap.comps.iter().map(|r| r.name.as_str()).collect();
+        let mut idx = snap.comps.iter().position(|r| r.active).unwrap_or(0);
+        ui.set_next_item_width(220.0);
+        if super::axi::combo(ui, "##axigear-comp-pick", &names, &mut idx, theme::GOLD) && !snap.comps[idx].active {
+            send(Command::UseComp(snap.comps[idx].input.clone()));
+        }
+        if h.offline {
+            ui.same_line();
+            ui.text_colored(theme::WARN, "offline");
+        }
+        if h.source.starts_with("link") {
+            ui.same_line();
+            if ui.small_button("Refresh##comp") {
+                if let Some(active) = &snap.settings.active_comp {
+                    send(Command::RefreshComp(active.clone()));
                 }
             }
         }
-        None => ui.text_colored(theme::TEXT_FAINT, "Comp: none"),
     }
 
     match (&h.slot_label, &h.note) {
