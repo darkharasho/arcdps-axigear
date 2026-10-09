@@ -220,6 +220,8 @@ pub struct Equipment {
     pub utility: Option<String>,
     /// Every land infusion item ID, sorted. Weapons count 2 slots two-handed, 1 otherwise.
     pub infusions: Vec<u32>,
+    /// Land infusion IDs per slot (capacity applied); slots without any are absent.
+    pub infusions_by_slot: BTreeMap<GearSlot, Vec<u32>>,
 }
 
 impl Equipment {
@@ -265,6 +267,7 @@ impl Equipment {
         let sigils = Sigils { a1: sigil("mainhand1"), a2: sigil("offhand1"), b1: sigil("mainhand2"), b2: sigil("offhand2") };
 
         let mut infusions = Vec::new();
+        let mut infusions_by_slot = BTreeMap::new();
         for slot in GearSlot::ALL {
             let capacity = match slot {
                 s if s.is_weapon() => match weapons.get(s) {
@@ -278,7 +281,11 @@ impl Equipment {
                 _ => 1,
             };
             if let Some(v) = raw.infusions.get(slot.axiforge_key()) {
-                infusions.extend(v.as_slice().iter().take(capacity).filter_map(|s| id(s)));
+                let ids: Vec<u32> = v.as_slice().iter().take(capacity).filter_map(|s| id(s)).collect();
+                if !ids.is_empty() {
+                    infusions.extend(ids.iter().copied());
+                    infusions_by_slot.insert(slot, ids);
+                }
             }
         }
         infusions.sort_unstable();
@@ -292,6 +299,7 @@ impl Equipment {
             food: text(&raw.food),
             utility: text(&raw.utility),
             infusions,
+            infusions_by_slot,
         }
     }
 }
@@ -470,6 +478,19 @@ mod tests {
         let eq = Equipment::from_raw(&greatsword_axe());
         // head 1 + back 1 (blank dropped) + greatsword 2 + axe capped to 1; offhand2 has no weapon.
         assert_eq!(eq.infusions, vec![49432; 5]);
+    }
+
+    #[test]
+    fn infusions_are_kept_per_slot() {
+        let b = crate::testutil::firebrand();
+        let e = &b.equipment;
+        let total: usize = e.infusions_by_slot.values().map(Vec::len).sum();
+        assert_eq!(total, e.infusions.len());
+        let mut flat: Vec<u32> = e.infusions_by_slot.values().flatten().copied().collect();
+        flat.sort_unstable();
+        assert_eq!(flat, e.infusions);
+        assert!(e.infusions_by_slot.get(&GearSlot::Amulet).is_none());
+        assert!(e.infusions_by_slot.values().all(|v| !v.is_empty()));
     }
 
     fn build(profession: &str) -> Build {

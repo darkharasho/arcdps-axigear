@@ -298,7 +298,22 @@ pub fn infusions(ctx: &Ctx, snap: &ApiSnapshot) -> Vec<CheckResult> {
     }
     match want.iter().chain(&have).find(|id| ctx.db.item_name(**id).is_none()) {
         Some(id) => vec![row(Status::Unknown).with_reason(format!("couldn't resolve item {id}")).mark(SlotKey::Infusions, Status::Unknown, None)],
-        None => vec![row(Status::Fail).mark(SlotKey::Infusions, Status::Fail, Some(actual.clone()))],
+        None => {
+            let mut r = row(Status::Fail).mark(SlotKey::Infusions, Status::Fail, Some(actual.clone()));
+            let mut seen = Vec::new();
+            for id in want {
+                let k = key(id);
+                if seen.contains(&k) {
+                    continue;
+                }
+                let (w, h) = (want_keys.iter().filter(|x| **x == k).count(), have_keys.iter().filter(|x| **x == k).count());
+                if h < w {
+                    r = r.mark(SlotKey::Infusion(*id), Status::Fail, Some(format!("wearing {h} of {w}")));
+                }
+                seen.push(k);
+            }
+            vec![r]
+        }
     }
 }
 
@@ -320,6 +335,24 @@ mod tests {
             assert_eq!(w.result(id).status, Status::Pass, "{id}: {:?}", w.result(id));
         }
         assert_eq!(w.result("weapons.A").expected, "mace + shield");
+    }
+
+    #[test]
+    fn a_short_infusion_is_marked_by_id() {
+        use crate::report::SlotKey;
+        let mut w = World::matching(firebrand());
+        let want = firebrand().equipment.infusions.clone();
+        let a = want[0];
+        let b = 49_999u32;
+        w.db.items.insert(b, crate::gamedb::ItemInfo { name: "Other Infusion".into(), ..Default::default() });
+        let head = w.item_mut(GearSlot::Head);
+        let pos = head.infusions.iter().position(|x| *x == a).unwrap();
+        head.infusions[pos] = b;
+        let r = w.result("infusions");
+        assert_eq!(r.status, Status::Fail);
+        assert_eq!(r.marks[0].key, SlotKey::Infusions, "row mark stays first for problem clicks");
+        assert!(r.marks.iter().any(|m| m.key == SlotKey::Infusion(a) && m.status == Status::Fail));
+        assert!(!r.marks.iter().any(|m| m.key == SlotKey::Infusion(b)));
     }
 
     #[test]

@@ -49,6 +49,8 @@ pub enum SlotKey {
     Rune(GearSlot),
     Sigil(GearSlot, u8),
     Infusions,
+    /// One wanted infusion item (Equipment tab chips); marked only when short.
+    Infusion(u32),
     Skill(u8),               // 0 heal, 1..=3 utilities, 4 elite
     Trait { line: u8, tier: u8 }, // line = index into Build.specs (0..3); tier 0..3
     Spec(u8),                // line 0..3
