@@ -3,6 +3,7 @@
 
 pub mod axicode;
 pub mod checks;
+pub mod comp_library;
 pub mod consumables;
 pub mod driver;
 pub mod fsutil;
