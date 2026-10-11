@@ -12,6 +12,10 @@ Drop `arcdps_axigear.dll` next to your other arcdps addons and start GW2.
 2. axigear matches your slot from your current spec (pick manually when several fit;
    the pick is remembered per comp and character).
 3. The badge shows ✓ / ⚠ / ✗; click it (or Ctrl+Shift+G) for the checklist.
+4. A problem that doesn't matter to you can be dismissed with its × button; it stops
+   counting for that comp. "N dismissed" in the checklist lists them for restoring.
+5. To hide the badge entirely, untick **Show badge** in the options; the checklist
+   still opens from the hotkey or arcdps's window list.
 
 ## GW2 API key
 Gear, traits and skill-bar checks need a GW2 API key with the **characters** and

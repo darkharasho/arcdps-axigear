@@ -267,9 +267,20 @@ pub struct CheckReport {
     pub slot: SlotRef,
     pub slot_label: String,
     pub results: Vec<CheckResult>,
+    /// Results the player dismissed for this comp; kept out of `results`, so
+    /// they count toward nothing and mark no slots.
+    #[serde(default)]
+    pub dismissed: Vec<CheckResult>,
 }
 
 impl CheckReport {
+    /// Move results whose id is in `ids` into `dismissed`.
+    pub fn dismiss(&mut self, ids: &std::collections::BTreeSet<String>) {
+        let (dismissed, kept) = std::mem::take(&mut self.results).into_iter().partition(|r| ids.contains(&r.id));
+        self.results = kept;
+        self.dismissed = dismissed;
+    }
+
     pub fn summary(&self) -> Summary {
         Summary::of(&self.results)
     }
@@ -457,6 +468,7 @@ mod tests {
             slot: SlotRef { line: 0, slot: 0, build: 0 },
             slot_label: "Party 1 · Quickbrand".into(),
             results: vec![r(Status::Fail, Severity::Required).with_actual("4/6")],
+            dismissed: vec![],
         };
         let json = serde_json::to_string(&report).unwrap();
         assert_eq!(serde_json::from_str::<CheckReport>(&json).unwrap(), report);
@@ -477,6 +489,7 @@ mod tests {
                 mk(Category::Runes, Status::Fail, Severity::Required),
                 mk(Category::Runes, Status::Pass, Severity::Required),
             ],
+            dismissed: vec![],
         };
         let order: Vec<(Category, Tone, usize)> = report.groups().iter().map(|g| (g.category, g.tone, g.results.len())).collect();
         assert_eq!(
@@ -501,7 +514,20 @@ mod tests {
     }
 
     fn report_with(results: Vec<CheckResult>) -> CheckReport {
-        CheckReport { comp_key: "k".into(), comp_name: "c".into(), slot: SlotRef { line: 0, slot: 0, build: 0 }, slot_label: "s".into(), results }
+        CheckReport { comp_key: "k".into(), comp_name: "c".into(), slot: SlotRef { line: 0, slot: 0, build: 0 }, slot_label: "s".into(), results, dismissed: vec![] }
+    }
+
+    #[test]
+    fn dismissed_results_leave_the_summary_and_the_marks() {
+        let k = SlotKey::Gear(GearSlot::WeaponB1);
+        let a = CheckResult::new(Category::Weapons, "weapons.A", "Weapons A", Status::Pass, "x");
+        let b = CheckResult::new(Category::Weapons, "weapons.B", "Weapons B", Status::Fail, "x").mark(k, Status::Fail, None);
+        let mut rep = report_with(vec![a, b]);
+        rep.dismiss(&["weapons.B".to_string()].into());
+        assert_eq!(rep.results.iter().map(|r| r.id.as_str()).collect::<Vec<_>>(), ["weapons.A"]);
+        assert_eq!(rep.dismissed.iter().map(|r| r.id.as_str()).collect::<Vec<_>>(), ["weapons.B"]);
+        assert_eq!(rep.summary().fails(), 0);
+        assert_eq!(rep.worst(k, &[]), None);
     }
 
     #[test]

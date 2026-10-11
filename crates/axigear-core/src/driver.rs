@@ -55,6 +55,8 @@ pub enum SettingsPatch {
     AutoUpdate(bool),
     DebugLogging(bool),
     LoadoutTab(crate::report::Tab),
+    /// Dismiss (true) or restore (false) a check id for a comp key.
+    Dismiss { comp_key: String, id: String, dismissed: bool },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -124,7 +126,7 @@ impl UiSnapshot {
     /// Hidden in combat (unless configured otherwise) and, optionally, outside the comp's game mode.
     pub fn badge_visible(&self) -> bool {
         let b = &self.settings.badge;
-        if b.hide_in_combat && self.in_combat {
+        if b.hidden || (b.hide_in_combat && self.in_combat) {
             return false;
         }
         !(b.matching_mode_only && matches!((self.map_mode, self.comp_mode), (Some(m), Some(c)) if m != c))
@@ -304,6 +306,17 @@ impl Driver {
                     SettingsPatch::AutoUpdate(v) => self.settings.auto_update_check = v,
                     SettingsPatch::DebugLogging(v) => self.settings.debug_logging = v,
                     SettingsPatch::LoadoutTab(t) => self.settings.loadout_tab = t,
+                    SettingsPatch::Dismiss { comp_key, id, dismissed: true } => {
+                        self.settings.dismissed.entry(comp_key).or_default().insert(id);
+                    }
+                    SettingsPatch::Dismiss { comp_key, id, dismissed: false } => {
+                        if let Some(ids) = self.settings.dismissed.get_mut(&comp_key) {
+                            ids.remove(&id);
+                            if ids.is_empty() {
+                                self.settings.dismissed.remove(&comp_key);
+                            }
+                        }
+                    }
                 }
                 self.save_settings();
             }
@@ -398,7 +411,11 @@ impl Driver {
     }
 
     fn report(&self, now: Instant) -> Option<CheckReport> {
-        self.session.report(SpecDb::bundled(), Consumables::bundled(), &self.settings.severities, now)
+        let mut report = self.session.report(SpecDb::bundled(), Consumables::bundled(), &self.settings.severities, now)?;
+        if let Some(ids) = self.settings.dismissed.get(&report.comp_key) {
+            report.dismiss(ids);
+        }
+        Some(report)
     }
 
     fn record_save(&mut self, file: &str, result: std::io::Result<()>) {
@@ -1068,6 +1085,32 @@ mod tests {
         assert!(!d.snapshot(t0).badge_visible(), "hidden in combat by default");
         d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings { hide_in_combat: false, ..Default::default() })), t0);
         assert!(d.snapshot(t0).badge_visible());
+        d.handle(Command::Settings(SettingsPatch::Badge(BadgeSettings { hidden: true, hide_in_combat: false, ..Default::default() })), t0);
+        assert!(!d.snapshot(t0).badge_visible(), "hidden by the player");
+    }
+
+    #[test]
+    fn dismissed_checks_stop_counting_and_persist() {
+        let (http, dir, t0) = setup();
+        let mut d = driver(&http, &dir, t0);
+        d.handle(Command::LoadInput(fixture("comp-tuesday.txt")), t0);
+        d.handle(firebrand_in(1), t0);
+        d.handle(Command::Live(LiveEvent::BuffApply { id: 717, initial: true }), t0);
+        let t1 = t0 + Duration::from_secs(31); // grace over: food is a definite fail
+        let report = d.snapshot(t1).report.unwrap();
+        let food = report.results.iter().find(|r| r.category == Category::Food && r.status == Status::Fail).unwrap().id.clone();
+        let fails = report.summary().fails();
+        let dismiss = |dismissed| Command::Settings(SettingsPatch::Dismiss { comp_key: report.comp_key.clone(), id: food.clone(), dismissed });
+
+        d.handle(dismiss(true), t1);
+        let after = d.snapshot(t1).report.unwrap();
+        assert_eq!(after.summary().fails(), fails - 1);
+        assert!(after.dismissed.iter().any(|r| r.id == food));
+        assert!(Settings::load(&dir.path().join("config.json")).dismissed[&report.comp_key].contains(&food));
+
+        d.handle(dismiss(false), t1);
+        assert_eq!(d.snapshot(t1).report.unwrap().summary().fails(), fails);
+        assert!(d.snapshot(t1).settings.dismissed.is_empty());
     }
 
     const MEMBER_BASE: &str = "https://raw.githubusercontent.com/teammate/axibuilds/main/site/builds/";

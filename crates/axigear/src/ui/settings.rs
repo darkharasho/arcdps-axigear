@@ -92,7 +92,14 @@ pub fn render(ui: &Ui, snap: &UiSnapshot, state: &mut UiState) {
 
     heading(ui, "BADGE");
     let mut b: BadgeSettings = state.badge_settings(snap);
-    let mut changed = ui.checkbox("Hide in combat", &mut b.hide_in_combat);
+    let mut shown = !b.hidden;
+    let mut changed = ui.checkbox("Show badge", &mut shown);
+    b.hidden = !shown;
+    if b.hidden {
+        ui.same_line();
+        ui.text_colored(theme::TEXT_FAINT, "open the checklist with the hotkey or arcdps's window list");
+    }
+    changed |= ui.checkbox("Hide in combat", &mut b.hide_in_combat);
     changed |= ui.checkbox("Lock position", &mut b.lock_position);
     changed |= ui.checkbox("Only show in the comp's game mode", &mut b.matching_mode_only);
     if changed {

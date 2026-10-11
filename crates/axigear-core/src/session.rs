@@ -161,6 +161,7 @@ impl Session {
             slot,
             slot_label: slot_label(&lc.comp, slot, specs),
             results: checks::run(&ctx, severities),
+            dismissed: vec![],
         })
     }
 

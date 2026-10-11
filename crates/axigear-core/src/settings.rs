@@ -1,7 +1,7 @@
 //! `config.json` in `<addons>/axigear/`. Missing fields take defaults, so old
 //! files keep working as settings are added.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
 use serde::{Deserialize, Serialize};
@@ -12,6 +12,8 @@ use crate::report::Severities;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct BadgeSettings {
+    /// Never draw the badge; the checklist still opens from the hotkey or arcdps's window list.
+    pub hidden: bool,
     pub hide_in_combat: bool,
     pub lock_position: bool,
     /// Only show when the map's game mode matches the comp's.
@@ -22,7 +24,7 @@ pub struct BadgeSettings {
 
 impl Default for BadgeSettings {
     fn default() -> Self {
-        BadgeSettings { hide_in_combat: true, lock_position: false, matching_mode_only: false, scale: 1.0, pos: None }
+        BadgeSettings { hidden: false, hide_in_combat: true, lock_position: false, matching_mode_only: false, scale: 1.0, pos: None }
     }
 }
 
@@ -68,6 +70,8 @@ pub struct Settings {
     pub debug_logging: bool,
     /// Manual slot picks keyed by `session::pick_key(comp, character)`.
     pub picks: BTreeMap<String, SlotRef>,
+    /// Check ids the player dismissed, keyed by comp key.
+    pub dismissed: BTreeMap<String, BTreeSet<String>>,
     /// Which tab the loadout window shows.
     pub loadout_tab: crate::report::Tab,
 }
@@ -85,6 +89,7 @@ impl Default for Settings {
             auto_update_check: true,
             debug_logging: false,
             picks: BTreeMap::new(),
+            dismissed: BTreeMap::new(),
             loadout_tab: crate::report::Tab::Build,
         }
     }
@@ -155,6 +160,8 @@ mod tests {
         let mut s = Settings::default();
         s.picks.insert("code:1|Tester".into(), SlotRef { line: 1, slot: 0, build: 2 });
         s.severities.set(Category::Food, SeveritySetting::Off);
+        s.dismissed.entry("code:1".into()).or_default().insert("weapons.B".into());
+        s.badge.hidden = true;
         s.save(&path).unwrap();
         assert_eq!(Settings::load(&path), s);
         assert!(!dir.path().join("axigear/config.tmp").exists());
