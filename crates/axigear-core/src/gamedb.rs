@@ -73,8 +73,14 @@ impl GameDb {
         self.items.get(&id).map(|i| i.name.as_str())
     }
 
+    /// Weapon type in AxiForge's names. The API still calls spears "Harpoon"
+    /// and harpoon guns "Speargun", from before spears became land weapons.
     pub fn weapon_type(&self, item_id: u32) -> Option<&str> {
-        self.items.get(&item_id)?.weapon_type.as_deref()
+        match self.items.get(&item_id)?.weapon_type.as_deref()? {
+            "Harpoon" => Some("Spear"),
+            "Speargun" => Some("Harpoon"),
+            other => Some(other),
+        }
     }
 
     pub fn item_icon(&self, id: u32) -> Option<&str> {
@@ -225,6 +231,17 @@ mod tests {
         assert!(w.items.contains(&86180), "infusions");
         assert_eq!(w.itemstats, [7].into());
         assert!(w.skills.contains(&41714) && w.skills.contains(&555));
+    }
+
+    #[test]
+    fn api_spear_names_map_to_axiforge_names() {
+        let mut db = GameDb::default();
+        for (id, ty) in [(1, "Harpoon"), (2, "Speargun"), (3, "LongBow")] {
+            db.items.insert(id, ItemInfo { weapon_type: Some(ty.into()), ..Default::default() });
+        }
+        assert_eq!(db.weapon_type(1), Some("Spear"));
+        assert_eq!(db.weapon_type(2), Some("Harpoon"));
+        assert_eq!(db.weapon_type(3), Some("LongBow"));
     }
 
     #[test]
